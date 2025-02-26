@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router'
 import { rootPath } from '@/routes'
 import { lazy, Suspense } from 'react'
-import Loader from '@/components/Loader/Loader'
+import Loader from '@/submodule/components/Loader/Loader'
 
 const Main = lazy(() => import('@/features/App/components/Main/Main.tsx'))
 const MainContents = lazy(
