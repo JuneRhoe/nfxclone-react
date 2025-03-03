@@ -5,6 +5,8 @@ import {
   FieldPathValue,
   FieldValues,
   FormState,
+  LiteralUnion,
+  RegisterOptions,
   UseFormRegisterReturn,
 } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -25,13 +27,30 @@ interface Props<
   label?: string
   type?: InputControlType
   size?: InputControlSize
-  errorMsg?: string
+  mapErrorMsg?: Map<LiteralUnion<keyof RegisterOptions, string>, string>
   autoComplete?: boolean
   className?: string
   inputProps?: InputHTMLAttributes<HTMLInputElement>
 }
 
-export default function Input<
+function getBorderColor(isFocused: boolean, type: InputControlType): string {
+  let borderColor = 'transparent'
+
+  if (isFocused) {
+    switch (type) {
+      case 'primary':
+        borderColor = 'white'
+        break
+      case 'secondary':
+        borderColor = 'var(--color-g-gray-700)'
+        break
+    }
+  }
+
+  return borderColor
+}
+
+export default function InputField<
   TFieldValues extends FieldValues,
   TFieldName extends FieldPath<TFieldValues>,
 >({
@@ -41,24 +60,25 @@ export default function Input<
   label = '',
   type = 'primary',
   size = 'md',
-  errorMsg = '',
+  mapErrorMsg,
   autoComplete,
   className,
   inputProps,
 }: Props<TFieldValues, TFieldName>) {
-  const [isFocus, setFocus] = useState(false)
+  const [isFocused, setFocused] = useState(false)
   const inputValue: string = getValues(formRegisterReturn.name) || ''
-  const hasError = !!formState.errors[formRegisterReturn.name]
+  const fieldError = formState.errors[formRegisterReturn.name]
+  const errorMsg = mapErrorMsg?.get(fieldError?.type as string)
+  const hasError = !!fieldError
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className={clsx(className, 'flex flex-col gap-1')}>
       <div
         className="rounded-md border-white border-2 m-[-4px]"
-        style={{ borderColor: isFocus ? 'white' : 'transparent' }}
+        style={{ borderColor: getBorderColor(isFocused, type) }}
       >
         <div
           className={clsx(
-            className,
             'relative rounded-md border-1 text-base font-normal m-[2px]',
             {
               'bg-[#191919b3]': type === 'primary',
@@ -76,7 +96,7 @@ export default function Input<
               className="pointer-events-none absolute ease-[cubic-bezier(0.4, 0, 0.68, 0.06)]
                 text-gray-400 transition-all duration-200"
               style={
-                isFocus || inputValue.length > 0
+                isFocused || inputValue.length > 0
                   ? { top: '0.1875rem', fontSize: 'var(--text-xs)' }
                   : { top: '0.625rem', fontSize: 'var(--text-lg)' }
               }
@@ -99,8 +119,8 @@ export default function Input<
               },
             )}
             autoComplete={autoComplete ? 'on' : 'new-password'}
-            onFocus={() => setFocus(true)}
-            onBlur={() => setFocus(false)}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
           />
         </div>
       </div>
