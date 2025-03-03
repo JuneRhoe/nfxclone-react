@@ -33,8 +33,11 @@ export default function SignUp() {
         onSubmit={handleSubmit((userInput) => {
           onRegister(userInput)
         })}
-        className="flex flex-col gap-4 items-start justify-center sm:w-80 sm:p-0 w-full px-6"
+        className="flex flex-col gap-4 items-start justify-center sm:w-100 sm:p-0 w-full px-6"
       >
+        <div className="font-extrabold text-3xl text-gray-800 pb-5">
+          Create a password to start your membership
+        </div>
         <InputField<UserInput, 'userId'>
           className="w-full"
           type="secondary"
