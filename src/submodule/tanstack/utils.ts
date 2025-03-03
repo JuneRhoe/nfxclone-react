@@ -1,26 +1,33 @@
 const API_URL = `https://${process.env.API_KEY}.mockapi.io/api/`
 
-export async function queryFunction<TQueryFnData>(endPoint: string): Promise<TQueryFnData> {
+export interface SearchParamInfo {
+  name: string
+  value: string
+}
+
+export async function queryFunction(endPoint: string, paramInfos: SearchParamInfo[] = []): Promise<Response | null> {
+  const url = new URL(`${API_URL}${endPoint}`)
+  
+  for (const paramInfo of paramInfos) {
+    url.searchParams.append(paramInfo.name, paramInfo.value)
+  }
+
   let response: Response | null = null
 
   try {
-    response = await fetch(`${API_URL}${endPoint}`, {
+    response = await fetch(url, {
       method: 'GET',
       headers: { 'content-type': 'application/json' },
     })
-    
-    if (!response.ok) {
-      throw new Error(response.statusText)
-    }
   } catch (e) {
     // Error handling
     console.error(e)
   }
   
-  return await response?.json();
+  return response;
 }
 
-export async function mutationFunction<TData>(endPoint: string, newData: TData): Promise<TData> {
+export async function mutationFunction<TData>(endPoint: string, newData: TData): Promise<Response | null> {
   let response: Response | null = null
 
   try {
@@ -29,14 +36,10 @@ export async function mutationFunction<TData>(endPoint: string, newData: TData):
     headers: { 'content-type': 'application/json' },
       body: JSON.stringify(newData)
     })
-
-    if (!response.ok) {
-      throw new Error(response.statusText)
-    }
   } catch (e) {
     // Error handling
     console.error(e)
   }  
 
-  return await response?.json();
+  return response;
 }
