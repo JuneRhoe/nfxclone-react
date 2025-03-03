@@ -7,6 +7,8 @@ import Register from './components/Register'
 import clsx from 'clsx'
 import { useContext } from 'react'
 import { ThemeInfoContext } from '../../context'
+import { useCheckUserInfo } from './hooks'
+import { browsePath } from '@/routes'
 
 export type DisplayType = 'signIn' | 'signUp' | 'register'
 
@@ -15,6 +17,7 @@ export interface AppMainProps {
 }
 
 export default function AppMain({ displayType }: AppMainProps) {
+  const { isSignedIn } = useCheckUserInfo(browsePath, true)
   const { themeType } = useContext(ThemeInfoContext)
 
   let mainContentFC: React.ReactNode = null
@@ -31,10 +34,14 @@ export default function AppMain({ displayType }: AppMainProps) {
       break
   }
 
+  if (isSignedIn) {
+    return null
+  }
+
   return (
     <div
       className={clsx(
-        'flex h-full min-h-[100vh] w-full flex-col items-start justify-start bg-[#202020]',
+        'flex h-full min-h-[100vh] w-full flex-col items-start justify-start',
         {
           'bg-[#202020]': themeType === 'darkMode',
           'bg-[#F3F3F3]': themeType === 'lightMode',
@@ -42,10 +49,11 @@ export default function AppMain({ displayType }: AppMainProps) {
       )}
     >
       <div
-        className={`relative flex h-[85vh] min-h-[50rem] w-full flex-col items-center sm:min-h-[60rem]`}
+        className={`relative flex h-[85vh] min-h-[37.5rem] w-full flex-col items-center
+          sm:min-h-[45rem]`}
       >
         <div
-          className={`absolute h-full w-full bg-cover bg-center opacity-50`}
+          className={'absolute h-full w-full bg-cover bg-center opacity-50'}
           style={{ backgroundImage: `url(${bgHome})` }}
         />
         <div className="absolute flex h-full w-full flex-col items-center justify-center">

@@ -45,7 +45,7 @@ function App() {
         <Route
           path={registerPath}
           element={
-            <Suspense fallback={<Loader />}>
+            <Suspense fallback={<Loader type="secondary" />}>
               <AppMain displayType="register" />
             </Suspense>
           }
