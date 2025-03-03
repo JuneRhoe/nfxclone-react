@@ -8,6 +8,8 @@ import InputField from '@/submodule/components/Input/InputField'
 import { useForm } from 'react-hook-form'
 import { useSignInQuery } from '../hooks'
 import { useUserCookie } from '@/features/hooks'
+import LinkText from '@/submodule/components/LinkText/LinkText'
+import { signUpPath } from '@/routes'
 
 export default function SignIn() {
   const { storedUserId } = useUserCookie()
@@ -81,6 +83,13 @@ export default function SignIn() {
       >
         Sign In with TEST ID
       </Button>
+      <div className="flex gap-2 text-base">
+        New to NetflixClone?
+        <LinkText to={signUpPath}>
+          <div className="font-bold">Sign Up now.</div>
+        </LinkText>
+      </div>
+
       {!isValidUser && !isLoading && formState.isSubmitSuccessful && (
         <div className="border-1 bg-[#d89d31] p-3 text-base text-black rounded-md">
           <span className="font-extrabold">
