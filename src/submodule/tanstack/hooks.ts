@@ -1,13 +1,13 @@
 import { DefaultError, DefinedUseQueryResult, MutationFunction, QueryFunction, QueryKey, SkipToken, UseInfiniteQueryOptions, useMutation, useQuery, UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
 
-export function useTackstackQuery<TQueryFnData, TError = DefaultError, TData = TQueryFnData, TQueryKey extends QueryKey = QueryKey, TPageParam = unknown>(
+export function useTackstackQuery<TQueryFnData, TQueryKey extends QueryKey = QueryKey, TError = DefaultError, TData = TQueryFnData, TPageParam = unknown>(
   queryKey:  TQueryKey & {},
   queryFn: QueryFunction<TQueryFnData, TQueryKey> |
     Exclude<UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>['queryFn'], SkipToken> |
-    Exclude<UseInfiniteQueryOptions<TQueryFnData, TError, TData, TQueryFnData, TQueryKey, TPageParam>['queryFn'], SkipToken>
-  
+    Exclude<UseInfiniteQueryOptions<TQueryFnData, TError, TData, TQueryFnData, TQueryKey, TPageParam>['queryFn'], SkipToken>,
+  enabled: boolean = true
 ): DefinedUseQueryResult<TData, TError> | UseQueryResult<TData, TError> | UseQueryResult<TData, TError> {
-   return useQuery<TQueryFnData, TError, TData, TQueryKey>({ queryKey, queryFn });
+   return useQuery<TQueryFnData, TError, TData, TQueryKey>({ queryKey, queryFn, enabled });
 }
 
 export function useTanstackMutation<TData, TError = DefaultError, TVariables = void, TContext = unknown>(

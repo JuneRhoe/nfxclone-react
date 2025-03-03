@@ -1,5 +1,6 @@
 import clsx, { ClassValue } from 'clsx'
 import { ButtonHTMLAttributes } from 'react'
+import Loader from '../Loader/Loader'
 
 type ButtonType = 'primary' | 'secondary'
 type ButtonSize = 'md' | 'lg' | 'xl'
@@ -10,6 +11,7 @@ interface Props {
   size?: ButtonSize
   className?: ClassValue[] | string
   buttonProps?: ButtonHTMLAttributes<HTMLButtonElement>
+  loading?: boolean
 }
 
 export default function Button({
@@ -18,6 +20,7 @@ export default function Button({
   size = 'md',
   className,
   buttonProps,
+  loading,
 }: Props) {
   return (
     <button
@@ -30,7 +33,8 @@ export default function Button({
         ],
         {
           'bg-[#E50914]': type === 'primary',
-          'hover:bg-[#C11119]': type === 'primary',
+          'hover:bg-[#C11119]': type === 'primary' && !buttonProps?.disabled,
+          'bg-[#ec3c45]': type === 'primary' && buttonProps?.disabled,
           'bg-[#80808066]': type === 'secondary',
           'hover:bg-[#8080804d]': type === 'secondary',
           'h-[2rem] text-sm font-semibold': size === 'md',
@@ -39,7 +43,7 @@ export default function Button({
         },
       )}
     >
-      {children}
+      {loading ? <Loader type="primary" display="inline" /> : children}
     </button>
   )
 }

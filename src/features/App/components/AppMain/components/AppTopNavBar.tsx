@@ -5,6 +5,8 @@ import { AppMainProps } from '../AppMain'
 import { useContext } from 'react'
 import { ThemeInfoContext } from '@/features/App/context'
 import clsx from 'clsx'
+import Button from '@/submodule/components/Button/Button'
+import LinkButton from '@/submodule/components/LinkButton/LinkButton'
 
 export default function AppTopNavBar({ displayType }: AppMainProps) {
   const { themeType } = useContext(ThemeInfoContext)
@@ -13,36 +15,29 @@ export default function AppTopNavBar({ displayType }: AppMainProps) {
   return (
     <div
       className={clsx({
-        'absolute my-6 flex h-[6rem] w-full justify-between px-6 sm:my-8 sm:px-8':
+        ['absolute my-6 flex h-[4.5rem] w-full justify-between px-6 sm:my-8 sm:px-8']:
           themeType === 'darkMode',
-        'flex w-full items-center justify-between border-b-1 border-b-gray-200 p-1 sm:p-2 md:p-3 lg:p-4 xl:p-5 2xl:p-6':
-          themeType === 'lightMode',
+        [`flex w-full items-center border-b-1 justify-between border-b-gray-200 p-1 sm:p-2
+        md:p-3 lg:p-4 xl:p-5 2xl:p-6`]: themeType === 'lightMode',
       })}
     >
-      <img
+      <LinkButton
         className="h-[50%] sm:h-[70%] md:h-[80%] lg:h-[100%]"
-        src={nfxcloneLogo}
-      />
+        to={rootPath}
+      >
+        <img className="h-full w-full" src={nfxcloneLogo} />
+      </LinkButton>
+
       <div className="text-white">
         {displayType === 'signIn' && (
-          <button
-            className="bg-red-700"
-            onClick={() => {
-              navigate(signUpPath)
-            }}
-          >
+          <Button buttonProps={{ onClick: () => navigate(signUpPath) }}>
             Sign Up
-          </button>
+          </Button>
         )}
         {(displayType === 'signUp' || displayType === 'register') && (
-          <button
-            className="bg-red-700"
-            onClick={() => {
-              navigate(rootPath)
-            }}
-          >
+          <Button buttonProps={{ onClick: () => navigate(rootPath) }}>
             Sign In
-          </button>
+          </Button>
         )}
       </div>
     </div>
