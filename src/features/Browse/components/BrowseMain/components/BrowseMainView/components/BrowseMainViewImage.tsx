@@ -7,14 +7,14 @@ import { MainViewMediaInfo } from '../hooks'
 
 export interface MainViewImageProps {
   mediaInfo: MainViewMediaInfo | null
-  isVideoStarted: boolean
+  isVideoPlaying: boolean
   isVideoEnded: boolean
   onImageLoaded: (loaded: boolean) => void
 }
 
 export default function BrowseMainViewImage({
   mediaInfo,
-  isVideoStarted,
+  isVideoPlaying,
   isVideoEnded,
   onImageLoaded,
 }: MainViewImageProps) {
@@ -27,7 +27,7 @@ export default function BrowseMainViewImage({
       className={clsx(
         'w-full h-full transition-opacity duration-800 opacity-100',
         {
-          'opacity-0': !isVideoStarted && isVideoEnded,
+          'opacity-0': !isVideoPlaying && isVideoEnded,
         },
       )}
     >
@@ -45,7 +45,7 @@ export default function BrowseMainViewImage({
         <div
           className="transition-all duration-600 h-[100%]"
           style={{
-            height: isVideoStarted && !isVideoEnded ? '60%' : '100%',
+            height: isVideoPlaying && !isVideoEnded ? '60%' : '100%',
           }}
         >
           <Image src={mediaInfo.mediaTitleImg} />

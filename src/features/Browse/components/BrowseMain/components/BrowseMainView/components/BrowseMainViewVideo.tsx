@@ -10,13 +10,18 @@ import { MainViewMediaInfo } from '@/features/Browse/hooks'
 import IconButton from '@/submodule/components/IconButton/IconButton'
 
 const INTERSECTION_MARGIN = '-200px'
+const SHOW_MUTE_CONTROL_DELAY = 800
 
 export interface MainViewVideoProps {
   videoRef: React.RefObject<HTMLVideoElement | null>
   mediaInfo: MainViewMediaInfo | null
-  isVideoStarted: boolean
+  isSetAutoPlay: boolean
+  isAutoPlayed: boolean
+  isVideoCanPlay: boolean
+  isVideoPlaying: boolean
   isVideoEnded: boolean
-  onVideoStarted: (started: boolean) => void
+  onVideoCanPlay: (canPlay: boolean) => void
+  onVideoPlaying: (playing: boolean) => void
   onVideoEnded: (ended: boolean) => void
   onVideoVisible: (visible: boolean) => void
 }
@@ -24,38 +29,24 @@ export interface MainViewVideoProps {
 export default function BrowseMainViewVideo({
   videoRef,
   mediaInfo,
-  isVideoStarted,
+  isSetAutoPlay,
+  isAutoPlayed,
+  isVideoCanPlay,
+  isVideoPlaying,
   isVideoEnded,
-  onVideoStarted,
+  onVideoCanPlay,
+  onVideoPlaying,
   onVideoEnded,
   onVideoVisible,
 }: MainViewVideoProps) {
   const isVideoVisible = useIntersection(videoRef, INTERSECTION_MARGIN)
 
-  const [isShowMute, setShowMute] = useState(false)
   const [isMuted, setIsMuted] = useState(true)
+  const [showMuteControl, setShowMuteControl] = useState(false)
 
   useEffect(() => {
     onVideoVisible(isVideoVisible)
   }, [onVideoVisible, isVideoVisible])
-
-  useEffect(() => {
-    if (!isVideoStarted || isVideoEnded) {
-      return
-    }
-
-    const timerId = setTimeout(() => setShowMute(true), 800)
-
-    return () => clearTimeout(timerId)
-  }, [isVideoStarted, isVideoEnded])
-
-  useEffect(() => {
-    if (!isVideoEnded) {
-      return
-    }
-
-    setShowMute(false)
-  }, [isVideoEnded])
 
   return (
     <>
@@ -64,15 +55,21 @@ export default function BrowseMainViewVideo({
         className={clsx(
           `w-full absolute z-1 top-[-1px] transition-opacity duration-500 opacity-0
           bg-[#171717] `,
-          { 'opacity-100': isVideoStarted && !isVideoEnded },
+          { 'opacity-100': isVideoCanPlay && isVideoPlaying && !isVideoEnded },
         )}
         muted={isMuted}
         loop={false}
+        onCanPlay={() => onVideoCanPlay(true)}
         onPlaying={() => {
           onVideoEnded(false)
-          onVideoStarted(true)
+          onVideoPlaying(true)
+          setTimeout(() => setShowMuteControl(true), SHOW_MUTE_CONTROL_DELAY)
         }}
-        onEnded={() => onVideoEnded(true)}
+        onEnded={() => {
+          onVideoPlaying(false)
+          onVideoEnded(true)
+          setShowMuteControl(false)
+        }}
       >
         {mediaInfo && <source src={mediaInfo.mediaPreview} type="video/mp4" />}
       </video>
@@ -81,18 +78,20 @@ export default function BrowseMainViewVideo({
         className="flex justify-end items-center text-white absolute z-3 bottom-[20%] right-[5%]
           transition-all duration-300"
       >
-        {isShowMute && (
+        {isVideoPlaying && showMuteControl && (
           <IconButton
             icon={isMuted ? faVolumeXmark : faVolumeHigh}
             buttonProps={{ onClick: () => setIsMuted(!isMuted) }}
           />
         )}
-        {isVideoStarted && isVideoEnded && (
-          <IconButton
-            icon={faRotateRight}
-            buttonProps={{ onClick: () => videoRef.current?.play() }}
-          />
-        )}
+        {isVideoCanPlay &&
+          !isVideoPlaying &&
+          (isAutoPlayed || !isSetAutoPlay) && (
+            <IconButton
+              icon={faRotateRight}
+              buttonProps={{ onClick: () => videoRef.current?.play() }}
+            />
+          )}
       </div>
     </>
   )
