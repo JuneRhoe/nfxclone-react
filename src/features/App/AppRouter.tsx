@@ -1,8 +1,16 @@
 import { Route, Routes } from 'react-router'
-import { browsePath, registerPath, rootPath, signUpPath } from '@/routes'
+import {
+  browseAboutPath,
+  browseMyListPath,
+  browsePath,
+  registerPath,
+  rootPath,
+  signUpPath,
+} from '@/routes'
 import { lazy, Suspense, useState } from 'react'
 import Loader from '@/submodule/components/Loader/Loader'
 import { ThemeInfoContext, ThemeType } from './context'
+import BrowseAbout from '../Browse/components/BrowseAbout/BrowseAbout'
 
 const AppMain = lazy(
   () => import('@/features/App/components/AppMain/AppMain.tsx'),
@@ -11,11 +19,14 @@ const Browse = lazy(() => import('@/features/Browse/Browse.tsx'))
 const BrowseMain = lazy(
   () => import('@/features/Browse/components/BrowseMain/BrowseMain.tsx'),
 )
+const BrowseMyList = lazy(
+  () => import('@/features/Browse/components/BrowseMyList/BrowseMyList.tsx'),
+)
 const NotFoundPage = lazy(
   () => import('@/features/App/components/NotFoundPage.tsx'),
 )
 
-function App() {
+export default function AppRouter() {
   const [themeType, setThemeType] = useState<ThemeType>('darkMode')
 
   return (
@@ -66,11 +77,25 @@ function App() {
               </Suspense>
             }
           />
+          <Route
+            path={browseMyListPath}
+            element={
+              <Suspense fallback={<Loader />}>
+                <BrowseMyList />
+              </Suspense>
+            }
+          />
+          <Route
+            path={browseAboutPath}
+            element={
+              <Suspense fallback={<Loader />}>
+                <BrowseAbout />
+              </Suspense>
+            }
+          />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </ThemeInfoContext.Provider>
   )
 }
-
-export default App
