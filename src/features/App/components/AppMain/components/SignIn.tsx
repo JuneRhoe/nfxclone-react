@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import {
   MIN_LENGTH_USER_ID,
   MIN_LENGTH_USER_PASSWORD,
@@ -5,7 +7,6 @@ import {
 } from '@/data-definitions'
 import Button from '@/submodule/components/Button/Button'
 import InputField from '@/submodule/components/Input/InputField'
-import { useForm } from 'react-hook-form'
 import { useSignInQuery } from '../hooks'
 import { useUserCookie } from '@/features/hooks'
 import LinkText from '@/submodule/components/LinkText/LinkText'
@@ -13,10 +14,12 @@ import { signUpPath } from '@/routes'
 
 export default function SignIn() {
   const { storedUserId } = useUserCookie()
-  const { isQueryLoading, isValidUser, onSignIn } = useSignInQuery()
+  const { isQueryLoading, isValidUser, onSignIn, onTestIdSignIn } =
+    useSignInQuery()
   const { formState, register, getValues, handleSubmit } = useForm<UserInput>({
     defaultValues: { userId: storedUserId },
   })
+  const [isTestSignIn, setIsTestSignIn] = useState(false)
 
   const isLoading =
     formState.isLoading || formState.isSubmitting || isQueryLoading
@@ -70,8 +73,8 @@ export default function SignIn() {
       />
       <Button
         size="lg"
-        buttonProps={{ type: 'submit', disabled: isLoading }}
-        loading={isLoading}
+        buttonProps={{ type: 'submit', disabled: isLoading && !isTestSignIn }}
+        loading={isLoading && !isTestSignIn}
       >
         Sign In
       </Button>
@@ -79,12 +82,20 @@ export default function SignIn() {
       <Button
         type="secondary"
         size="lg"
-        buttonProps={{ type: 'button', onClick: () => {} }}
+        buttonProps={{
+          type: 'button',
+          disabled: isLoading && isTestSignIn,
+          onClick: () => {
+            setIsTestSignIn(true)
+            onTestIdSignIn()
+          },
+        }}
+        loading={isLoading && isTestSignIn}
       >
         Sign In with TEST ID
       </Button>
-      <div className="flex gap-2 text-base">
-        New to NetflixClone?
+      <div className="flex gap-2 text-base flex-wrap">
+        <div>New to NetflixClone?</div>
         <LinkText to={signUpPath}>
           <div className="font-bold">Sign Up now.</div>
         </LinkText>

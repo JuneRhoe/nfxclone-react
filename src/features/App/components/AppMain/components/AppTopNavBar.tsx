@@ -1,4 +1,4 @@
-import nfxcloneLogo from '@/assets/image/logo.png'
+import nfxcloneLogo from '@/assets/images/logo.png'
 import { rootPath, signUpPath } from '@/routes'
 import { useNavigate } from 'react-router'
 import { AppMainProps } from '../AppMain'
@@ -7,6 +7,7 @@ import { ThemeInfoContext } from '@/features/App/context'
 import clsx from 'clsx'
 import Button from '@/submodule/components/Button/Button'
 import LinkButton from '@/submodule/components/LinkButton/LinkButton'
+import Image from '@/submodule/components/Image/Image'
 
 export default function AppTopNavBar({ displayType }: AppMainProps) {
   const { themeType } = useContext(ThemeInfoContext)
@@ -25,7 +26,7 @@ export default function AppTopNavBar({ displayType }: AppMainProps) {
         className="h-[50%] sm:h-[70%] md:h-[80%] lg:h-[100%]"
         to={rootPath}
       >
-        <img className="h-full w-full" src={nfxcloneLogo} />
+        <Image src={nfxcloneLogo} />
       </LinkButton>
 
       <div className="text-white">
