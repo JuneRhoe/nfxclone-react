@@ -1,17 +1,8 @@
-import BrowseMainView from './components/BrowseMainView/BrowseMainView.tsx'
-
-export default function BrowseMain() {
+export default function BrowseAbout() {
   return (
-    <div
-      className="flex h-full w-full flex-col items-center justify-start text-xl mt-[-3rem]
-        md:mt-[-4.5rem]"
-    >
-      <div className="w-full">
-        <BrowseMainView />
-      </div>
-      <div className="w-full">
-        BrowseMain
-        <br />
+    <div className="flex h-full w-full flex-col items-center justify-start">
+      <div className="w-full relative">
+        BrowseAbout
         <br />
         <br />
         <br />

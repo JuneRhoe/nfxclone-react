@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import clsx, { ClassValue } from 'clsx'
 
 type LoaderType = 'primary' | 'secondary'
 type DisplayType = 'full' | 'inline'
@@ -6,13 +6,18 @@ type DisplayType = 'full' | 'inline'
 interface Props {
   type?: LoaderType
   display?: DisplayType
+  className?: ClassValue[] | string
 }
 
-export default function Loader({ type = 'primary', display = 'full' }: Props) {
+export default function Loader({
+  type = 'primary',
+  display = 'full',
+  className,
+}: Props) {
   return (
     <div
-      className={clsx('flex items-center justify-center', {
-        'bg-[#202020]': type === 'primary',
+      className={clsx(className, 'flex items-center justify-center', {
+        'bg-[#171717]': type === 'primary',
         'bg-white': type === 'secondary',
         'w-full h-full min-h-[100vh]': display === 'full',
         'w-full h-full bg-transparent': display === 'inline',

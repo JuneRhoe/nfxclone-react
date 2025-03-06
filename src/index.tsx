@@ -5,7 +5,7 @@ import { CookiesProvider } from 'react-cookie'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import '@/styles/index.css'
-import App from '@/features/App/App.tsx'
+import AppRouter from '@/features/App/AppRouter.tsx'
 import { queryClient } from './submodule/tanstack/client'
 
 createRoot(document.getElementById('root')!).render(
@@ -13,7 +13,7 @@ createRoot(document.getElementById('root')!).render(
     <CookiesProvider>
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-          <App />
+          <AppRouter />
         </BrowserRouter>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
