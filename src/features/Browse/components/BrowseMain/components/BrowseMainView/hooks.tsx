@@ -39,31 +39,51 @@ export function useMainViewMedia() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isVideoVisible, setIsVideoVisible] = useState(false)
 
-  const [isVideoStarted, setIsVideoStarted] = useState(false)
+  const [isVideoCanPlay, setIsVideoCanPlay] = useState(false)
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false)
   const [isVideoEnded, setIsVideoEnded] = useState(false)
+
+  const [isSetAutoPlay] = useState(true)
+  const [isAutoPlayed, setIsAutoPlayed] = useState(false)
 
   const [isImageLoaded, setIsImageLoaded] = useState(false)
 
   useEffect(() => {
     const videoInstance = videoRef.current
 
-    if (!videoInstance || !mediaInfo || isVideoStarted || !isImageLoaded) {
+    if (
+      !videoInstance ||
+      !mediaInfo ||
+      !isVideoCanPlay ||
+      !isImageLoaded ||
+      isVideoPlaying ||
+      !isSetAutoPlay ||
+      isAutoPlayed
+    ) {
       return
     }
 
     const timerId = setTimeout(() => {
+      setIsAutoPlayed(true)
       videoInstance.play()
     }, PREVIEW_DELAY)
 
     return () => {
       clearTimeout(timerId)
     }
-  }, [isImageLoaded, isVideoStarted, mediaInfo])
+  }, [
+    isImageLoaded,
+    isVideoPlaying,
+    mediaInfo,
+    isVideoCanPlay,
+    isSetAutoPlay,
+    isAutoPlayed,
+  ])
 
   useEffect(() => {
     const videoInstance = videoRef.current
 
-    if (!videoInstance || !isVideoStarted || isVideoEnded || !mediaInfo) {
+    if (!videoInstance || !isVideoPlaying || isVideoEnded || !mediaInfo) {
       return
     }
 
@@ -72,21 +92,25 @@ export function useMainViewMedia() {
     } else {
       videoInstance.pause()
     }
-  }, [isVideoEnded, isVideoStarted, isVideoVisible, mediaInfo])
+  }, [isVideoEnded, isVideoPlaying, isVideoVisible, mediaInfo])
 
   const mainViewVideoProps: MainViewVideoProps = {
     videoRef,
     mediaInfo,
-    isVideoStarted,
+    isSetAutoPlay,
+    isAutoPlayed,
+    isVideoCanPlay,
+    isVideoPlaying,
     isVideoEnded,
-    onVideoStarted: setIsVideoStarted,
+    onVideoCanPlay: setIsVideoCanPlay,
+    onVideoPlaying: setIsVideoPlaying,
     onVideoEnded: setIsVideoEnded,
     onVideoVisible: setIsVideoVisible,
   }
 
   const mainViewImageProps: MainViewImageProps = {
     mediaInfo,
-    isVideoStarted,
+    isVideoPlaying,
     isVideoEnded,
     onImageLoaded: setIsImageLoaded,
   }
