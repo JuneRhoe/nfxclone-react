@@ -57,8 +57,15 @@ export function useSignInQuery() {
       userPassword: encrypt(userInput.userPassword.trim()),
     })
   }
+
+  const onTestIdSignIn = () => {
+    setUserInput({
+      userId: process.env.TESTID_KEY || '',
+      userPassword: encrypt(process.env.TESTPD_KEY || ''),
+    })
+  }
         
-  return { isQueryLoading, isValidUser, onSignIn }
+  return { isQueryLoading, isValidUser, onSignIn, onTestIdSignIn }
 }
 
 export function useCheckUserInfo(redirectTo?: To, checkValid?: boolean) {

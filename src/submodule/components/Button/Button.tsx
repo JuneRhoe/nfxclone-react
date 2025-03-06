@@ -2,7 +2,7 @@ import clsx, { ClassValue } from 'clsx'
 import { ButtonHTMLAttributes } from 'react'
 import Loader from '../Loader/Loader'
 
-type ButtonType = 'primary' | 'secondary'
+type ButtonType = 'primary' | 'secondary' | 'solid'
 type ButtonSize = 'md' | 'lg' | 'xl'
 
 interface Props {
@@ -27,16 +27,24 @@ export default function Button({
       {...buttonProps}
       className={clsx(
         className,
-        [
-          `flex cursor-pointer items-center justify-center rounded-md px-4 text-white
-          shadow-md transition-[background-color] duration-200 select-none`,
-        ],
+        `flex cursor-pointer items-center justify-center rounded-md px-4 shadow-md
+        transition-[background-color] duration-200 select-none min-w-fit`,
         {
-          'bg-[#E50914]': type === 'primary',
+          'text-white':
+            (type === 'primary' || type === 'secondary') &&
+            !buttonProps?.disabled,
+          'bg-[#E50914]': type === 'primary' && !buttonProps?.disabled,
           'hover:bg-[#C11119]': type === 'primary' && !buttonProps?.disabled,
           'bg-[#ec3c45]': type === 'primary' && buttonProps?.disabled,
-          'bg-[#80808066]': type === 'secondary',
-          'hover:bg-[#8080804d]': type === 'secondary',
+          'bg-[#5D5D5D]': type === 'secondary' && !buttonProps?.disabled,
+          'hover:bg-[#3D3D3D]': type === 'secondary' && !buttonProps?.disabled,
+          'bg-[#6D6D6D]': type === 'secondary' && buttonProps?.disabled,
+          'text-gray-400': type === 'secondary' && buttonProps?.disabled,
+          'text-black': type === 'solid' && !buttonProps?.disabled,
+          'bg-white': type === 'solid' && !buttonProps?.disabled,
+          'hover:bg-[#C0C0C0]': type === 'solid' && !buttonProps?.disabled,
+          'bg-[#808080]': type === 'solid' && buttonProps?.disabled,
+          'text-gray-600': type === 'solid' && buttonProps?.disabled,
           'h-[2rem] text-sm font-semibold': size === 'md',
           'h-[2.625rem] text-base font-bold': size === 'lg',
           'h-[3.25rem] text-base font-extrabold': size === 'xl',
