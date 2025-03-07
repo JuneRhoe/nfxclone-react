@@ -1,4 +1,5 @@
-import BrowseMainView from './components/BrowseMainView/BrowseMainView.tsx'
+import MediaContainer from './components/MediaContainer/MediaContainer'
+import MediaPreview from './components/MediaPreview/MediaPreview'
 
 export default function BrowseMain() {
   return (
@@ -7,38 +8,10 @@ export default function BrowseMain() {
         md:mt-[-4.5rem]"
     >
       <div className="w-full">
-        <BrowseMainView />
+        <MediaPreview />
       </div>
       <div className="w-full">
-        BrowseMain
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+        <MediaContainer />
       </div>
     </div>
   )

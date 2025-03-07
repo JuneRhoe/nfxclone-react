@@ -6,15 +6,15 @@ import {
   faVolumeXmark,
 } from '@fortawesome/free-solid-svg-icons'
 import { useIntersection } from '@/submodule/hooks'
-import { MainViewMediaInfo } from '@/features/Browse/hooks'
+import { MediaPreviewMediaInfo } from '@/features/Browse/hooks'
 import IconButton from '@/submodule/components/IconButton/IconButton'
 
 const INTERSECTION_MARGIN = '-200px'
 const SHOW_MUTE_CONTROL_DELAY = 800
 
-export interface MainViewVideoProps {
+export interface MediaPreviewVideoProps {
   videoRef: React.RefObject<HTMLVideoElement | null>
-  mediaInfo: MainViewMediaInfo | null
+  mediaInfo: MediaPreviewMediaInfo | null
   isSetAutoPlay: boolean
   isAutoPlayed: boolean
   isVideoCanPlay: boolean
@@ -26,7 +26,7 @@ export interface MainViewVideoProps {
   onVideoVisible: (visible: boolean) => void
 }
 
-export default function BrowseMainViewVideo({
+export default function MediaPreviewVideo({
   videoRef,
   mediaInfo,
   isSetAutoPlay,
@@ -38,7 +38,7 @@ export default function BrowseMainViewVideo({
   onVideoPlaying,
   onVideoEnded,
   onVideoVisible,
-}: MainViewVideoProps) {
+}: MediaPreviewVideoProps) {
   const isVideoVisible = useIntersection(videoRef, INTERSECTION_MARGIN)
 
   const [isMuted, setIsMuted] = useState(true)
@@ -53,8 +53,7 @@ export default function BrowseMainViewVideo({
       <video
         ref={videoRef}
         className={clsx(
-          `w-full absolute z-1 top-[-1px] transition-opacity duration-500 opacity-0
-          bg-[#171717] `,
+          'w-full absolute z-1 transition-opacity duration-500 opacity-0 bg-[#171717] ',
           { 'opacity-100': isVideoCanPlay && isVideoPlaying && !isVideoEnded },
         )}
         muted={isMuted}
@@ -75,8 +74,8 @@ export default function BrowseMainViewVideo({
       </video>
 
       <div
-        className="flex justify-end items-center text-white absolute z-3 bottom-[20%] right-[5%]
-          transition-all duration-300"
+        className="flex justify-end items-center text-white absolute z-3 bottom-[20%]
+          right-[1.5rem] sm:right-[2.5rem] transition-all duration-300"
       >
         {isVideoPlaying && showMuteControl && (
           <IconButton
