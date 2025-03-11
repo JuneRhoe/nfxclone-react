@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
 import { To, useNavigate } from "react-router"
-import { UserInfo, UserInput } from "@/data-definitions"
+import { UserCookieInfo, UserInput } from "@/mock-data-definitions"
 import { browsePath, registerPath } from "@/routes"
 import { useTackstackQuery, useTanstackMutation } from "@/submodule/tanstack/hooks"
 import { mutationFunction, queryFunction } from "@/submodule/tanstack/utils"
@@ -70,7 +70,7 @@ export function useSignInQuery() {
 
 export function useCheckUserInfo(redirectTo?: To, checkValid?: boolean) {
   const navigate = useNavigate()
-  const [cookies] = useCookies<'userId' | 'authToken', UserInfo>([
+  const [cookies] = useCookies<'userId' | 'authToken', UserCookieInfo>([
     'userId',
     'authToken'
   ])
