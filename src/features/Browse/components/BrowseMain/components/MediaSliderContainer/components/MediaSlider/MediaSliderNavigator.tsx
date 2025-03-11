@@ -22,13 +22,13 @@ export default function MediaSliderNavigator({ pageInfo }: Props) {
   }
 
   return (
-    <div className="flex gap-1 pr-2">
+    <div className="flex gap-0.5 pr-2">
       {navItems.map((index) => (
         <div
           key={index}
-          className={clsx('w-5 h-1 transition-colors duration-250', {
-            'bg-gray-600': pageInfo.curPage < index,
-            'bg-gray-50': pageInfo.curPage >= index,
+          className={clsx('w-4 h-0.5 transition-colors duration-300', {
+            'bg-gray-600': pageInfo.curPage !== index,
+            'bg-gray-50': pageInfo.curPage === index,
           })}
         />
       ))}
