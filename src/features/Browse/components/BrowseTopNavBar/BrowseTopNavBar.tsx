@@ -7,9 +7,9 @@ import Image from '@/submodule/components/Image/Image'
 import LinkButton from '@/submodule/components/LinkButton/LinkButton'
 import { browsePath } from '@/routes'
 import { To, useLocation } from 'react-router'
-import BrowseTopNavTap from './components/BrowseTopNavTap'
 import { useState } from 'react'
 import { getSubTitle } from './utils'
+import NavTap from './components/NavTap'
 
 export default function BrowseTopNavBar() {
   const { signOut } = useSignOut()
@@ -50,7 +50,7 @@ export default function BrowseTopNavBar() {
             <LinkButton className="h-full" to={browsePath}>
               <Image className="min-w-12" src={nfxcloneLogo} />
             </LinkButton>
-            <BrowseTopNavTap onClickNavButton={setSelectedPath} />
+            <NavTap onClickNavButton={setSelectedPath} />
           </div>
           <Button buttonProps={{ onClick: signOut }}>Sign Out</Button>
         </div>

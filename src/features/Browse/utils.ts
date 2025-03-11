@@ -1,7 +1,7 @@
 
 const MAX_MEDIA_COUNT = 4
 
-export function getMainViewMediaInfo() {
+export function getMainPreviewMediaInfo() {
   // Temporary generate media info instead of getting from backend due to the mockapi limitation
 
   const randomIndex = Math.floor(Math.random() * MAX_MEDIA_COUNT)
