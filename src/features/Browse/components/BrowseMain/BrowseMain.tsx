@@ -1,5 +1,5 @@
-import MediaContainer from './components/MediaContainer/MediaContainer'
 import MediaPreview from './components/MediaPreview/MediaPreview'
+import MediaSliderContainer from './components/MediaSliderContainer/MediaSliderContainer'
 
 export default function BrowseMain() {
   return (
@@ -11,7 +11,7 @@ export default function BrowseMain() {
         <MediaPreview />
       </div>
       <div className="w-full">
-        <MediaContainer />
+        <MediaSliderContainer />
       </div>
     </div>
   )
