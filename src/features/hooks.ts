@@ -1,8 +1,8 @@
 import { useCookies } from "react-cookie"
-import { UserInput } from "@/data-definitions"
+import { UserCookieInfo } from "@/mock-data-definitions";
 
 export function useUserCookie() {
-  const [cookies, setCookies, removeCookies] = useCookies<'userId' | 'authToken', UserInput>(['userId', 'authToken']);
+  const [cookies, setCookies, removeCookies] = useCookies<'userId' | 'authToken', UserCookieInfo>(['userId', 'authToken']);
 
   return {
     storedUserId: cookies.userId?.trim(),

@@ -12,6 +12,11 @@ export interface SliderInfo {
   setDiableTransition: (disabled: boolean) => void
 }
 
+export interface SliderItemSizeInfo {
+  itemSize: number
+  countPerPage: number
+}
+
 interface Props<TData, TDataArray extends TData[]> {
   children: (sliderInfo: SliderInfo) => React.ReactNode
   data: TDataArray | null

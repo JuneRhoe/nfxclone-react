@@ -1,12 +1,9 @@
 import { useContext, useEffect } from 'react'
+import { useForm } from 'react-hook-form'
 import { ThemeInfoContext } from '@/features/App/context'
 import Button from '@/submodule/components/Button/Button'
-import { useForm } from 'react-hook-form'
-import {
-  MIN_LENGTH_USER_ID,
-  MIN_LENGTH_USER_PASSWORD,
-  UserInput,
-} from '@/data-definitions'
+import { UserInput } from '@/mock-data-definitions'
+import { MIN_LENGTH_USER_ID, MIN_LENGTH_USER_PASSWORD } from '@/mock-data'
 import InputField from '@/submodule/components/Input/InputField'
 import { isAlphaNumbericAt } from '@/submodule/utils'
 import { useRegister } from '../hooks'

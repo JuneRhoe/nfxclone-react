@@ -27,9 +27,9 @@ export function useMediaPreviewMediaInfo(): MediaPreviewMediaInfo | null {
   return randomIndex < 0
     ? null
     : {
-        mediaMainImg: `/images/browse-home/media-main-${randomIndex}.jpg`,
-        mediaPreview: `/images/browse-home/media-preview-${randomIndex}.mp4`,
-        mediaTitleImg: `/images/browse-home/media-title-${randomIndex}.png`,
+        mediaMainImg: `/images/browse-home/media-preview/media-main-${randomIndex}.jpg`,
+        mediaPreview: `/images/browse-home/media-preview/media-preview-${randomIndex}.mp4`,
+        mediaTitleImg: `/images/browse-home/media-preview/media-title-${randomIndex}.png`,
       }
 }
 
