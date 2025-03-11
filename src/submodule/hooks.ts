@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react"
 import { useThrottledCallback } from 'use-debounce';
+import { useMediaQuery } from 'react-responsive'
 
 const THROTTLE_WAIT_TIME = 100
+
+type ScreenSize = 'none' | 'xs' | 'sm' | 'md' | 'lg' | '2xl'
 
 interface ScrollPos {
   posX: number
@@ -48,3 +51,25 @@ export function useIntersection(element: React.RefObject<HTMLElement | null>, ro
 
   return isVisible;
 };
+
+export function useScreenSize(): ScreenSize {
+  const isExtraSmall = useMediaQuery({ maxWidth: 640 })
+  const isSmall = useMediaQuery({ minWidth: 640, maxWidth: 768 })
+  const isMid = useMediaQuery({ minWidth: 768, maxWidth: 1024 })
+  const isLarge = useMediaQuery({ minWidth: 1024, maxWidth: 1536 })
+  const isTwoExtraLarge = useMediaQuery({ minWidth: 1536 })
+
+  if (isExtraSmall) {
+    return 'xs'
+  } else if (isSmall) {
+    return 'sm'
+  } else if (isMid) {
+    return 'md'
+  } else if (isLarge) {
+    return 'lg'
+  } else if (isTwoExtraLarge) {
+    return '2xl'
+  }
+
+  return 'none'
+}
