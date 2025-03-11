@@ -2,7 +2,7 @@ import { useNavigate } from "react-router"
 import { useUserCookie } from "../hooks"
 import { rootPath } from "@/routes"
 
-export interface MainViewMediaInfo {
+export interface MediaPreviewMediaInfo {
   mediaMainImg: string
   mediaPreview: string
   mediaTitleImg: string

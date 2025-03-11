@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from 'react'
-import { MainViewVideoProps } from './components/BrowseMainViewVideo'
-import { MainViewImageProps } from './components/BrowseMainViewImage'
+import { MediaPreviewVideoProps } from './components/MediaPreviewVideo'
+import { MediaPreviewImageProps } from './components/MediaPreviewImage'
 
 const MAX_MEDIA_COUNT = 4
 const PREVIEW_DELAY = 800
 
-export interface MainViewMediaInfo {
+export interface MediaPreviewMediaInfo {
   mediaMainImg: string
   mediaPreview: string
   mediaTitleImg: string
 }
 
-export function useMainViewMediaInfo(): MainViewMediaInfo | null {
+export function useMediaPreviewMediaInfo(): MediaPreviewMediaInfo | null {
   // Temporary generate media info instead of getting from backend due to the mockapi limitation
 
   const [randomIndex, setRandomIndex] = useState(-1)
@@ -33,8 +33,8 @@ export function useMainViewMediaInfo(): MainViewMediaInfo | null {
       }
 }
 
-export function useMainViewMedia() {
-  const mediaInfo = useMainViewMediaInfo()
+export function useMediaPreviewMedia() {
+  const mediaInfo = useMediaPreviewMediaInfo()
 
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isVideoVisible, setIsVideoVisible] = useState(false)
@@ -94,7 +94,7 @@ export function useMainViewMedia() {
     }
   }, [isVideoEnded, isVideoPlaying, isVideoVisible, mediaInfo])
 
-  const mainViewVideoProps: MainViewVideoProps = {
+  const mediaPreviewVideoProps: MediaPreviewVideoProps = {
     videoRef,
     mediaInfo,
     isSetAutoPlay,
@@ -108,7 +108,7 @@ export function useMainViewMedia() {
     onVideoVisible: setIsVideoVisible,
   }
 
-  const mainViewImageProps: MainViewImageProps = {
+  const mediaPreviewImageProps: MediaPreviewImageProps = {
     mediaInfo,
     isVideoPlaying,
     isVideoEnded,
@@ -116,7 +116,7 @@ export function useMainViewMedia() {
   }
 
   return {
-    mainViewImageProps,
-    mainViewVideoProps,
+    mediaPreviewImageProps,
+    mediaPreviewVideoProps,
   }
 }

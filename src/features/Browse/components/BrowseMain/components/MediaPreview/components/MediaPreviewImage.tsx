@@ -3,21 +3,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import Image from '@/submodule/components/Image/Image'
 import Button from '@/submodule/components/Button/Button'
-import { MainViewMediaInfo } from '../hooks'
+import { MediaPreviewMediaInfo } from '../hooks'
 
-export interface MainViewImageProps {
-  mediaInfo: MainViewMediaInfo | null
+export interface MediaPreviewImageProps {
+  mediaInfo: MediaPreviewMediaInfo | null
   isVideoPlaying: boolean
   isVideoEnded: boolean
   onImageLoaded: (loaded: boolean) => void
 }
 
-export default function BrowseMainViewImage({
+export default function MediaPreviewImage({
   mediaInfo,
   isVideoPlaying,
   isVideoEnded,
   onImageLoaded,
-}: MainViewImageProps) {
+}: MediaPreviewImageProps) {
   if (!mediaInfo) {
     return null
   }
@@ -39,8 +39,8 @@ export default function BrowseMainViewImage({
         }}
       />
       <div
-        className="absolute z-3 bottom-[10%] flex flex-col justify-end w-full h-[40%] px-[3%]
-          gap-[8%]"
+        className="absolute z-3 bottom-[10%] flex flex-col justify-end w-full h-[40%] px-[1.5rem]
+          sm:px-[2.5rem] gap-[8%]"
       >
         <div
           className="transition-all duration-600 h-[100%]"
