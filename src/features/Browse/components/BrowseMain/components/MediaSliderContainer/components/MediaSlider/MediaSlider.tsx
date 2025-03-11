@@ -1,21 +1,21 @@
-import {
-  MediaType,
-  useMediaSlider,
-  useRequestMedias,
-  useSliderItemSizeInfo,
-} from '../hooks'
+import { useMediaSlider, useMediaSliderItemSizeInfo } from '../../hooks'
 import SliderItem from '@/submodule/components/Slider/components/SliderItem'
 import Slider from '@/submodule/components/Slider/Slider'
 import SliderItemContainer from '@/submodule/components/Slider/components/SliderItemContainer'
 import MediaSliderNavButton from './MediaSliderNavButton'
 import MediaSliderNavigator from './MediaSliderNavigator'
+import Image from '@/submodule/components/Image/Image'
+import { MediaInfo } from '@/mock-data-definitions'
 
 interface Props {
-  title?: string
+  title: string
+  medias: MediaInfo[] | null
 }
 
-export default function MediaSlider({ title }: Props) {
-  const { medias } = useRequestMedias()
+const getTitleImgPath = (id: string) =>
+  `/images/browse-home/media-slider/title-img-${id}.jpg`
+
+export default function MediaSlider({ title, medias }: Props) {
   const {
     pageInfo,
     displayItems,
@@ -25,7 +25,7 @@ export default function MediaSlider({ title }: Props) {
     itemStyle,
     setPageInfo,
   } = useMediaSlider(medias)
-  const { itemSize, countPerPage } = useSliderItemSizeInfo()
+  const { itemSize, countPerPage } = useMediaSliderItemSizeInfo()
 
   if (itemSize < 1 || countPerPage < 1) {
     return null
@@ -40,7 +40,7 @@ export default function MediaSlider({ title }: Props) {
         </div>
       </div>
 
-      <Slider<MediaType, MediaType[]>
+      <Slider<MediaInfo, MediaInfo[]>
         data={medias}
         itemSize={itemSize}
         countPerPage={countPerPage}
@@ -60,9 +60,11 @@ export default function MediaSlider({ title }: Props) {
             <SliderItemContainer {...sliderInfo}>
               {displayItems.map((item, i) => (
                 <SliderItem key={i} className={itemClass} style={itemStyle}>
-                  <div className="w-full h-full border-1 border-gray-50 rounded-sm">
-                    {item.index} <br />
-                    {item.name}
+                  <div className="w-full h-full">
+                    <Image
+                      className="rounded-sm"
+                      src={getTitleImgPath(item.id)}
+                    />
                   </div>
                 </SliderItem>
               ))}

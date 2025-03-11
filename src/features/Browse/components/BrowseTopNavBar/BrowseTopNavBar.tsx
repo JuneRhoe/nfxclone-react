@@ -6,8 +6,7 @@ import { useSignOut } from '../../hooks'
 import Image from '@/submodule/components/Image/Image'
 import LinkButton from '@/submodule/components/LinkButton/LinkButton'
 import { browsePath } from '@/routes'
-import { To, useLocation } from 'react-router'
-import { useState } from 'react'
+import { useLocation } from 'react-router'
 import { getSubTitle } from './utils'
 import NavTap from './components/NavTap'
 
@@ -15,10 +14,11 @@ export default function BrowseTopNavBar() {
   const { signOut } = useSignOut()
   const { scrollPosY } = useScrollPos()
   const { pathname } = useLocation()
-  const [selectedPath, setSelectedPath] = useState<To>('')
 
   const isScrollTop = scrollPosY === 0
   const isBrowseMain = pathname === browsePath
+
+  const selectedPath = pathname.split('/').pop() || ''
 
   return (
     <div
@@ -50,7 +50,7 @@ export default function BrowseTopNavBar() {
             <LinkButton className="h-full" to={browsePath}>
               <Image className="min-w-12" src={nfxcloneLogo} />
             </LinkButton>
-            <NavTap onClickNavButton={setSelectedPath} />
+            <NavTap />
           </div>
           <Button buttonProps={{ onClick: signOut }}>Sign Out</Button>
         </div>

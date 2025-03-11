@@ -3,7 +3,7 @@ import { browseAboutPath, browseMyListPath, browsePath } from '@/routes'
 import NavTapButton from './NavTapButton'
 
 interface Props {
-  onClickNavButton: (to: To) => void
+  onClickNavButton?: (to: To) => void
 }
 
 export default function NavTap({ onClickNavButton }: Props) {
