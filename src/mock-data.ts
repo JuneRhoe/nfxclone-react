@@ -5,12 +5,12 @@ export const MIN_LENGTH_USER_PASSWORD = 5
 
 export const MOCK_MAP_MAIN_CATEGORIES = new Map([
   ['6', 'Exciting Movies'],
-  ['2', 'Action & Adventure Movies'],
+  ['2', 'Action'],
   ['7', 'Mind Games'],
+  ['5', 'Thrillers & Mysteries'],  
   ['4', 'Scary Movies'],
   ['1', 'Suspenseful Movies'],
   ['3', 'Blockbuster Movies'],  
-  ['5', 'Thrillers & Mysteries'],  
   ['8', 'Exciting Movies'],
   ['9', 'Dark Movies'],
 ])
