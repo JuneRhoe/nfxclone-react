@@ -24,7 +24,7 @@ export const handleNavButtonClick = (
   setDiableTransition: (disabled: boolean) => void,  
 ) => {
   setDiableTransition(false)
-
+  
   setNavInfo({
     direction,
     vectorX: direction === 'Prev' ? pageInfo.prevVector : pageInfo.nextVector,
@@ -57,14 +57,14 @@ export const handleTransitionEnd = (
 
   pageInfo.curPage = updatedCurPage
   pageInfo.direction = navInfo.direction
-  setPageInfo({ ...pageInfo })
-
-  setDiableTransition(true)
+  setPageInfo({ ...pageInfo })  
 
   setNavInfo({
     ...navInfo,
     vectorX: `-${itemSize * pageInfo.countPerPage}%`,
   })
+
+  setDiableTransition(true)
 }
 
 export function useSlider<TData, TDataArray extends TData[]>(

@@ -12,19 +12,20 @@ import {
   PageInfo,
 } from '@/submodule/components/Slider/hooks'
 import { useScreenSize } from '@/submodule/hooks'
+import clsx from 'clsx'
 
 interface Props {
-  navButtonClass: string
   direction: NavDirection
   pageInfo: PageInfo
+  disabled?: boolean
   setNavInfo: (navInfo: NavInfo) => void
   setDiableTransition: (disabled: boolean) => void
 }
 
 export default function MediaSliderNavButton({
-  navButtonClass,
   direction,
   pageInfo,
+  disabled,
   setNavInfo,
   setDiableTransition,
 }: Props) {
@@ -32,8 +33,22 @@ export default function MediaSliderNavButton({
 
   return (
     <SliderNavButton
-      className={`${navButtonClass} ${direction === 'Prev' ? 'left-0' : 'right-0'}`}
+      className={clsx(
+        `absolute z-10 flex justify-center items-center w-[1.5rem] sm:w-[2.5rem]
+        min-h-full bg-[#171717] opacity-70 hover:opacity-85 top-0 transition-opacity
+        duration-300 `,
+        {
+          'left-0': direction === 'Prev',
+          'right-0': direction === 'Next',
+          'cursor-pointer': !disabled,
+          'cursor-auto': disabled,
+        },
+      )}
       onClick={() => {
+        if (disabled) {
+          return
+        }
+
         handleNavButtonClick(
           direction,
           pageInfo,
@@ -42,14 +57,16 @@ export default function MediaSliderNavButton({
         )
       }}
     >
-      {(isHover) => (
-        <FontAwesomeIcon
-          className="opacity-0 transition-opacity duration-300 text-white"
-          icon={direction === 'Prev' ? faChevronLeft : faChevronRight}
-          style={{ opacity: isHover || screenSize === 'xs' ? '100' : '0' }}
-          fixedWidth
-        />
-      )}
+      {(isHover) =>
+        !disabled && (
+          <FontAwesomeIcon
+            className="opacity-0 transition-opacity duration-300 text-white text-3xl sm:text-4xl"
+            icon={direction === 'Prev' ? faChevronLeft : faChevronRight}
+            style={{ opacity: isHover || screenSize === 'xs' ? '100' : '0' }}
+            fixedWidth
+          />
+        )
+      }
     </SliderNavButton>
   )
 }
