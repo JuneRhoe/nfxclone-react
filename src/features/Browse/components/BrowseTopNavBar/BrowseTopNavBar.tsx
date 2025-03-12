@@ -22,7 +22,7 @@ export default function BrowseTopNavBar() {
 
   return (
     <div
-      className={clsx('w-full sticky top-0 bg-transparent z-10', {
+      className={clsx('w-full sticky top-0 bg-transparent z-50', {
         'h-[6rem] md:h-[7.5rem]': !isBrowseMain,
       })}
     >
