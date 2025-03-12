@@ -5,6 +5,7 @@ import { MediaInfo } from '@/mock-data-definitions'
 import MediaSliderNavigator from './components/MediaSliderNavigator'
 import MediaSliderNavButton from './components/MediaSliderNavButton'
 import MediaSliderItem from './components/MediaSliderItem'
+import { useSlider } from '@/submodule/components/Slider/hooks'
 
 interface Props {
   title: string
@@ -12,9 +13,18 @@ interface Props {
 }
 
 export default function MediaSlider({ title, medias }: Props) {
-  const { pageInfo, displayItems, paddingClass, setPageInfo } =
-    useMediaSlider(medias)
-  const { itemSize, countPerPage } = useMediaSliderItemSizeInfo()
+  const { countPerPage, itemSize } = useMediaSliderItemSizeInfo()
+
+  const {
+    navInfo,
+    pageInfo,
+    disableTransition,
+    setNavInfo,
+    setPageInfo,
+    setDiableTransition,
+  } = useSlider<MediaInfo, MediaInfo[]>(medias, countPerPage, itemSize)
+
+  const { displayItems, paddingClass } = useMediaSlider(pageInfo, medias)
 
   if (!medias || medias.length < 1 || itemSize < 1 || countPerPage < 1) {
     return null
@@ -29,12 +39,15 @@ export default function MediaSlider({ title, medias }: Props) {
         </div>
       </div>
 
-      <Slider<MediaInfo, MediaInfo[]>
-        data={medias}
-        itemSize={itemSize}
-        countPerPage={countPerPage}
+      <Slider
         className={paddingClass}
-        onPageInfoUpdated={setPageInfo}
+        itemSize={itemSize}
+        navInfo={navInfo}
+        pageInfo={pageInfo}
+        disableTransition={disableTransition}
+        setNavInfo={setNavInfo}
+        setPageInfo={setPageInfo}
+        setDiableTransition={setDiableTransition}
       >
         {(sliderInfo) => {
           const pageInfo = sliderInfo.pageInfo
@@ -59,14 +72,13 @@ export default function MediaSlider({ title, medias }: Props) {
                 ))}
               </SliderItemContainer>
 
-              {showNextButton && (
-                <MediaSliderNavButton
-                  direction="Next"
-                  pageInfo={sliderInfo.pageInfo}
-                  setNavInfo={sliderInfo.setNavInfo}
-                  setDiableTransition={sliderInfo.setDiableTransition}
-                />
-              )}
+              <MediaSliderNavButton
+                direction="Next"
+                disabled={!showNextButton}
+                pageInfo={sliderInfo.pageInfo}
+                setNavInfo={sliderInfo.setNavInfo}
+                setDiableTransition={sliderInfo.setDiableTransition}
+              />
             </>
           )
         }}
