@@ -1,30 +1,55 @@
-import { MOCK_MAP_MAIN_CATEGORIES, MOCK_MEDIAS } from "@/mock-data";
-import { MediaInfo } from "@/mock-data-definitions";
+import { MOCK_MAP_MAIN_CATEGORIES } from "@/mock-data";
+import { MediaInfo, UserCookieInfo, UserInfo } from "@/mock-data-definitions";
 import { PageInfo } from "@/submodule/components/Slider/hooks";
 import { SliderItemSizeInfo } from "@/submodule/components/Slider/Slider";
 import { useScreenSize } from "@/submodule/hooks";
 import { useTackstackQuery } from "@/submodule/tanstack/hooks";
 import { queryFunction } from "@/submodule/tanstack/utils";
 import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
-const PADDING_CLASS = 'px-[1.5rem] sm:px-[2.5rem]'
-const NAV_BUTTON_CLASS = `absolute z-50 cursor-pointer flex justify-center items-center w-[1.5rem]
-                sm:w-[2.5rem] min-h-full bg-[#171717] opacity-70 hover:opacity-85 top-0
-                transition-opacity duration-300`
-const ITEM_CLASS = `aspect-9/5 pr-1`
+export const PADDING_CLASS = 'px-[1.5rem] sm:px-[2.5rem]'
+
+const MY_LIST_TITLE_LABEL = 'My List'
 
 export function useRequestMyListMedias() {
-  const [medias, setMedias] = useState<MediaInfo[] | null>(null)
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
+  const [cookies] = useCookies<'userId' | 'authToken', UserCookieInfo>([
+      'userId',
+      'authToken'
+    ])
 
+  const { isLoading, status, data } = useTackstackQuery<UserInfo[]>(
+      ['userId', 'userPassword'],
+      async () => {
+        const response = await queryFunction('users', [
+          { name: 'userId', value: cookies.userId },
+          { name: 'userPassword', value: cookies.authToken }
+        ])
+  
+        return await response?.json()
+      }
+  )
+  
   useEffect(() => {
-    if (medias) {
+    if (isLoading || status !== 'success' || !data) {
       return
     }
 
-    setMedias(MOCK_MEDIAS)
-  }, [medias])
+    const validUserInfo = data.find((userInfo) =>
+      userInfo.userId === cookies.userId &&
+      userInfo.userPassword === cookies.authToken
+    )
 
-  return { medias };
+    if (!validUserInfo) {
+      return
+    }
+
+    setUserInfo(validUserInfo)
+
+  }, [cookies.authToken, cookies.userId, data, isLoading, status])
+
+  return { isLoading, medias: userInfo?.myList, titleLabel: MY_LIST_TITLE_LABEL }
 }
 
 export function useRequestMainCategories() {
@@ -63,14 +88,12 @@ export function useRequestMainCategoryMedias(mainCategory: string) {
     setMedias(data)
   }, [data, isLoading, status])
 
-  return { medias, title: MOCK_MAP_MAIN_CATEGORIES.get(mainCategory) || '' };
+  return { isLoading, medias, title: MOCK_MAP_MAIN_CATEGORIES.get(mainCategory) || '' };
 }
 
 export function useMediaSlider(medias: MediaInfo[] | null) {
   const [displayItems, setDisplayItems] = useState<MediaInfo[]>([])
   const [pageInfo, setPageInfo] = useState<PageInfo | null>(null)
-
-  const { itemSize } = useMediaSliderItemSizeInfo()
 
   useEffect(() => {
     if (!medias || !pageInfo?.prevIndexItems) {
@@ -86,15 +109,10 @@ export function useMediaSlider(medias: MediaInfo[] | null) {
     setDisplayItems(newDisplayItems)
   }, [pageInfo?.prevIndexItems, medias])
 
-  const itemStyle: React.CSSProperties = { width: `${itemSize}%` }
-
   return {
     pageInfo,
     displayItems,
     paddingClass: PADDING_CLASS,
-    navButtonClass: NAV_BUTTON_CLASS,
-    itemClass: ITEM_CLASS,
-    itemStyle,
     setPageInfo
   }
 }

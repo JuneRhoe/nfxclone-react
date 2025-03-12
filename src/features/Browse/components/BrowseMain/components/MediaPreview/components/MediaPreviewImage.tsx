@@ -4,6 +4,7 @@ import { faPlay, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import Image from '@/submodule/components/Image/Image'
 import Button from '@/submodule/components/Button/Button'
 import { MediaPreviewMediaInfo } from '../hooks'
+import Loader from '@/submodule/components/Loader/Loader'
 
 export interface MediaPreviewImageProps {
   mediaInfo: MediaPreviewMediaInfo | null
@@ -32,12 +33,15 @@ export default function MediaPreviewImage({
       )}
     >
       <Image
+        imgClassName="w-full h-full"
         className="w-full h-full"
         src={mediaInfo.mediaMainImg}
         imgProps={{
           onLoad: () => onImageLoaded(true),
         }}
-      />
+      >
+        <Loader display="full" />
+      </Image>
       <div
         className="absolute z-3 bottom-[10%] flex flex-col justify-end w-full h-[40%] px-[1.5rem]
           sm:px-[2.5rem] gap-[8%]"
