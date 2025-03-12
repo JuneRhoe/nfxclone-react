@@ -27,19 +27,19 @@ export default function SliderItemContainer({
   return (
     <div
       className={clsx(
-        'whitespace-nowrap duration-900 ease-[cubic-bezier(0.5, 0, 0.1, 1)]',
-        {
-          'transition-none': disableTransition,
-          'transition-transform': !disableTransition,
-        },
+        'whitespace-nowrap ease-[cubic-bezier(0.5, 0, 0.1, 1)]',
         className,
       )}
-      style={{ transform: `translate3d(${navInfo.vectorX}, 0, 0)` }}
+      style={{
+        transitionProperty: disableTransition ? 'none' : 'transform',
+        transform: `translate3d(${navInfo.vectorX}, 0, 0)`,
+        transitionDuration: disableTransition ? 'unset' : '900ms',
+      }}
       onTransitionEnd={() => {
         handleTransitionEnd(
+          itemSize,
           navInfo,
           pageInfo,
-          itemSize,
           setNavInfo,
           setPageInfo,
           setDiableTransition,

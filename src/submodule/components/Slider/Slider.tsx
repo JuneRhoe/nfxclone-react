@@ -1,11 +1,11 @@
 import React from 'react'
 import clsx, { ClassValue } from 'clsx'
-import { NavInfo, PageInfo, useSlider } from './hooks'
+import { NavInfo, PageInfo } from './hooks'
 
 export interface SliderInfo {
+  itemSize: number
   navInfo: NavInfo
   pageInfo: PageInfo
-  itemSize: number
   disableTransition: boolean
   setNavInfo: (navInfo: NavInfo) => void
   setPageInfo: (pageInfo: PageInfo) => void
@@ -13,47 +13,39 @@ export interface SliderInfo {
 }
 
 export interface SliderItemSizeInfo {
-  itemSize: number
   countPerPage: number
+  itemSize: number
 }
 
-interface Props<TData, TDataArray extends TData[]> {
+interface Props {
   children: (sliderInfo: SliderInfo) => React.ReactNode
-  data: TDataArray | null
   itemSize: number
-  countPerPage: number
+  navInfo: NavInfo
+  pageInfo: PageInfo
+  disableTransition: boolean
   className?: ClassValue[] | string
-  onPageInfoUpdated?: (pageInfo: PageInfo) => void
+  setNavInfo: (navInfo: NavInfo) => void
+  setPageInfo: (pageInfo: PageInfo) => void
+  setDiableTransition: (disabled: boolean) => void
 }
 
-export default function Slider<TData, TDataArray extends TData[]>({
+export default function Slider({
   children,
-  data,
   itemSize,
-  countPerPage,
+  navInfo,
+  pageInfo,
+  disableTransition,
   className,
-  onPageInfoUpdated,
-}: Props<TData, TDataArray>) {
-  const {
-    navInfo,
-    pageInfo,
-    disableTransition,
-    setNavInfo,
-    setPageInfo,
-    setDiableTransition,
-  } = useSlider<TData, TDataArray>(
-    data,
-    itemSize,
-    countPerPage,
-    onPageInfoUpdated,
-  )
-
+  setNavInfo,
+  setPageInfo,
+  setDiableTransition,
+}: Props) {
   return (
     <div className={clsx('relative overflow-hidden', className)}>
       {children({
+        itemSize,
         navInfo,
         pageInfo,
-        itemSize,
         disableTransition,
         setNavInfo,
         setPageInfo,
