@@ -91,9 +91,8 @@ export function useRequestMainCategoryMedias(mainCategory: string) {
   return { isLoading, medias, title: MOCK_MAP_MAIN_CATEGORIES.get(mainCategory) || '' };
 }
 
-export function useMediaSlider(medias: MediaInfo[] | null) {
+export function useMediaSlider(pageInfo: PageInfo, medias: MediaInfo[] | null) {
   const [displayItems, setDisplayItems] = useState<MediaInfo[]>([])
-  const [pageInfo, setPageInfo] = useState<PageInfo | null>(null)
 
   useEffect(() => {
     if (!medias || !pageInfo?.prevIndexItems) {
@@ -107,13 +106,11 @@ export function useMediaSlider(medias: MediaInfo[] | null) {
     }
 
     setDisplayItems(newDisplayItems)
-  }, [pageInfo?.prevIndexItems, medias])
+  }, [pageInfo, pageInfo?.prevIndexItems, medias])
 
   return {
-    pageInfo,
     displayItems,
     paddingClass: PADDING_CLASS,
-    setPageInfo
   }
 }
 
@@ -150,7 +147,7 @@ export function useMediaSliderItemSizeInfo(): SliderItemSizeInfo {
   }
 
   return {
-    itemSize: 0,
-    countPerPage: 0
+    countPerPage: 0,
+    itemSize: 0    
   }
 }

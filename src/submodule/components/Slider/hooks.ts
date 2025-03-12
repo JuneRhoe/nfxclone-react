@@ -32,9 +32,9 @@ export const handleNavButtonClick = (
 }
 
 export const handleTransitionEnd = (
-  navInfo: NavInfo,
-  pageInfo: PageInfo,
   itemSize: number,
+  navInfo: NavInfo,
+  pageInfo: PageInfo,  
   setNavInfo: (navInfo: NavInfo) => void,
   setPageInfo: (pageInfo: PageInfo) => void,
   setDiableTransition: (disabled: boolean) => void,  
@@ -48,7 +48,7 @@ export const handleTransitionEnd = (
       updatedCurPage = pageInfo.totalPage - 1
     }
   } else {
-    updatedCurPage = pageInfo.curPage + 1
+    updatedCurPage = pageInfo.curPage + 1 + (pageInfo.curPage < 0 ? 1 : 0)
 
     if (updatedCurPage > pageInfo.totalPage - 1) {
       updatedCurPage = 0
@@ -69,9 +69,8 @@ export const handleTransitionEnd = (
 
 export function useSlider<TData, TDataArray extends TData[]>(
   data: TDataArray | null,
-  itemSize: number,
   countPerPage: number,
-  onPageInfoUpdated?: (pageInfo: PageInfo) => void
+  itemSize: number
 ) {
   const [navInfo, setNavInfo] = useState<NavInfo>(getInitialNavInfo())
   const [disableTransition, setDiableTransition] = useState(false)
@@ -87,11 +86,6 @@ export function useSlider<TData, TDataArray extends TData[]>(
 
     setInitialIndices(Array.from(Array(data.length).keys()))
   }, [data, initialIndices])
-
-  useEffect(() => {
-    setNavInfo(getInitialNavInfo())
-    setPageInfo(getInitialPageInfo(countPerPage))
-   }, [itemSize, countPerPage])
 
   useEffect(() => {
     if (!data || pageInfo.totalPage > 0) {
@@ -138,13 +132,15 @@ export function useSlider<TData, TDataArray extends TData[]>(
     )
     pageInfo.prevVector = prevVector
     pageInfo.nextVector = nextVector
-    pageInfo.prevIndexItems = newItems
-    pageInfo.curPage = curPage < 0 ? 0 : pageInfo.curPage
+    pageInfo.prevIndexItems = [...newItems]
+
+    setPageInfo(pageInfo)
   }, [data, itemSize, pageInfo, initialIndices])
 
-  useEffect(() => {
-    onPageInfoUpdated?.(pageInfo)
-  }, [onPageInfoUpdated, pageInfo])
+   useEffect(() => {
+    setNavInfo(getInitialNavInfo())
+    setPageInfo(getInitialPageInfo(countPerPage))
+   }, [itemSize, countPerPage])
 
   return {
     navInfo,
