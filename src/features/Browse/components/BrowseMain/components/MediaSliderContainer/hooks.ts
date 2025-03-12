@@ -32,7 +32,7 @@ export function useRequestMyListMedias() {
   )
   
   useEffect(() => {
-    if (isLoading || status !== 'success' || !data) {
+    if (isLoading || status !== 'success' || !data || !Array.isArray(data)) {
       return
     }
 
@@ -81,7 +81,7 @@ export function useRequestMainCategoryMedias(mainCategory: string) {
   )
   
   useEffect(() => {
-    if (isLoading || status !== 'success' || !data) {
+    if (isLoading || status !== 'success' || !data || !Array.isArray(data)) {
       return
     }
 
