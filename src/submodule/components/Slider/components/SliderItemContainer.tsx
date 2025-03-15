@@ -11,6 +11,7 @@ interface Props {
   setNavInfo: (navInfo: NavInfo) => void
   setPageInfo: (pageInfo: PageInfo) => void
   setDiableTransition: (disabled: boolean) => void
+  onTransitionEnd?: () => void
 }
 
 export default function SliderItemContainer({
@@ -23,6 +24,7 @@ export default function SliderItemContainer({
   setNavInfo,
   setPageInfo,
   setDiableTransition,
+  onTransitionEnd,
 }: Props) {
   return (
     <div
@@ -44,6 +46,7 @@ export default function SliderItemContainer({
           setPageInfo,
           setDiableTransition,
         )
+        onTransitionEnd?.()
       }}
     >
       {children}

@@ -23,6 +23,18 @@ export default tseslint.config(
         'warn',
         { allowConstantExport: true },
       ],
+      '@typescript-eslint/no-restricted-imports': [
+        2,
+        {
+          "paths": [
+            {
+              "name": "react-redux",
+              "importNames": ["useSelector", "useStore", "useDispatch"],
+              "message": "Please use pre-typed versions from `src/features/store/hooks.ts` instead."
+            }
+          ]
+        }
+      ]
     },
   },
 )
