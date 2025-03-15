@@ -11,7 +11,7 @@ export const MOCK_MAP_MAIN_CATEGORIES = new Map([
   ['4', 'Scary Movies'],
   ['1', 'Suspenseful Movies'],
   ['3', 'Blockbuster Movies'],  
-  ['8', 'Exciting Movies'],
+  ['8', 'Adventure Movies'],
   ['9', 'Dark Movies'],
 ])
 

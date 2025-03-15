@@ -88,7 +88,7 @@ export function useSlider<TData, TDataArray extends TData[]>(
   }, [data, initialIndices])
 
   useEffect(() => {
-    if (!data || pageInfo.totalPage > 0) {
+    if (!data || pageInfo.totalPage > 0 || pageInfo.countPerPage < 1) {
       return
     }
 
@@ -132,7 +132,7 @@ export function useSlider<TData, TDataArray extends TData[]>(
     )
     pageInfo.prevVector = prevVector
     pageInfo.nextVector = nextVector
-    pageInfo.prevIndexItems = [...newItems]
+    pageInfo.prevIndexItems = newItems
 
     setPageInfo(pageInfo)
   }, [data, itemSize, pageInfo, initialIndices])

@@ -5,11 +5,11 @@ import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 import Register from './components/Register'
 import clsx from 'clsx'
-import { useContext } from 'react'
-import { ThemeInfoContext } from '../../context'
 import { useCheckUserInfo } from './hooks'
 import { browsePath } from '@/routes'
 import ScrollToTop from '@/submodule/components/ScrollToTop/ScrollToTop'
+import { useAppSelector } from '@/features/store/hooks'
+import { selectThemeMode } from '@/features/store/themeSlice'
 
 export type DisplayType = 'signIn' | 'signUp' | 'register'
 
@@ -19,7 +19,7 @@ export interface AppMainProps {
 
 export default function AppMain({ displayType }: AppMainProps) {
   const { isSignedIn } = useCheckUserInfo(browsePath, true)
-  const { themeType } = useContext(ThemeInfoContext)
+  const themeMode = useAppSelector(selectThemeMode)
 
   let mainContentFC: React.ReactNode = null
 
@@ -46,8 +46,8 @@ export default function AppMain({ displayType }: AppMainProps) {
         className={clsx(
           'flex h-full min-h-[100vh] w-full flex-col items-start justify-start',
           {
-            'bg-[#101010]': themeType === 'darkMode',
-            'bg-[#F3F3F3]': themeType === 'lightMode',
+            'bg-[#101010]': themeMode === 'darkMode',
+            'bg-[#F3F3F3]': themeMode === 'lightMode',
           },
         )}
       >
@@ -66,7 +66,7 @@ export default function AppMain({ displayType }: AppMainProps) {
             className={clsx(
               'relative flex h-fit w-full flex-col items-center',
               {
-                'xl:w-[80%] 2xl:w-[70%]': themeType === 'darkMode',
+                'xl:w-[80%] 2xl:w-[70%]': themeMode === 'darkMode',
               },
             )}
           >
