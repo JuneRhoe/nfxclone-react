@@ -2,24 +2,24 @@ import nfxcloneLogo from '@/assets/images/logo.png'
 import { rootPath, signUpPath } from '@/routes'
 import { useNavigate } from 'react-router'
 import { AppMainProps } from '../AppMain'
-import { useContext } from 'react'
-import { ThemeInfoContext } from '@/features/App/context'
 import clsx from 'clsx'
 import Button from '@/submodule/components/Button/Button'
 import LinkButton from '@/submodule/components/LinkButton/LinkButton'
 import Image from '@/submodule/components/Image/Image'
+import { useAppSelector } from '@/features/store/hooks'
+import { selectThemeMode } from '@/features/store/themeSlice'
 
 export default function AppTopNavBar({ displayType }: AppMainProps) {
-  const { themeType } = useContext(ThemeInfoContext)
+  const themeMode = useAppSelector(selectThemeMode)
   const navigate = useNavigate()
 
   return (
     <div
       className={clsx({
         ['absolute my-6 flex h-[4.5rem] w-full justify-between px-6 sm:my-8 sm:px-8']:
-          themeType === 'darkMode',
+          themeMode === 'darkMode',
         [`flex w-full items-center border-b-1 justify-between border-b-gray-200 p-1 sm:p-2
-        md:p-3 lg:p-4 xl:p-5 2xl:p-6`]: themeType === 'lightMode',
+        md:p-3 lg:p-4 xl:p-5 2xl:p-6`]: themeMode === 'lightMode',
       })}
     >
       <LinkButton
