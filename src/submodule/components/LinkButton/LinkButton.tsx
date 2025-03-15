@@ -22,7 +22,7 @@ export default function LinkButton({
       {...buttonProps}
       className={clsx(
         className,
-        'flex cursor-pointer items-center justify-center select-none',
+        'flex cursor-pointer items-center justify-center select-none outline-0',
       )}
       onClick={() => navigate(to)}
     >

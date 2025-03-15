@@ -1,0 +1,6 @@
+.body-scroll-lock {
+  margin-top: -1px;
+  padding-top: 1px;
+  overflow: hidden;
+  padding-right: var(--vscroll-width);
+}

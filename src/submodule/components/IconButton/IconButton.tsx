@@ -27,8 +27,8 @@ export default function IconButton({
       {...buttonProps}
       className={clsx(
         className,
-        `cursor-pointer text-sm md:text-xl border-2 rounded-4xl p-1 px-1.5 transition-all
-        duration-300`,
+        `cursor-pointer select-none outline-0 text-sm md:text-xl border-2 rounded-4xl p-1
+        px-1.5 transition-all duration-300`,
         {
           'border-gray-400 text-gray-400': type === 'primary',
           'hover:border-gray-50 hover:text-white': type === 'primary',
