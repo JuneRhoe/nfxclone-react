@@ -28,7 +28,7 @@ export default function Button({
       className={clsx(
         className,
         `flex cursor-pointer items-center justify-center rounded-md px-4 shadow-md
-        transition-[background-color] duration-200 select-none min-w-fit`,
+        transition-[background-color] duration-200 outline-0 select-none min-w-fit`,
         {
           'text-white':
             (type === 'primary' || type === 'secondary') &&

@@ -1,6 +1,5 @@
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { ThemeInfoContext } from '@/features/App/context'
 import Button from '@/submodule/components/Button/Button'
 import { UserInput } from '@/mock-data-definitions'
 import { MIN_LENGTH_USER_ID, MIN_LENGTH_USER_PASSWORD } from '@/mock-data'
@@ -8,9 +7,13 @@ import InputField from '@/submodule/components/Input/InputField'
 import { isAlphaNumbericAt } from '@/submodule/utils'
 import { useRegister } from '../hooks'
 import { useUserCookie } from '@/features/hooks'
+import { useAppDispatch, useAppSelector } from '@/features/store/hooks'
+import { selectThemeMode, setThemeMode } from '@/features/store/themeSlice'
 
 export default function SignUp() {
-  const { setThemeType } = useContext(ThemeInfoContext)
+  const dispatch = useAppDispatch()
+  const themeMode = useAppSelector(selectThemeMode)
+
   const { storedUserId } = useUserCookie()
   const { register, handleSubmit, formState, getValues, setError } =
     useForm<UserInput>({
@@ -19,10 +22,12 @@ export default function SignUp() {
   const { isQueryLoading, onRegister } = useRegister(setError)
 
   useEffect(() => {
-    setThemeType('lightMode')
+    dispatch(setThemeMode('lightMode'))
 
-    return () => setThemeType('darkMode')
-  }, [setThemeType])
+    return () => {
+      dispatch(setThemeMode('darkMode'))
+    }
+  }, [dispatch, themeMode])
 
   return (
     <div className="flex h-full w-full items-center justify-center bg-white text-[#737373]">

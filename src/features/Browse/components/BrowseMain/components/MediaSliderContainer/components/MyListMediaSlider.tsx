@@ -1,5 +1,6 @@
 import Loader from '@/submodule/components/Loader/Loader'
-import { PADDING_CLASS, useRequestMyListMedias } from '../hooks'
+import { useRequestMyListMedias } from '../hooks'
+import { PADDING_CLASS } from './MediaSlider/hooks'
 import MediaSlider from './MediaSlider/MediaSlider'
 
 interface Props {
