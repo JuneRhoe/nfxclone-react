@@ -33,7 +33,7 @@ export const modalSlice = createSlice({
   },
 
   selectors: {
-    selectModalInfoArray: modal => modal.modalInfoArray,
+    selectModalInfoArray: modalState => modalState.modalInfoArray,
   },
 })
 

@@ -1,6 +1,15 @@
-import { DefaultError, DefinedUseQueryResult, MutationFunction, QueryFunction, QueryKey, SkipToken, UseInfiniteQueryOptions, useMutation, useQuery, UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
+import {
+  DefaultError, DefinedUseQueryResult, MutationFunction, QueryFunction,
+  QueryKey, SkipToken, UseInfiniteQueryOptions, useMutation, useQuery, UseQueryOptions, UseQueryResult
+} from "@tanstack/react-query";
 
-export function useTackstackQuery<TQueryFnData, TQueryKey extends QueryKey = QueryKey, TError = DefaultError, TData = TQueryFnData, TPageParam = unknown>(
+export function useTackstackQuery<
+  TQueryFnData,
+  TQueryKey extends QueryKey = QueryKey,
+  TError = DefaultError,
+  TData = TQueryFnData,
+  TPageParam = unknown
+>(
   queryKey:  TQueryKey & {},
   queryFn: QueryFunction<TQueryFnData, TQueryKey> |
     Exclude<UseQueryOptions<TQueryFnData, TError, TData, TQueryKey>['queryFn'], SkipToken> |
