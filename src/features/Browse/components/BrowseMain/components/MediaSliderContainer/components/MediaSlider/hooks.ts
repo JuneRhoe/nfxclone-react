@@ -3,20 +3,31 @@ import { PageInfo } from "@/submodule/components/Slider/hooks";
 import { SliderItemSizeInfo } from "@/submodule/components/Slider/Slider";
 import { useScreenSize } from "@/submodule/hooks";
 import { MediaInfo, UserInfo } from "@/mock-data-definitions";
-import { getModalRect } from "./utils";
+import { getModalRect, TouchPos } from "./utils";
 import { useRequestMyListMedias } from "../../hooks";
 import { useTanstackMutation } from "@/submodule/tanstack/hooks";
 import { mutationFunction } from "@/submodule/tanstack/utils";
 import { setUserInfo } from "@/features/store/userInfoSlice";
 import { useAppDispatch } from "@/features/store/hooks";
 import { useDebouncedCallback } from "use-debounce";
+import { ModalInstanceInfo } from "@/submodule/components/Modal/hooks";
+import { queryClient } from "@/submodule/tanstack/client";
+import { QUERY_KEY_USER_INFO } from "@/submodule/tanstack/queryKeys";
 
 export const PADDING_CLASS = 'px-[1.5rem] sm:px-[2.5rem]'
 
 const CLOSE_MODAL_DELAY = 200
 const MY_LIST_UPDATE_WAIT_TIME = 300
 
-export function useMediaSlider(pageInfo: PageInfo, medias: MediaInfo[] | null) {
+const OPEN_MODAL_POINTER_DELAY = 500
+const OPEN_MODAL_TOUCH_DELAY = 100
+
+export function useMediaSlider(
+  pageInfo: PageInfo,
+  medias: MediaInfo[] | null,
+  title?: string,
+  onUpdatePageInfo?: (pageInfo: PageInfo) => void
+) {
   const [displayItems, setDisplayItems] = useState<MediaInfo[]>([])
 
   useEffect(() => {
@@ -32,6 +43,15 @@ export function useMediaSlider(pageInfo: PageInfo, medias: MediaInfo[] | null) {
 
     setDisplayItems(newDisplayItems)
   }, [pageInfo, pageInfo?.prevIndexItems, medias])
+
+  useEffect(() => {
+    if (title || !onUpdatePageInfo) {
+      return
+    }
+
+    onUpdatePageInfo(pageInfo)
+  }, [title, pageInfo, onUpdatePageInfo])
+
 
   return {
     displayItems,
@@ -186,6 +206,14 @@ export function useMyListMedias(mediaInfo: MediaInfo | undefined) {
         return
       }
 
+      queryClient.invalidateQueries({
+        queryKey: [
+          QUERY_KEY_USER_INFO,
+          updatedUserInfo.userId,
+          updatedUserInfo.userPassword
+        ]
+      })
+
       dispatch(setUserInfo(updatedUserInfo))
     },
     () => setIsUpdating(false),
@@ -227,5 +255,70 @@ export function useMyListMedias(mediaInfo: MediaInfo | undefined) {
     isInMyList,
     isUpdatingMyList: isUpdating,
     hanldeClickMyList: hanldeClickMyListDebouncer,
+  }
+}
+
+export function useMediaSliderItem(isSliding: boolean, modalInstanceInfo: ModalInstanceInfo) {
+  const [timerId, setTimerId] = useState<NodeJS.Timeout>()
+  const [touchPos, setTouchPos] = useState<TouchPos | null>(null)
+
+  const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchPos({
+      clientX: Math.floor(e.touches[0].clientX),
+      clientY: Math.floor(e.touches[0].clientY),
+    })
+  }
+
+  const onTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchPos(null)
+
+    const clientX = Math.floor(e.changedTouches[0].clientX)
+    const clientY = Math.floor(e.changedTouches[0].clientY)
+
+    if (
+      touchPos?.clientX !== clientX ||
+      touchPos?.clientY !== clientY
+    ) {
+      return
+    }
+
+    if (isSliding) {
+      return
+    }
+
+    setTimerId(
+      setTimeout(() => {
+        modalInstanceInfo.openModal()
+        modalInstanceInfo.closeAllModal([
+          modalInstanceInfo.modalId || '',
+        ])
+      }, OPEN_MODAL_TOUCH_DELAY),
+    )
+  }
+
+  const onPointerEnter = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (isSliding || e.pointerType === 'touch') {
+      return
+    }
+
+    setTimerId(
+      setTimeout(() => {
+        modalInstanceInfo.openModal()
+        modalInstanceInfo.closeAllModal([
+          modalInstanceInfo.modalId || '',
+        ])
+      }, OPEN_MODAL_POINTER_DELAY),
+    )
+  }
+
+  const onPointerLeave = () => {
+    clearTimeout(timerId)
+  }
+
+  return {
+    onTouchStart,
+    onTouchEnd,
+    onPointerEnter,
+    onPointerLeave
   }
 }
