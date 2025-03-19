@@ -5,9 +5,16 @@ import ScrollToTop from '@/submodule/components/ScrollToTop/ScrollToTop'
 import Footer from '../Footer/Footer'
 import { useAppSelector } from '../store/hooks'
 import { selectThemeMode } from '../store/themeSlice'
+import { useCheckUserInfo } from '../App/components/AppMain/hooks'
+import { rootPath } from '@/routes'
 
 export default function Browse() {
+  const { isSignedIn } = useCheckUserInfo(rootPath, false)
   const themeMode = useAppSelector(selectThemeMode)
+
+  if (!isSignedIn) {
+    return null
+  }
 
   return (
     <>

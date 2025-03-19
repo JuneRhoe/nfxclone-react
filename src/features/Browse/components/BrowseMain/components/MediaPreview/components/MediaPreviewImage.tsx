@@ -3,13 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import Image from '@/submodule/components/Image/Image'
 import Button from '@/submodule/components/Button/Button'
-import { MediaPreviewMediaInfo } from '../hooks'
 import Loader from '@/submodule/components/Loader/Loader'
 import { useModal } from '@/features/Modal/hooks'
-import MediaPreviewMoreInfoModal from './MediaPreviewMoreInfoModal'
+import { MediaInfo } from '@/mock-data-definitions'
+import MediaMoreInfoModal from '../../MediaMoreInfoModal/MediaMoreInfoModal'
+import { useRef } from 'react'
 
 export interface MediaPreviewImageProps {
-  mediaInfo: MediaPreviewMediaInfo | null
+  mediaInfo: MediaInfo | null
   isVideoPlaying: boolean
   isVideoEnded: boolean
   onImageLoaded: (loaded: boolean) => void
@@ -21,10 +22,14 @@ export default function MediaPreviewImage({
   isVideoEnded,
   onImageLoaded,
 }: MediaPreviewImageProps) {
-  const { modalInstanceInfo: previewModal, isVisible: isPreviewModalVisible } =
-    useModal({
-      disableBodyScrollLock: false,
-    })
+  const moreInfoButtonRef = useRef<HTMLDivElement>(null)
+
+  const {
+    modalInstanceInfo: moreInfoModal,
+    isVisible: isMoreInfoModalVisible,
+  } = useModal({
+    disableBodyScrollLock: false,
+  })
 
   if (!mediaInfo) {
     return null
@@ -40,16 +45,17 @@ export default function MediaPreviewImage({
           },
         )}
       >
-        <Image
-          imgClassName="w-full h-full"
-          className="w-full h-full"
-          src={mediaInfo.mediaMainImg}
-          imgProps={{
-            onLoad: () => onImageLoaded(true),
-          }}
-        >
-          <Loader display="full" />
-        </Image>
+        {mediaInfo.previewMainImg && (
+          <Image
+            imgClassName="w-full h-full"
+            className="w-full h-full"
+            src={mediaInfo.previewMainImg}
+            imgProps={{
+              onLoad: () => onImageLoaded(true),
+            }}
+            loader={<Loader display="full" />}
+          />
+        )}
         <div
           className="absolute z-3 bottom-[10%] flex flex-col justify-end w-full h-[40%] px-[1.5rem]
             sm:px-[2.5rem] gap-[8%]"
@@ -60,7 +66,9 @@ export default function MediaPreviewImage({
               height: isVideoPlaying && !isVideoEnded ? '60%' : '100%',
             }}
           >
-            <Image src={mediaInfo.mediaTitleImg} />
+            {mediaInfo.previewTitleImg && (
+              <Image src={mediaInfo.previewTitleImg} />
+            )}
           </div>
           <div className="flex gap-[1%]">
             <Button type="solid">
@@ -71,9 +79,12 @@ export default function MediaPreviewImage({
             </Button>
             <Button
               type="secondary"
-              buttonProps={{ onClick: () => previewModal.openModal() }}
+              buttonProps={{ onClick: () => moreInfoModal.openModal() }}
             >
-              <div className="flex justify-center items-center gap-1">
+              <div
+                ref={moreInfoButtonRef}
+                className="flex justify-center items-center gap-1"
+              >
                 <FontAwesomeIcon icon={faCircleInfo} fixedWidth />
                 More Info
               </div>
@@ -81,8 +92,12 @@ export default function MediaPreviewImage({
           </div>
         </div>
       </div>
-      {isPreviewModalVisible && (
-        <MediaPreviewMoreInfoModal {...previewModal} mediaInfo={mediaInfo} />
+      {isMoreInfoModalVisible && (
+        <MediaMoreInfoModal
+          {...moreInfoModal}
+          mediaInfo={mediaInfo}
+          itemRect={moreInfoButtonRef.current?.getBoundingClientRect()}
+        />
       )}
     </>
   )

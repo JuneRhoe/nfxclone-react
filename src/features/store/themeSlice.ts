@@ -22,7 +22,7 @@ export const themeSlice = createSlice({
   },
 
   selectors: {
-    selectThemeMode: theme => theme.mode,
+    selectThemeMode: themeState => themeState.mode,
   },
 })
 

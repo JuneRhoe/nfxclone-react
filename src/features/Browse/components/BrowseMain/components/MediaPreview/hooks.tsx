@@ -1,17 +1,18 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { MediaPreviewVideoProps } from './components/MediaPreviewVideo'
 import { MediaPreviewImageProps } from './components/MediaPreviewImage'
+import { MediaInfo } from '@/mock-data-definitions'
+import { MOCK_MEDIA_PREVIEWS } from '@/mock-data'
+import {
+  getPreviewMainImg,
+  getPreviewTitleImg,
+  getPreviewTrailerImg,
+} from './utils'
 
-const MAX_MEDIA_COUNT = 4
 const PREVIEW_DELAY = 800
+const CLOSE_MODAL_DELAY = 300
 
-export interface MediaPreviewMediaInfo {
-  mediaMainImg: string
-  mediaPreview: string
-  mediaTitleImg: string
-}
-
-export function useMediaPreviewMediaInfo(): MediaPreviewMediaInfo | null {
+export function useMediaPreviewMediaInfo(): MediaInfo | null {
   // Temporary generate media info instead of getting from backend due to the mockapi limitation
 
   const [randomIndex, setRandomIndex] = useState(-1)
@@ -21,15 +22,19 @@ export function useMediaPreviewMediaInfo(): MediaPreviewMediaInfo | null {
       return
     }
 
-    setRandomIndex(Math.floor(Math.random() * MAX_MEDIA_COUNT))
+    setRandomIndex(Math.floor(Math.random() * MOCK_MEDIA_PREVIEWS.length))
   }, [randomIndex])
 
-  return randomIndex < 0
+  const previewMedia =
+    randomIndex >= 0 ? MOCK_MEDIA_PREVIEWS[randomIndex] : null
+
+  return !previewMedia
     ? null
     : {
-        mediaMainImg: `/images/browse-home/media-preview/media-main-${randomIndex}.jpg`,
-        mediaPreview: `/images/browse-home/media-preview/media-preview-${randomIndex}.mp4`,
-        mediaTitleImg: `/images/browse-home/media-preview/media-title-${randomIndex}.png`,
+        ...previewMedia,
+        previewMainImg: getPreviewMainImg(previewMedia.id),
+        previewTitleImg: getPreviewTitleImg(previewMedia.id),
+        previewTrailer: getPreviewTrailerImg(previewMedia.id),
       }
 }
 
@@ -118,5 +123,56 @@ export function useMediaPreviewMedia() {
   return {
     mediaPreviewImageProps,
     mediaPreviewVideoProps,
+  }
+}
+
+export function useMediaPreviewMoreInfoModal(
+  itemRect: DOMRect | null | undefined,
+  modalId: string | undefined,
+  closeModal: () => void,
+  closeAllModal: (exceptIds?: string[]) => void,
+) {
+  const [fade, setFade] = useState(false)
+
+  const fadeModal = useCallback(() => {
+    setFade(false)
+    setTimeout(() => closeModal(), CLOSE_MODAL_DELAY)
+  }, [closeModal])
+
+  useEffect(() => {
+    const handleESC = () => {
+      fadeModal()
+    }
+
+    window.addEventListener('keyup', handleESC)
+
+    return () => window.removeEventListener('keyup', handleESC)
+  }, [closeModal, fadeModal])
+
+  useEffect(() => {
+    // closeAllModal([modalId || ''])
+    const timerId = setTimeout(() => setFade(true), 0)
+
+    return () => {
+      clearTimeout(timerId)
+    }
+  }, [modalId, closeAllModal])
+
+  const modalLeft = !itemRect
+    ? `${window.innerWidth / 2}px`
+    : `${itemRect.left}px`
+  const modalTop = !itemRect
+    ? `${window.innerHeight / 2}px`
+    : `${itemRect.top}px`
+  const modalWidth = !itemRect ? '0' : `${itemRect.width}px`
+  const modalHeight = !itemRect ? '0' : `${itemRect.height}px`
+
+  return {
+    fade,
+    modalLeft,
+    modalTop,
+    modalWidth,
+    modalHeight,
+    fadeModal,
   }
 }

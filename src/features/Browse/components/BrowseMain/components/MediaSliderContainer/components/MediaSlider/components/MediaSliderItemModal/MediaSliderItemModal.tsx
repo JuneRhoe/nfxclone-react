@@ -1,13 +1,14 @@
 import Modal, { ModalProps } from '@/features/Modal/Modal'
 import { MediaInfo } from '@/mock-data-definitions'
-import Image from '@/submodule/components/Image/Image'
-import { getTitleImgPath } from '../utils'
-import { useMediaSliderItemModal } from '../hooks'
+import { useMediaSliderItemModal } from '../../hooks'
+import MediaSliderItemModalTop from './components/MediaSliderItemModalTop'
+import MediaSliderItemModalBottom from './components/MediaSliderItemModalBottom'
 
 export interface SliderItemModalProps extends Omit<ModalProps, 'children'> {
   children?: React.ReactNode
   mediaInfo: MediaInfo | undefined
   itemRect: DOMRect | null | undefined
+  onShowMoreInfoModal: () => void
 }
 
 export default function MediaSliderItemModal(props: SliderItemModalProps) {
@@ -17,7 +18,9 @@ export default function MediaSliderItemModal(props: SliderItemModalProps) {
     modalTop,
     modalWidth,
     modalHeight,
-    setPointerLeave,
+    onTouchStart,
+    onTouchEnd,
+    onPointerLeave,
   } = useMediaSliderItemModal(
     props.itemRect,
     props.closeModal,
@@ -43,21 +46,29 @@ export default function MediaSliderItemModal(props: SliderItemModalProps) {
     >
       <div
         className={`absolute overflow-hidden rounded-md shadow-2xl bg-[#212121] transition-all
-          duration-200 ease-out`}
+          duration-200 ease-in-out`}
         style={{
           left: fade ? `${modalLeft}px` : `${itemRect.left}px`,
           top: fade ? `${modalTop}px` : `${itemRect.top + window.scrollY}px`,
           width: fade ? `${modalWidth}px` : `${itemRect.width}px`,
           height: fade ? `${modalHeight}px` : `${itemRect.height}px`,
-          opacity: fade ? '100' : '50',
+          opacity: fade ? '100' : '0',
           cursor: fade ? 'auto' : 'pointer',
         }}
         onTransitionEnd={(e) => e.stopPropagation()}
-        onPointerLeave={() => setPointerLeave(true)}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+        onPointerLeave={onPointerLeave}
       >
-        <div className="flex flex-col w-full h-full">
-          <div>
-            <Image imgClassName="w-full" src={getTitleImgPath(mediaInfo.id)} />
+        <div className="w-full h-full">
+          <div className="h-[55%]">
+            <MediaSliderItemModalTop mediaInfo={mediaInfo} />
+          </div>
+          <div className="flex justify-center items-center h-[45%]">
+            <MediaSliderItemModalBottom
+              mediaInfo={mediaInfo}
+              onShowMoreInfoModal={props.onShowMoreInfoModal}
+            />
           </div>
         </div>
       </div>

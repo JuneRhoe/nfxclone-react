@@ -36,12 +36,12 @@ export default function MediaSliderNavButton({
   return (
     <SliderNavButton
       className={clsx(
-        `absolute z-10 flex justify-center items-center w-[var(1.5rem + 2px)]
-        sm:w-[var(2.5rem + 2px)] min-h-full bg-[#171717] opacity-70 hover:opacity-85
-        top-0 transition-opacity duration-300 `,
+        `absolute z-10 flex justify-center items-center w-[1.625rem] sm:w-[2.625rem]
+        min-h-full bg-[#171717] opacity-70 hover:opacity-85 top-0 transition-opacity
+        duration-300`,
         {
-          'left-[-1px]': direction === 'Prev',
-          'right-[-1px]': direction === 'Next',
+          'left-[-0.25rem]': direction === 'Prev',
+          'right-0': direction === 'Next',
           'cursor-pointer': !disabled,
           'cursor-auto': disabled,
         },

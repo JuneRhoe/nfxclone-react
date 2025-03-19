@@ -1,50 +1,16 @@
-import { MOCK_MAP_MAIN_CATEGORIES } from "@/mock-data";
-import { MediaInfo, UserCookieInfo, UserInfo } from "@/mock-data-definitions";
-import { useTackstackQuery } from "@/submodule/tanstack/hooks";
-import { queryFunction } from "@/submodule/tanstack/utils";
 import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
-
-const MY_LIST_TITLE_LABEL = 'My List'
+import { useAppSelector } from "@/features/store/hooks";
+import { selectUserInfo } from "@/features/store/userInfoSlice";
+import { MOCK_MAP_MAIN_CATEGORIES } from "@/mock-data";
+import { MediaInfo } from "@/mock-data-definitions";
+import { useTackstackQuery } from "@/submodule/tanstack/hooks";
+import { QUERY_KEY_MEDIA_INFO_MAIN_CATEGORY } from "@/submodule/tanstack/queryKeys";
+import { queryFunction } from "@/submodule/tanstack/utils";
 
 export function useRequestMyListMedias() {
-  const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
-  const [cookies] = useCookies<'userId' | 'authToken', UserCookieInfo>([
-      'userId',
-      'authToken'
-    ])
+  const userInfo = useAppSelector(selectUserInfo)
 
-  const { isLoading, status, data } = useTackstackQuery<UserInfo[]>(
-      ['userId', 'userPassword'],
-      async () => {
-        const response = await queryFunction('users', [
-          { name: 'userId', value: cookies.userId },
-          { name: 'userPassword', value: cookies.authToken }
-        ])
-  
-        return await response?.json()
-      }
-  )
-  
-  useEffect(() => {
-    if (isLoading || status !== 'success' || !data || !Array.isArray(data)) {
-      return
-    }
-
-    const validUserInfo = data.find((userInfo) =>
-      userInfo.userId === cookies.userId &&
-      userInfo.userPassword === cookies.authToken
-    )
-
-    if (!validUserInfo) {
-      return
-    }
-
-    setUserInfo(validUserInfo)
-
-  }, [cookies.authToken, cookies.userId, data, isLoading, status])
-
-  return { isLoading, medias: userInfo?.myList, titleLabel: MY_LIST_TITLE_LABEL }
+  return { myMedias: userInfo?.myList, userInfo }
 }
 
 export function useRequestMainCategories() {
@@ -65,7 +31,7 @@ export function useRequestMainCategoryMedias(mainCategory: string) {
   const [medias, setMedias] = useState<MediaInfo[] | null>(null)
 
   const { isLoading, status, data } = useTackstackQuery<MediaInfo[]>(
-      [mainCategory],
+      [QUERY_KEY_MEDIA_INFO_MAIN_CATEGORY, mainCategory],
       async () => {
         const response = await queryFunction('medias', [
           { name: 'mainCategory', value: mainCategory }
@@ -74,7 +40,7 @@ export function useRequestMainCategoryMedias(mainCategory: string) {
         return await response?.json()
       }
   )
-  
+
   useEffect(() => {
     if (isLoading || status !== 'success' || !data || !Array.isArray(data)) {
       return
