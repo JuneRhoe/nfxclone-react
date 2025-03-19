@@ -6,7 +6,7 @@ export function getSubTitle(selectedPath: To): string {
     case browseMyListPath:
       return 'My List'
     case browseAboutPath:
-      return 'About'
+      return 'About Netflix Clone'
   }
 
   return ''

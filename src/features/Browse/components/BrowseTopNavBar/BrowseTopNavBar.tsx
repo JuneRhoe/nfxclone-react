@@ -56,7 +56,7 @@ export default function BrowseTopNavBar() {
         </div>
       </div>
       {!isBrowseMain && (
-        <div className="relative px-3 py-1 md:px-8 md:py-1 font-extrabold text-xl md:text-2xl">
+        <div className="relative px-3 py-1 md:px-8 md:py-1 font-extrabold text-xl md:text-4xl">
           {getSubTitle(selectedPath)}
         </div>
       )}

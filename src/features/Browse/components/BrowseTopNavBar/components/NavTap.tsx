@@ -1,5 +1,5 @@
 import { To } from 'react-router'
-import { browseAboutPath, browseMyListPath, browsePath } from '@/routes'
+import { browseAboutPath, browsePath } from '@/routes'
 import NavTapButton from './NavTapButton'
 
 interface Props {
@@ -12,9 +12,9 @@ export default function NavTap({ onClickNavButton }: Props) {
       <NavTapButton to={browsePath} onClick={onClickNavButton}>
         Home
       </NavTapButton>
-      <NavTapButton to={browseMyListPath} onClick={onClickNavButton}>
+      {/* <NavTapButton to={browseMyListPath} onClick={onClickNavButton}>
         My List
-      </NavTapButton>
+      </NavTapButton> */}
       <NavTapButton to={browseAboutPath} onClick={onClickNavButton}>
         About
       </NavTapButton>
