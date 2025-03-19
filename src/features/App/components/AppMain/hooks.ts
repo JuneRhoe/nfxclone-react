@@ -11,6 +11,7 @@ import { useUserCookie } from "@/features/hooks"
 import { QUERY_KEY_CHECK_USER_INFO, QUERY_KEY_USER_INFO } from "@/submodule/tanstack/queryKeys"
 import { useAppDispatch, useAppSelector } from "@/features/store/hooks"
 import { selectUserInfo, setUserInfo } from "@/features/store/userInfoSlice"
+import { queryClient } from "@/submodule/tanstack/client"
 
 export function useQueryUserInfo(paramUserId: string, paramUserPassword: string) {
   const dispatch = useAppDispatch()
@@ -193,6 +194,14 @@ export function useRegister(setError: UseFormSetError<UserInput>) {
       if (!registeredUserInfo) {
         return
       }
+
+      queryClient.invalidateQueries({
+        queryKey: [
+          QUERY_KEY_USER_INFO,
+          registeredUserInfo.userId,
+          registeredUserInfo.userPassword
+        ]
+      })
 
       dispatch(setUserInfo(registeredUserInfo))
       
