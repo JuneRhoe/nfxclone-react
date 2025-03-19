@@ -1,6 +1,6 @@
 import clsx, { ClassValue } from 'clsx'
 import MainCategoryMediaSlider from './components/MainCategoryMediaSlider'
-import MyListMediaSlider from './components/MyListMediaSlider'
+import MyListMediaSliderContainer from './components/MyListMediaSliderContainer'
 import { useRequestMainCategories } from './hooks'
 
 interface Props {
@@ -13,7 +13,7 @@ export default function MediaSliderContainer({ className, showLoader }: Props) {
 
   return (
     <div className={clsx('flex flex-col gap-8', className)}>
-      <MyListMediaSlider showLoader={showLoader} />
+      <MyListMediaSliderContainer showLoader={showLoader} />
 
       {mainCategories.map((mainCategory) => (
         <MainCategoryMediaSlider

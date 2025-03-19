@@ -6,15 +6,15 @@ import {
   faVolumeXmark,
 } from '@fortawesome/free-solid-svg-icons'
 import { useIntersection } from '@/submodule/hooks'
-import { MediaPreviewMediaInfo } from '@/features/Browse/hooks'
 import IconButton from '@/submodule/components/IconButton/IconButton'
+import { MediaInfo } from '@/mock-data-definitions'
 
 const INTERSECTION_MARGIN = '-200px'
 const SHOW_MUTE_CONTROL_DELAY = 800
 
 export interface MediaPreviewVideoProps {
   videoRef: React.RefObject<HTMLVideoElement | null>
-  mediaInfo: MediaPreviewMediaInfo | null
+  mediaInfo: MediaInfo | null
   isSetAutoPlay: boolean
   isAutoPlayed: boolean
   isVideoCanPlay: boolean
@@ -70,7 +70,9 @@ export default function MediaPreviewVideo({
           setShowMuteControl(false)
         }}
       >
-        {mediaInfo && <source src={mediaInfo.mediaPreview} type="video/mp4" />}
+        {mediaInfo && (
+          <source src={mediaInfo.previewTrailer} type="video/mp4" />
+        )}
       </video>
 
       <div

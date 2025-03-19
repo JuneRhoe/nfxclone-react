@@ -31,6 +31,5 @@ createRoot(rootContainer).render(
         </QueryClientProvider>
       </StoreProvider>
     </CookiesProvider>
-    ,
   </StrictMode>,
 )

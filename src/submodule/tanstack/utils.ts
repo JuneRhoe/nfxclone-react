@@ -27,12 +27,16 @@ export async function queryFunction(endPoint: string, paramInfos: SearchParamInf
   return response;
 }
 
-export async function mutationFunction<TData>(endPoint: string, newData: TData): Promise<Response | null> {
+export async function mutationFunction<TData>(
+  endPoint: string,
+  newData: TData,
+  method: 'POST' | 'PUT'
+): Promise<Response | null> {
   let response: Response | null = null
 
   try {
     response = await fetch(`${API_URL}${endPoint}`, {
-    method: 'POST',
+    method,
     headers: { 'content-type': 'application/json' },
       body: JSON.stringify(newData)
     })
