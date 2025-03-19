@@ -84,7 +84,8 @@ export function useMediaSliderItemModal(
 ) {
   const [fade, setFade] = useState(false)
   const [scrolledY] = useState(window.scrollY)
-  const [pointerLeave, setPointerLeave] = useState(false)
+  const [isButtonTouch, setIsButtonTouch] = useState(false)
+  const [isPointerLeave, setIsPointerLeave] = useState(false)
   
   useEffect(() => {
     const timerId = setTimeout(() => setFade(true), 0)
@@ -95,7 +96,7 @@ export function useMediaSliderItemModal(
   }, [])
 
   useEffect(() => {
-    if (!pointerLeave) {
+    if (!isPointerLeave || isButtonTouch) {
       return
     }
 
@@ -105,7 +106,7 @@ export function useMediaSliderItemModal(
     } else {
       closeAllModal()
     }
-  }, [closeAllModal, closeModal, pointerLeave, scrolledY])
+  }, [closeAllModal, closeModal, isPointerLeave, isButtonTouch, scrolledY])
 
   const {
     left: modalLeft,
@@ -114,13 +115,37 @@ export function useMediaSliderItemModal(
     height: modalHeight,
   } = getModalRect(itemRect)
 
+  const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (
+      e.target instanceof HTMLButtonElement ||
+      e.target instanceof SVGPathElement ||
+      e.target instanceof SVGSVGElement      
+    ) {
+      setIsButtonTouch(true)
+    }
+  }
+
+  const onTouchEnd = () => {
+    setIsButtonTouch(false)
+  }
+
+  const onPointerLeave = () => {
+    if (isButtonTouch) {
+      return
+    }
+
+    setIsPointerLeave(true)
+  }
+
   return {
     fade,
     modalLeft,
     modalTop,
     modalWidth,
     modalHeight,
-    setPointerLeave
+    onTouchStart,
+    onTouchEnd,
+    onPointerLeave
   }
 }
 

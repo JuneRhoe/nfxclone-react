@@ -1,3 +1,8 @@
+export interface TouchPos {
+  clientX: number
+  clientY: number
+}
+
 export interface ModalRect {
   left: number
   top: number

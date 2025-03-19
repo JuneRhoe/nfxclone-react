@@ -6,6 +6,7 @@ import Loader from '@/submodule/components/Loader/Loader'
 import { useModal } from '@/features/Modal/hooks'
 import MediaSliderItemModal from './MediaSliderItemModal/MediaSliderItemModal'
 import { getTitleImgPath } from '../../../../MediaPreview/utils'
+import { TouchPos } from '../utils'
 
 interface Props {
   mediaInfo: MediaInfo
@@ -28,6 +29,7 @@ export default function MediaSliderItem({
 }: Props) {
   const divRef = useRef<HTMLDivElement>(null)
   const [timerId, setTimerId] = useState<NodeJS.Timeout>()
+  const [touchPos, setTouchPos] = useState<TouchPos | null>(null)
 
   const { modalInstanceInfo, isVisible } = useModal({
     disableBodyScrollLock: true,
@@ -41,7 +43,25 @@ export default function MediaSliderItem({
         <div
           ref={divRef}
           className="w-full h-full relative"
-          onTouchEnd={() => {
+          onTouchStart={(e) =>
+            setTouchPos({
+              clientX: Math.floor(e.touches[0].clientX),
+              clientY: Math.floor(e.touches[0].clientY),
+            })
+          }
+          onTouchEnd={(e) => {
+            setTouchPos(null)
+
+            const clientX = Math.floor(e.changedTouches[0].clientX)
+            const clientY = Math.floor(e.changedTouches[0].clientY)
+
+            if (
+              touchPos?.clientX !== clientX ||
+              touchPos?.clientY !== clientY
+            ) {
+              return
+            }
+
             if (isSliding) {
               return
             }
@@ -55,8 +75,8 @@ export default function MediaSliderItem({
               }, OPEN_MODAL_TOUCH_DELAY),
             )
           }}
-          onPointerEnter={() => {
-            if (isSliding) {
+          onPointerEnter={(e) => {
+            if (isSliding || e.pointerType === 'touch') {
               return
             }
 

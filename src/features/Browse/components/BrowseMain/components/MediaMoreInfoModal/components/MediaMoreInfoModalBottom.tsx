@@ -25,15 +25,15 @@ export default function MediaMoreInfoModalBottom({ mediaInfo }: Props) {
           <div>{mediaInfo.description}</div>
         </div>
         <div className="flex flex-col gap-2 w-[40%]">
-          <div className="flex gap-1">
+          <div className="flex flex-wrap gap-1">
             <div className="text-gray-500">Cast:</div>
             <div>{mediaInfo.casts?.join(', ')}</div>
           </div>
-          <div className="flex gap-1">
+          <div className="flex flex-wrap gap-1">
             <div className="text-gray-500">Genres:</div>
             <div>{mediaInfo.genres?.join(', ')}</div>
           </div>
-          <div className="flex gap-1">
+          <div className="flex flex-wrap gap-1">
             <div className="text-gray-500 whitespace-nowrap">
               This movie is:
             </div>

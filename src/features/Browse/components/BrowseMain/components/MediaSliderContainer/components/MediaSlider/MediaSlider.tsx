@@ -38,6 +38,8 @@ export default function MediaSlider({
     setNavInfo,
     setPageInfo,
     setDiableTransition,
+    onTouchStart,
+    onTouchEnd,
   } = useSlider<MediaInfo, MediaInfo[]>(medias, countPerPage, itemSize)
   const { displayItems, paddingClass } = useMediaSlider(pageInfo, medias)
 
@@ -62,7 +64,11 @@ export default function MediaSlider({
 
   return (
     <>
-      <div className="flex flex-col gap-2">
+      <div
+        className="flex flex-col gap-2"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
         {title && (
           <div className={paddingClass}>
             <div className="flex w-full justify-between items-center">

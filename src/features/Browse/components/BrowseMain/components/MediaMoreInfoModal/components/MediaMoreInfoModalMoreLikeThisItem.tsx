@@ -25,7 +25,7 @@ export default function MediaMoreInfoModalMoreLikeThisItem({
       />
 
       <div className="flex justify-between items-center gap-2 w-full h-auto py-4 px-2">
-        <div className="flex items-center gap-2 w-full text-sm">
+        <div className="flex items-center flex-wrap gap-2 w-full text-xs xs:text-sm">
           <div
             className="flex justify-center items-center whitespace-nowrap rounded-sm border-1
               border-gray-400 px-1.5"
@@ -36,9 +36,10 @@ export default function MediaMoreInfoModalMoreLikeThisItem({
             {mediaInfo.impressions?.slice(0, 1)}
           </div>
         </div>
-        <div className="flex justify-center items-center h-[2rem]">
+        <div className="flex justify-center items-center">
           <IconButton
-            className="aspect-square"
+            className="aspect-square w-[1.5rem] xs:w-[2rem]"
+            iconClassName="w-[0.5rem] h-[0.5rem] xs:w-[1rem] xs:h-[1rem]"
             icon={isInMyList ? faCheck : faPlus}
             fullHeight
             buttonProps={{ onClick: hanldeClickMyList }}
@@ -47,7 +48,7 @@ export default function MediaMoreInfoModalMoreLikeThisItem({
         </div>
       </div>
 
-      <div className="p-[3%] min-h-[32vh] text-ellipsi text-sm">
+      <div className="p-[3%] min-h-[32vh] text-ellipsi text-xs xs:text-sm">
         {mediaInfo.description}
       </div>
     </div>

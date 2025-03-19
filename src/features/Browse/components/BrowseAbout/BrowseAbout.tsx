@@ -1,24 +1,13 @@
-import { Link } from 'react-router'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLinkedin } from '@fortawesome/free-brands-svg-icons'
+import MyInfo from '@/features/MyInfo/MyInfo'
 
 export default function BrowseAbout() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-start py-4">
       <div className="relative w-full px-3 md:px-8">
         <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-1">
-            <div>
-              <span className="text-gray-500">Built by</span> Jung Hyun Rhoe
-            </div>
-            <Link
-              to="https://www.linkedin.com/in/junghyunrhoe/"
-              target="_blank"
-            >
-              <FontAwesomeIcon icon={faLinkedin} fixedWidth />
-            </Link>
-          </div>
-          <div className="pt-7 text-lg md:text-2xl font-extrabold">
+          <MyInfo />
+
+          <div className="pt-10 text-lg md:text-2xl font-extrabold">
             Technologies used to build Netflix Clone
           </div>
           <div>
@@ -31,7 +20,7 @@ export default function BrowseAbout() {
               <div>React Modal</div>
               <div>React Hook Form</div>
               <div>React Responsive</div>
-              <div>Tailwind CSS • Fontawesome</div>
+              <div>Tailwind CSS</div>
               <div>Vite</div>
             </div>
           </div>

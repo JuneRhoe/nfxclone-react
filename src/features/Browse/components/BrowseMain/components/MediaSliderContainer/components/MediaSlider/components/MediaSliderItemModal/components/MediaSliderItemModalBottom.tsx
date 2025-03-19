@@ -25,31 +25,31 @@ export default function MediaSliderItemModalBottom({
   }
 
   return (
-    <div className="flex flex-col py-5 px-3 gap-2 w-full h-full text-white text-sm">
+    <div className="flex flex-col py-2 px-3 gap-2 w-full h-full text-white text-sm">
       <div className="flex justify-between items-center w-full h-full">
         <div className="flex items-center gap-2">
           <IconButton
-            className="h-full aspect-square"
+            className="h-[2.5rem] aspect-square"
             icon={faPlay}
-            fullHeight
             type="secondary"
+            fullHeight
           />
           <IconButton
-            className="h-full aspect-square"
+            className="h-[2.5rem] aspect-square"
             icon={isInMyList ? faCheck : faPlus}
-            fullHeight
             buttonProps={{
               onClick: () => {
                 hanldeClickMyList()
               },
             }}
             loading={isUpdatingMyList}
+            fullHeight
           />
         </div>
 
         <div className="">
           <IconButton
-            className="h-full aspect-square"
+            className="h-[2.5rem] aspect-square"
             icon={faAngleDown}
             buttonProps={{
               onClick: () => {

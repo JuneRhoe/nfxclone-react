@@ -18,7 +18,9 @@ export default function MediaSliderItemModal(props: SliderItemModalProps) {
     modalTop,
     modalWidth,
     modalHeight,
-    setPointerLeave,
+    onTouchStart,
+    onTouchEnd,
+    onPointerLeave,
   } = useMediaSliderItemModal(
     props.itemRect,
     props.closeModal,
@@ -54,8 +56,9 @@ export default function MediaSliderItemModal(props: SliderItemModalProps) {
           cursor: fade ? 'auto' : 'pointer',
         }}
         onTransitionEnd={(e) => e.stopPropagation()}
-        onPointerLeave={() => setPointerLeave(true)}
-        onClick={(e) => e.stopPropagation()}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+        onPointerLeave={onPointerLeave}
       >
         <div className="w-full h-full">
           <div className="h-[55%]">
