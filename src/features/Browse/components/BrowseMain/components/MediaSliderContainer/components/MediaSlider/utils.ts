@@ -5,10 +5,6 @@ export interface ModalRect {
   height: number
 }
 
-export function getTitleImgPath(id: string) {
-  return `/images/browse-home/media-slider/title-img-${id}.jpg`
-}
-
 export function getModalRect(
   itemRect: DOMRect | null | undefined
 ): ModalRect {
@@ -17,8 +13,8 @@ export function getModalRect(
   const itemLeft = itemRect?.left || 0
   const itemTop = (itemRect?.top || 0) + window.scrollY
 
-  const modalWidth = itemWidth * 1.4
-  const modalHeight = itemHeight * 1.4 * 2
+  const modalWidth = itemWidth * 1.6
+  const modalHeight = itemHeight * 1.6 * 1.8
 
   let modalLeft = itemLeft - (modalWidth - itemWidth) / 2
   if (itemLeft - itemWidth <= 0) {
