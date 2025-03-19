@@ -3,22 +3,28 @@ import SliderItem from '@/submodule/components/Slider/components/SliderItem'
 import Image from '@/submodule/components/Image/Image'
 import { MediaInfo } from '@/mock-data-definitions'
 import Loader from '@/submodule/components/Loader/Loader'
-import { getTitleImgPath } from '../utils'
-import MediaSliderItemModal from './MediaSliderItemModal'
 import { useModal } from '@/features/Modal/hooks'
+import MediaSliderItemModal from './MediaSliderItemModal/MediaSliderItemModal'
+import { getTitleImgPath } from '../../../../MediaPreview/utils'
 
 interface Props {
   mediaInfo: MediaInfo
   itemSize: number
   isSliding: boolean
+  onShowMoreInfoModal: (
+    mediaInfo: MediaInfo,
+    itemRect: DOMRect | null | undefined,
+  ) => void
 }
 
-const OPEN_MODAL_DELAY = 650
+const OPEN_MODAL_POINTER_DELAY = 500
+const OPEN_MODAL_TOUCH_DELAY = 100
 
 export default function MediaSliderItem({
   mediaInfo,
   itemSize,
   isSliding,
+  onShowMoreInfoModal,
 }: Props) {
   const divRef = useRef<HTMLDivElement>(null)
   const [timerId, setTimerId] = useState<NodeJS.Timeout>()
@@ -35,6 +41,20 @@ export default function MediaSliderItem({
         <div
           ref={divRef}
           className="w-full h-full relative"
+          onTouchEnd={() => {
+            if (isSliding) {
+              return
+            }
+
+            setTimerId(
+              setTimeout(() => {
+                modalInstanceInfo.openModal()
+                modalInstanceInfo.closeAllModal([
+                  modalInstanceInfo.modalId || '',
+                ])
+              }, OPEN_MODAL_TOUCH_DELAY),
+            )
+          }}
           onPointerEnter={() => {
             if (isSliding) {
               return
@@ -46,21 +66,24 @@ export default function MediaSliderItem({
                 modalInstanceInfo.closeAllModal([
                   modalInstanceInfo.modalId || '',
                 ])
-              }, OPEN_MODAL_DELAY),
+              }, OPEN_MODAL_POINTER_DELAY),
             )
           }}
           onPointerLeave={() => clearTimeout(timerId)}
         >
-          <div>
-            <Image
-              imgClassName="rounded-sm"
-              src={getTitleImgPath(mediaInfo.id)}
-            >
-              <div className="w-full h-full rounded-sm">
-                <Loader className="opacity-50" display="inline" />
-              </div>
-            </Image>
-          </div>
+          <Image
+            imgClassName="rounded-sm"
+            src={getTitleImgPath(mediaInfo.id)}
+            loader={
+              <Loader
+                className="opacity-50"
+                style={{ paddingTop: `${(itemRect?.height || 0) / 2}px` }}
+                display="inline"
+              />
+            }
+            fullHeight={false}
+            fullWidth
+          />
         </div>
       </SliderItem>
 
@@ -68,6 +91,7 @@ export default function MediaSliderItem({
         <MediaSliderItemModal
           mediaInfo={mediaInfo}
           itemRect={itemRect}
+          onShowMoreInfoModal={() => onShowMoreInfoModal(mediaInfo, itemRect)}
           {...modalInstanceInfo}
         />
       )}

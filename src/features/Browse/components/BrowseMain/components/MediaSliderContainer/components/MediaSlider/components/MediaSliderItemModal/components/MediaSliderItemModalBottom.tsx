@@ -1,0 +1,81 @@
+import {
+  faAngleDown,
+  faCheck,
+  faPlay,
+  faPlus,
+} from '@fortawesome/free-solid-svg-icons'
+import IconButton from '@/submodule/components/IconButton/IconButton'
+import { MediaInfo } from '@/mock-data-definitions'
+import { useMyListMedias } from '../../../hooks'
+
+export interface Props {
+  mediaInfo: MediaInfo | undefined
+  onShowMoreInfoModal: () => void
+}
+
+export default function MediaSliderItemModalBottom({
+  mediaInfo,
+  onShowMoreInfoModal,
+}: Props) {
+  const { isInMyList, isUpdatingMyList, hanldeClickMyList } =
+    useMyListMedias(mediaInfo)
+
+  if (!mediaInfo) {
+    return null
+  }
+
+  return (
+    <div className="flex flex-col py-5 px-3 gap-2 w-full h-full text-white text-sm">
+      <div className="flex justify-between items-center w-full h-full">
+        <div className="flex items-center gap-2">
+          <IconButton
+            className="h-full aspect-square"
+            icon={faPlay}
+            fullHeight
+            type="secondary"
+          />
+          <IconButton
+            className="h-full aspect-square"
+            icon={isInMyList ? faCheck : faPlus}
+            fullHeight
+            buttonProps={{
+              onClick: () => {
+                hanldeClickMyList()
+              },
+            }}
+            loading={isUpdatingMyList}
+          />
+        </div>
+
+        <div className="">
+          <IconButton
+            className="h-full aspect-square"
+            icon={faAngleDown}
+            buttonProps={{
+              onClick: () => {
+                onShowMoreInfoModal()
+              },
+            }}
+            fullHeight
+          />
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2 w-full h-full">
+        <div
+          className="flex justify-center items-center whitespace-nowrap rounded-sm border-1
+            border-gray-400 px-1.5"
+        >
+          {mediaInfo.ratingSymbol}
+        </div>
+        <div className="flex items-center">
+          {mediaInfo.ratingDetails?.slice(0, 2)?.join(' • ')}
+        </div>
+      </div>
+
+      <div className="w-full h-full">
+        {mediaInfo.genres?.slice(0, 2)?.join(' • ')}
+      </div>
+    </div>
+  )
+}
