@@ -1,14 +1,52 @@
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
 import { To, useNavigate } from "react-router"
-import { UserCookieInfo, UserInput } from "@/mock-data-definitions"
+import { UserCookieInfo, UserInfo, UserInput } from "@/mock-data-definitions"
 import { browsePath, registerPath } from "@/routes"
 import { useTackstackQuery, useTanstackMutation } from "@/submodule/tanstack/hooks"
 import { mutationFunction, queryFunction } from "@/submodule/tanstack/utils"
 import { encrypt } from "@/submodule/utils"
 import { UseFormSetError } from "react-hook-form"
 import { useUserCookie } from "@/features/hooks"
-import { queryClient } from "@/submodule/tanstack/client"
+import { QUERY_KEY_CHECK_USER_INFO, QUERY_KEY_USER_INFO } from "@/submodule/tanstack/queryKeys"
+import { useAppDispatch, useAppSelector } from "@/features/store/hooks"
+import { selectUserInfo, setUserInfo } from "@/features/store/userInfoSlice"
+
+export function useQueryUserInfo(paramUserId: string, paramUserPassword: string) {
+  const dispatch = useAppDispatch()
+
+  // ToDo: Temporary test code due to the mockapi limitation
+
+  const { isLoading: isQueryLoading, status, data } = useTackstackQuery<UserInfo[]>(
+    [QUERY_KEY_USER_INFO, paramUserId, paramUserPassword],
+    async () => {
+      const response = await queryFunction('users', [
+        { name: 'userId', value: paramUserId },
+        { name: 'userPassword', value: paramUserPassword },
+      ])
+
+      return await response?.json()
+    },
+    !!paramUserId && !!paramUserPassword
+  )
+
+  const userInfoArray: UserInfo[] = status === 'success' && Array.isArray(data) ? data : []
+
+  const signedInUser = userInfoArray.find(
+    ({ userId, userPassword }) =>
+      userId?.toLowerCase() === paramUserId.toLowerCase() && userPassword === paramUserPassword
+  )
+
+  useEffect(() => {
+    if (!signedInUser || isQueryLoading) {
+      return
+    }
+
+    dispatch(setUserInfo(signedInUser))
+  }, [dispatch, isQueryLoading, signedInUser])
+
+  return { isQueryLoading, signedInUser }
+}
 
 export function useSignInQuery() {
   const navigate = useNavigate()
@@ -18,38 +56,19 @@ export function useSignInQuery() {
   const userInputId = userInput?.userId || ''
   const userInputPassword = userInput?.userPassword || ''
 
-  const { isLoading: isQueryLoading, status, data } = useTackstackQuery<UserInput[]>(
-    [userInputId, userInputPassword],
-    async () => {
-      const response = await queryFunction('users', [
-        { name: 'userId', value: userInputId },
-        { name: 'userPassword', value: userInputPassword },
-      ])
-
-      return await response?.json()
-    },
-    !!userInput
-  )
-
-  // ToDo: Temporary test code due to the mockapi limitation
-
-  const isValidUser = Array.isArray(data) && status === 'success' &&
-    data?.some((userInfo) =>
-      userInfo.userId?.toLowerCase() === userInputId.toLowerCase() &&
-      userInfo.userPassword === userInputPassword
-    )
+  const { isQueryLoading, signedInUser } = useQueryUserInfo(userInputId, userInputPassword)
 
   useEffect(() => {
-    if (!isValidUser || isQueryLoading) {
+    if (!signedInUser || isQueryLoading) {
       return
     }
 
     // ToDo: set fake authToken due to the mockapi limitation
-    setUserIdCookie(userInputId)
-    setAuthTokenCookie(userInputPassword)
+    setUserIdCookie(signedInUser.userId)
+    setAuthTokenCookie(signedInUser.userPassword)
 
     navigate(browsePath)
-  }, [isValidUser, isQueryLoading, setUserIdCookie, setAuthTokenCookie, userInputId, userInputPassword, navigate])
+  }, [isQueryLoading, navigate, setAuthTokenCookie, setUserIdCookie, signedInUser])
 
   const onSignIn = (userInput: UserInput) => {
     setUserInput({
@@ -65,10 +84,11 @@ export function useSignInQuery() {
     })
   }
         
-  return { isQueryLoading, isValidUser, onSignIn, onTestIdSignIn }
+  return { isQueryLoading, isValidUser: !!signedInUser, onSignIn, onTestIdSignIn }
 }
 
 export function useCheckUserInfo(redirectTo?: To, checkValid?: boolean) {
+  const userInfo = useAppSelector(selectUserInfo)
   const navigate = useNavigate()
   const [cookies] = useCookies<'userId' | 'authToken', UserCookieInfo>([
     'userId',
@@ -77,21 +97,30 @@ export function useCheckUserInfo(redirectTo?: To, checkValid?: boolean) {
 
   // ToDo: test logic due to the mockapi limitation
 
-  const isSignedIn = !!cookies.authToken && !!cookies.userId
+  const storedUserId = userInfo?.userId || cookies.userId || ''
+  const storedUserPassword = userInfo?.userPassword || cookies.authToken || ''
+
+  const { isQueryLoading, signedInUser } = useQueryUserInfo(storedUserId, storedUserPassword)
+
+  const isSignedIn = !!signedInUser
 
   useEffect(() => {
+    if (isQueryLoading) {
+      return
+    }
+
     if (!redirectTo) {
       return
     }
 
-    if ((checkValid && !isSignedIn) || (!checkValid && isSignedIn)) {
+    if (!(isSignedIn === checkValid)) {
       return
     }
 
     navigate(redirectTo)
-  }, [isSignedIn, navigate, redirectTo, checkValid])
+  }, [isSignedIn, navigate, redirectTo, checkValid, isQueryLoading])
 
-  return { isSignedIn }
+  return { isSignedIn, isQueryLoading }
 }
 
 export function useSignUp() {
@@ -108,6 +137,7 @@ export function useSignUp() {
 
 export function useRegister(setError: UseFormSetError<UserInput>) {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const { setUserIdCookie, setAuthTokenCookie } = useUserCookie()
   const [userInput, setUserInput] = useState<UserInput | null>(null)
 
@@ -116,7 +146,7 @@ export function useRegister(setError: UseFormSetError<UserInput>) {
   // Temporary code due to the mockapi limitation. This is unnecessary if there is proper API.
 
   const { isLoading: isQueryLoading, status: queryStatus, data: queryData } = useTackstackQuery<UserInput[]>(
-    [userInputId],
+    [QUERY_KEY_CHECK_USER_INFO, userInputId],
     async () => {
       const response = await queryFunction('users', [
         { name: 'userId', value: userInputId || '' }
@@ -144,16 +174,30 @@ export function useRegister(setError: UseFormSetError<UserInput>) {
   // Test code due to the mockapi limitation.
 
   const addUserMutation = useTanstackMutation(
-    (newUser: UserInput) => mutationFunction<UserInput>('users', newUser),
-    () => {
-      queryClient.invalidateQueries({ queryKey: ['user'] })
+    (newUser: UserInput) => mutationFunction<UserInput>('users', newUser, 'POST'),
+    async (resposne, error) => {
+      if (error) {
+        console.error(error)
 
-      if (!userInput) {
         return
       }
 
-      setUserIdCookie(userInput.userId)
-      setAuthTokenCookie(userInput.userPassword)
+      let registeredUserInfo: UserInfo | null = null;
+
+      try {
+        registeredUserInfo = await resposne?.json()
+      } catch (e) {
+        console.error(e)
+      }
+
+      if (!registeredUserInfo) {
+        return
+      }
+
+      dispatch(setUserInfo(registeredUserInfo))
+      
+      setUserIdCookie(registeredUserInfo.userId)
+      setAuthTokenCookie(registeredUserInfo.userPassword)
 
       navigate(browsePath)
     },

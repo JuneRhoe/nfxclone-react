@@ -18,8 +18,12 @@ export interface AppMainProps {
 }
 
 export default function AppMain({ displayType }: AppMainProps) {
-  const { isSignedIn } = useCheckUserInfo(browsePath, true)
+  const { isSignedIn, isQueryLoading } = useCheckUserInfo(browsePath, true)
   const themeMode = useAppSelector(selectThemeMode)
+
+  if (isSignedIn || isQueryLoading) {
+    return null
+  }
 
   let mainContentFC: React.ReactNode = null
 
@@ -33,10 +37,6 @@ export default function AppMain({ displayType }: AppMainProps) {
     case 'register':
       mainContentFC = <Register />
       break
-  }
-
-  if (isSignedIn) {
-    return null
   }
 
   return (
