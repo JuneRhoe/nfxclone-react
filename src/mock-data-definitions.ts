@@ -13,7 +13,7 @@ export interface MediaInfo {
   mainCategory?: string
   subCategory?: string
   mediaType?: string
-  madeAt?: Date
+  madeAt?: Date | string
   title?: string
   casts?: string[]
   genres?: string[]
@@ -21,6 +21,9 @@ export interface MediaInfo {
   ratingSymbol?: string
   ratingDetails?: string[]
   description?: string
+  previewMainImg?: string
+  previewTitleImg?: string
+  previewTrailer?: string  
 }
 
 export type UserInput = Pick<UserInfo, 'userId' | 'userPassword'>
