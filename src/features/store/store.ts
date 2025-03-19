@@ -1,8 +1,9 @@
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
+import { userInfoSlice } from "./userInfoSlice";
 import { themeSlice } from "./themeSlice";
 import { modalSlice } from "@/submodule/components/Modal/modalSlice";
 
-const rootReducer = combineSlices(themeSlice, modalSlice)
+const rootReducer = combineSlices(userInfoSlice, themeSlice, modalSlice)
 
 export type RootState = ReturnType<typeof rootReducer>
 

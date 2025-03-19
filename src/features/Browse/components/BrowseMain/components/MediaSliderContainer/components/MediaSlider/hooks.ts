@@ -2,12 +2,19 @@ import { useEffect, useState } from "react";
 import { PageInfo } from "@/submodule/components/Slider/hooks";
 import { SliderItemSizeInfo } from "@/submodule/components/Slider/Slider";
 import { useScreenSize } from "@/submodule/hooks";
-import { MediaInfo } from "@/mock-data-definitions";
+import { MediaInfo, UserInfo } from "@/mock-data-definitions";
 import { getModalRect } from "./utils";
+import { useRequestMyListMedias } from "../../hooks";
+import { useTanstackMutation } from "@/submodule/tanstack/hooks";
+import { mutationFunction } from "@/submodule/tanstack/utils";
+import { setUserInfo } from "@/features/store/userInfoSlice";
+import { useAppDispatch } from "@/features/store/hooks";
+import { useDebouncedCallback } from "use-debounce";
 
 export const PADDING_CLASS = 'px-[1.5rem] sm:px-[2.5rem]'
 
 const CLOSE_MODAL_DELAY = 200
+const MY_LIST_UPDATE_WAIT_TIME = 300
 
 export function useMediaSlider(pageInfo: PageInfo, medias: MediaInfo[] | null) {
   const [displayItems, setDisplayItems] = useState<MediaInfo[]>([])
@@ -77,8 +84,9 @@ export function useMediaSliderItemModal(
 ) {
   const [fade, setFade] = useState(false)
   const [scrolledY] = useState(window.scrollY)
-  const [pointerLeave, setPointerLeave] = useState(false)
-
+  const [isButtonTouch, setIsButtonTouch] = useState(false)
+  const [isPointerLeave, setIsPointerLeave] = useState(false)
+  
   useEffect(() => {
     const timerId = setTimeout(() => setFade(true), 0)
 
@@ -88,7 +96,7 @@ export function useMediaSliderItemModal(
   }, [])
 
   useEffect(() => {
-    if (!pointerLeave) {
+    if (!isPointerLeave || isButtonTouch) {
       return
     }
 
@@ -98,7 +106,7 @@ export function useMediaSliderItemModal(
     } else {
       closeAllModal()
     }
-  }, [closeAllModal, closeModal, pointerLeave, scrolledY])
+  }, [closeAllModal, closeModal, isPointerLeave, isButtonTouch, scrolledY])
 
   const {
     left: modalLeft,
@@ -107,12 +115,117 @@ export function useMediaSliderItemModal(
     height: modalHeight,
   } = getModalRect(itemRect)
 
+  const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (
+      e.target instanceof HTMLButtonElement ||
+      e.target instanceof SVGPathElement ||
+      e.target instanceof SVGSVGElement      
+    ) {
+      setIsButtonTouch(true)
+    }
+  }
+
+  const onTouchEnd = () => {
+    setIsButtonTouch(false)
+  }
+
+  const onPointerLeave = () => {
+    if (isButtonTouch) {
+      return
+    }
+
+    setIsPointerLeave(true)
+  }
+
   return {
     fade,
     modalLeft,
     modalTop,
     modalWidth,
     modalHeight,
-    setPointerLeave
+    onTouchStart,
+    onTouchEnd,
+    onPointerLeave
+  }
+}
+
+export function useMyListMedias(mediaInfo: MediaInfo | undefined) {
+  const dispatch = useAppDispatch()
+  const [isInMyList, setIsInMyList] = useState(false)
+  const [isUpdating, setIsUpdating] = useState(false)
+  const { myMedias, userInfo } = useRequestMyListMedias()  
+  
+  const updateMyListMutation = useTanstackMutation(
+    (useInfo: UserInfo) => {
+      setIsUpdating(true)
+
+      if (!userInfo) {
+        throw new Error('Invalid user.')
+      }
+      
+      return mutationFunction<UserInfo>(`users/${userInfo.id}`, useInfo, 'PUT')
+    },
+    async (resposne, error) => {
+      setIsUpdating(false)
+
+      if (error) {
+        console.error(error)
+
+        return
+      }
+
+      let updatedUserInfo: UserInfo | null = null;
+      
+      try {
+        updatedUserInfo = await resposne?.json()
+      } catch (e) {
+        console.error(e)
+      }
+
+      if (!updatedUserInfo) {
+        return
+      }
+
+      dispatch(setUserInfo(updatedUserInfo))
+    },
+    () => setIsUpdating(false),
+    () => setIsUpdating(false),
+    () => setIsUpdating(false)
+  )
+  
+  useEffect(() => {
+    if (!myMedias || !mediaInfo) {
+      return
+    }
+
+    setIsInMyList(myMedias.some((media) => media.id === mediaInfo.id))
+  }, [myMedias, mediaInfo])
+
+  const hanldeClickMyList = () => {
+    if (!userInfo || !mediaInfo) {
+      return
+    }
+
+    let updatedMyList: MediaInfo[] = []
+
+    if (isInMyList) {
+      updatedMyList = myMedias?.filter(({ id }) => id !== mediaInfo?.id) || []
+    } else {
+      updatedMyList = [...(myMedias || []), mediaInfo]
+    }
+
+    updateMyListMutation.mutate({ ...userInfo, myList: updatedMyList })
+  }
+
+  const hanldeClickMyListDebouncer = useDebouncedCallback(() => {
+      hanldeClickMyList()
+    }, MY_LIST_UPDATE_WAIT_TIME)
+
+  
+  
+  return {
+    isInMyList,
+    isUpdatingMyList: isUpdating,
+    hanldeClickMyList: hanldeClickMyListDebouncer,
   }
 }

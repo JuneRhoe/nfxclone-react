@@ -1,10 +1,11 @@
 import clsx, { ClassValue } from 'clsx'
 import { CSSProperties, useState } from 'react'
-import { To, useNavigate } from 'react-router'
+import { Link, To } from 'react-router'
 
 interface Props {
   children: React.ReactNode
   to: To
+  target?: React.HTMLAttributeAnchorTarget | undefined
   hoverStyles?: (isHover: boolean) => CSSProperties | undefined
   className?: ClassValue[] | string
 }
@@ -12,27 +13,27 @@ interface Props {
 export default function LinkText({
   children,
   to,
+  target,
   hoverStyles = (isHover: boolean) => ({
     textDecorationLine: isHover ? 'underline' : 'none',
   }),
   className,
 }: Props) {
-  const navigate = useNavigate()
   const [isHover, setHover] = useState(false)
 
   return (
-    <div
+    <Link
       className={clsx(
         className,
-        `flex cursor-pointer items-center justify-center select-none transition-all
-        duration-300`,
+        'flex cursor-pointer items-center justify-center select-none',
       )}
       style={hoverStyles?.(isHover)}
+      to={to}
+      target={target}
       onPointerEnter={() => setHover(true)}
       onPointerLeave={() => setHover(false)}
-      onClick={() => navigate(to)}
     >
       {children}
-    </div>
+    </Link>
   )
 }

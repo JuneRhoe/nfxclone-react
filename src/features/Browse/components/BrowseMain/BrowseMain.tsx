@@ -14,7 +14,7 @@ export default function BrowseMain() {
         <MediaPreview onImageLoaded={setIsPreviewImgLoaded} />
       </div>
       <div className="w-full">
-        <MediaSliderContainer showLoader={isPreviewImgLoaded} />
+        <MediaSliderContainer showLoader={!isPreviewImgLoaded} />
       </div>
     </div>
   )

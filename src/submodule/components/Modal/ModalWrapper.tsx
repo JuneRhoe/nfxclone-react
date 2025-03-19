@@ -11,6 +11,7 @@ export interface ModalWrapperProps extends ModalInstanceInfo {
   disableOverlay?: boolean
   hideOverlayScroll?: boolean
   hasOverlayBackground?: boolean
+  shouldCloseOnOverlayClick?: boolean
   contentElement?: (
     props: React.ComponentPropsWithRef<'div'>,
     children: React.ReactNode,
@@ -27,6 +28,7 @@ export default function ModalWrapper({
   disableOverlay,
   hideOverlayScroll,
   hasOverlayBackground,
+  shouldCloseOnOverlayClick = false,
   contentElement,
   modalId,
   closeModal,
@@ -69,7 +71,7 @@ export default function ModalWrapper({
       }}
       contentElement={contentElement}
       onRequestClose={() => closeModal()}
-      shouldCloseOnOverlayClick
+      shouldCloseOnOverlayClick={shouldCloseOnOverlayClick}
       shouldCloseOnEsc
       preventScroll
     >
