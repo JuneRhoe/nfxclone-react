@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Slider from '@/submodule/components/Slider/Slider'
 import SliderItemContainer from '@/submodule/components/Slider/components/SliderItemContainer'
 import { MediaInfo } from '@/mock-data-definitions'
@@ -31,6 +31,7 @@ export default function MediaSlider({
     useState<MoreInfoModalInfo | null>(null)
 
   const { countPerPage, itemSize } = useMediaSliderItemSizeInfo()
+
   const {
     navInfo,
     pageInfo,
@@ -41,15 +42,13 @@ export default function MediaSlider({
     onTouchStart,
     onTouchEnd,
   } = useSlider<MediaInfo, MediaInfo[]>(medias, countPerPage, itemSize)
-  const { displayItems, paddingClass } = useMediaSlider(pageInfo, medias)
 
-  useEffect(() => {
-    if (title || !onUpdatePageInfo) {
-      return
-    }
-
-    onUpdatePageInfo(pageInfo)
-  }, [title, pageInfo, onUpdatePageInfo])
+  const { displayItems, paddingClass } = useMediaSlider(
+    pageInfo,
+    medias,
+    title,
+    onUpdatePageInfo,
+  )
 
   const {
     modalInstanceInfo: moreInfoModal,

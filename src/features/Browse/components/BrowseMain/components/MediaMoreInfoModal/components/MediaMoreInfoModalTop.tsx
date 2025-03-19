@@ -80,7 +80,6 @@ export default function MediaMoreInfoModalTop({
                   setTimeout(() => fadeModal(), 100)
                 },
               }}
-              loading={isUpdatingMyList}
             />
           </div>
         </>

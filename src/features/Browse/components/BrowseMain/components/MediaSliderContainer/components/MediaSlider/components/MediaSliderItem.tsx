@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import SliderItem from '@/submodule/components/Slider/components/SliderItem'
 import Image from '@/submodule/components/Image/Image'
 import { MediaInfo } from '@/mock-data-definitions'
@@ -6,7 +6,7 @@ import Loader from '@/submodule/components/Loader/Loader'
 import { useModal } from '@/features/Modal/hooks'
 import MediaSliderItemModal from './MediaSliderItemModal/MediaSliderItemModal'
 import { getTitleImgPath } from '../../../../MediaPreview/utils'
-import { TouchPos } from '../utils'
+import { useMediaSliderItem } from '../hooks'
 
 interface Props {
   mediaInfo: MediaInfo
@@ -18,9 +18,6 @@ interface Props {
   ) => void
 }
 
-const OPEN_MODAL_POINTER_DELAY = 500
-const OPEN_MODAL_TOUCH_DELAY = 100
-
 export default function MediaSliderItem({
   mediaInfo,
   itemSize,
@@ -28,12 +25,13 @@ export default function MediaSliderItem({
   onShowMoreInfoModal,
 }: Props) {
   const divRef = useRef<HTMLDivElement>(null)
-  const [timerId, setTimerId] = useState<NodeJS.Timeout>()
-  const [touchPos, setTouchPos] = useState<TouchPos | null>(null)
 
   const { modalInstanceInfo, isVisible } = useModal({
     disableBodyScrollLock: true,
   })
+
+  const { onTouchStart, onTouchEnd, onPointerEnter, onPointerLeave } =
+    useMediaSliderItem(isSliding, modalInstanceInfo)
 
   const itemRect = divRef.current?.getBoundingClientRect()
 
@@ -43,53 +41,10 @@ export default function MediaSliderItem({
         <div
           ref={divRef}
           className="w-full h-full relative"
-          onTouchStart={(e) =>
-            setTouchPos({
-              clientX: Math.floor(e.touches[0].clientX),
-              clientY: Math.floor(e.touches[0].clientY),
-            })
-          }
-          onTouchEnd={(e) => {
-            setTouchPos(null)
-
-            const clientX = Math.floor(e.changedTouches[0].clientX)
-            const clientY = Math.floor(e.changedTouches[0].clientY)
-
-            if (
-              touchPos?.clientX !== clientX ||
-              touchPos?.clientY !== clientY
-            ) {
-              return
-            }
-
-            if (isSliding) {
-              return
-            }
-
-            setTimerId(
-              setTimeout(() => {
-                modalInstanceInfo.openModal()
-                modalInstanceInfo.closeAllModal([
-                  modalInstanceInfo.modalId || '',
-                ])
-              }, OPEN_MODAL_TOUCH_DELAY),
-            )
-          }}
-          onPointerEnter={(e) => {
-            if (isSliding || e.pointerType === 'touch') {
-              return
-            }
-
-            setTimerId(
-              setTimeout(() => {
-                modalInstanceInfo.openModal()
-                modalInstanceInfo.closeAllModal([
-                  modalInstanceInfo.modalId || '',
-                ])
-              }, OPEN_MODAL_POINTER_DELAY),
-            )
-          }}
-          onPointerLeave={() => clearTimeout(timerId)}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+          onPointerEnter={onPointerEnter}
+          onPointerLeave={onPointerLeave}
         >
           <Image
             imgClassName="rounded-sm"
