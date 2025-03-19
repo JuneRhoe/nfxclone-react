@@ -11,6 +11,7 @@ interface Props {
   icon: RegularIconDefinition | SolidIconDefinition
   type?: IconButtonType
   className?: ClassValue[] | string
+  iconClassName?: ClassValue[] | string
   fullHeight?: boolean
   buttonProps?: ButtonHTMLAttributes<HTMLButtonElement>
   loading?: boolean
@@ -21,6 +22,7 @@ export default function IconButton({
   icon,
   type = 'primay',
   className,
+  iconClassName,
   fullHeight,
   buttonProps,
   loading,
@@ -50,7 +52,7 @@ export default function IconButton({
           type="primary"
           display="inline"
           className="h-full"
-          iconClassName="w-[1rem] h-[1rem]"
+          iconClassName={clsx(iconClassName || 'w-[1rem] h-[1rem]')}
         />
       ) : (
         <FontAwesomeIcon

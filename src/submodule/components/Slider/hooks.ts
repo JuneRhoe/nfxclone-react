@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react"
 import { NavDirection } from "./components/SliderNavButton"
 import { getIndexItems, getInitialNavInfo, getInitialPageInfo, getSlideVector, rotateArray } from "./utils"
+import { TouchPos } from "@/features/Browse/components/BrowseMain/components/MediaSliderContainer/components/MediaSlider/utils"
+
+const TOUCH_SKIP_X_DIFF = 50
+const TOUCH_SKIP_Y_DIFF = 25
 
 export interface PageInfo {
   countPerPage: number
@@ -76,6 +80,8 @@ export function useSlider<TData, TDataArray extends TData[]>(
   const [disableTransition, setDiableTransition] = useState(false)
 
   const [initialIndices, setInitialIndices] = useState<number[]>([])
+
+  const [touchPos, setTouchPos] = useState<TouchPos | null>(null)
   
   const [pageInfo, setPageInfo] = useState<PageInfo>(getInitialPageInfo(countPerPage))
 
@@ -141,15 +147,66 @@ export function useSlider<TData, TDataArray extends TData[]>(
     setNavInfo(getInitialNavInfo())
     setPageInfo(getInitialPageInfo(countPerPage))
    }, [itemSize, countPerPage])
+  
+  const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchPos({
+      clientX: Math.floor(e.touches[0].clientX),
+      clientY: Math.floor(e.touches[0].clientY),
+    })
+  }
+
+  const onTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
+    setTouchPos(null)
+
+    const clientX = Math.floor(e.changedTouches[0].clientX)
+    const clientY = Math.floor(e.changedTouches[0].clientY)
+    const xDiff = clientX - (touchPos?.clientX || 0)
+    const yDiff = Math.abs(clientY - (touchPos?.clientY || 0))
+
+    const showPrevButton =
+      pageInfo.prevIndexItems.length / pageInfo.countPerPage > 2
+    const showNextButton =
+      pageInfo.prevIndexItems.length / pageInfo.countPerPage > 1
+    
+    if (yDiff > TOUCH_SKIP_Y_DIFF) {
+      return
+    }
+
+    if (xDiff < -1 * TOUCH_SKIP_X_DIFF) {
+      if (!showNextButton) {
+        return
+      }
+
+      handleNavButtonClick(
+        'Next',
+        pageInfo,
+        setNavInfo,
+        setDiableTransition,
+      )
+    } else if (xDiff > TOUCH_SKIP_X_DIFF) {
+      if (!showPrevButton) {
+        return
+      }
+
+      handleNavButtonClick(
+        'Prev',
+        pageInfo,
+        setNavInfo,
+        setDiableTransition,
+      )
+    }
+  }
 
   return {
     navInfo,
     pageInfo,
-    disableTransition,  
+    disableTransition,
     setNavInfo,
     setPageInfo,
     setDiableTransition,
     handleNavButtonClick,
     handleTransitionEnd,
+    onTouchStart,
+    onTouchEnd
   }
 }
