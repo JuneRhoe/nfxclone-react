@@ -14,7 +14,11 @@ export default function MyListMediaSlider({
 
   useEffect(() => {
     setSliderKey(nanoid())
-  }, [myMedias])
+
+    if (!myMedias || myMedias.length < 1) {
+      onUpdatePageInfo?.(null)
+    }
+  }, [myMedias, onUpdatePageInfo])
 
   if (showLoader) {
     return <Loader className="opacity-50" display="inline" />

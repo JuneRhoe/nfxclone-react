@@ -6,7 +6,7 @@ import MediaSliderNavigator from './MediaSlider/components/MediaSliderNavigator'
 
 export interface Props {
   showLoader?: boolean
-  onUpdatePageInfo?: (pageInfo: PageInfo) => void
+  onUpdatePageInfo?: (pageInfo: PageInfo | null) => void
 }
 
 export default function MyListMediaSliderContainer(props: Props) {
