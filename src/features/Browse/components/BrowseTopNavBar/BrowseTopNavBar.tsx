@@ -1,17 +1,15 @@
 import nfxcloneLogo from '@/assets/images/logo.png'
-import Button from '@/submodule/components/Button/Button'
 import { useScrollPos } from '@/submodule/hooks'
 import clsx from 'clsx'
-import { useSignOut } from '../../hooks'
 import Image from '@/submodule/components/Image/Image'
 import LinkButton from '@/submodule/components/LinkButton/LinkButton'
 import { browsePath } from '@/routes'
 import { useLocation } from 'react-router'
 import { getSubTitle } from './utils'
-import NavTap from './components/NavTap'
+import NavTap from './components/NavTap/NavTap'
+import UserMenu from './components/UserMenu/UserMenu'
 
 export default function BrowseTopNavBar() {
-  const { signOut } = useSignOut()
   const { scrollPosY } = useScrollPos()
   const { pathname } = useLocation()
 
@@ -22,7 +20,7 @@ export default function BrowseTopNavBar() {
 
   return (
     <div
-      className={clsx('w-full sticky top-0 bg-transparent z-50', {
+      className={clsx('w-full sticky top-0 bg-transparent z-20', {
         'h-[6rem] md:h-[7.5rem]': !isBrowseMain,
       })}
     >
@@ -52,7 +50,7 @@ export default function BrowseTopNavBar() {
             </LinkButton>
             <NavTap />
           </div>
-          <Button buttonProps={{ onClick: signOut }}>Sign Out</Button>
+          <UserMenu />
         </div>
       </div>
       {!isBrowseMain && (

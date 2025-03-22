@@ -13,9 +13,10 @@ export default function SignIn() {
   const { storedUserId } = useUserCookie()
   const { isQueryLoading, isValidUser, onSignIn, onTestIdSignIn } =
     useSignInQuery()
-  const { formState, register, getValues, handleSubmit } = useForm<UserInput>({
-    defaultValues: { userId: storedUserId },
-  })
+  const { formState, register, getValues, setFocus, handleSubmit } =
+    useForm<UserInput>({
+      defaultValues: { userId: storedUserId },
+    })
   const [isTestSignIn, setIsTestSignIn] = useState(false)
 
   const isLoading =
@@ -67,6 +68,7 @@ export default function SignIn() {
         })}
         formState={formState}
         getValues={getValues}
+        setFocus={setFocus}
       />
       <Button
         size="lg"
