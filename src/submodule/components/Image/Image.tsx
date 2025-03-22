@@ -3,6 +3,7 @@ import { ImgHTMLAttributes, useState } from 'react'
 
 interface Props {
   src: string
+  ref?: React.RefObject<HTMLDivElement | null>
   fullWidth?: boolean
   fullHeight?: boolean
   className?: ClassValue[] | string
@@ -13,6 +14,7 @@ interface Props {
 
 export default function Image({
   src,
+  ref,
   fullWidth,
   fullHeight = true,
   className,
@@ -24,6 +26,7 @@ export default function Image({
 
   return (
     <div
+      ref={ref}
       className={clsx(className, 'relative', {
         'w-full': fullWidth,
         'h-full': fullHeight,

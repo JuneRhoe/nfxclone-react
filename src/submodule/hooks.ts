@@ -52,12 +52,32 @@ export function useIntersection(element: React.RefObject<HTMLElement | null>, ro
   return isVisible;
 };
 
+export function useMediaQueryXS(): boolean {
+  return useMediaQuery({ maxWidth: 640 })
+}
+
+export function useMediaQuerySM(): boolean {
+  return useMediaQuery({ minWidth: 640, maxWidth: 768 })
+}
+
+export function useMediaQueryMD(): boolean {
+  return useMediaQuery({ minWidth: 768, maxWidth: 1024 })
+}
+
+export function useMediaQueryLG(): boolean {
+  return useMediaQuery({ minWidth: 1024, maxWidth: 1536 })
+}
+
+export function useMediaQuery2XL(): boolean {
+  return useMediaQuery({ minWidth: 1536 })
+}
+
 export function useScreenSize(): ScreenSize {
-  const isExtraSmall = useMediaQuery({ maxWidth: 640 })
-  const isSmall = useMediaQuery({ minWidth: 640, maxWidth: 768 })
-  const isMid = useMediaQuery({ minWidth: 768, maxWidth: 1024 })
-  const isLarge = useMediaQuery({ minWidth: 1024, maxWidth: 1536 })
-  const isTwoExtraLarge = useMediaQuery({ minWidth: 1536 })
+  const isExtraSmall = useMediaQueryXS()
+  const isSmall = useMediaQuerySM()
+  const isMid = useMediaQueryMD()
+  const isLarge = useMediaQueryLG()
+  const isTwoExtraLarge = useMediaQuery2XL()
 
   if (isExtraSmall) {
     return 'xs'
