@@ -15,34 +15,9 @@ export default function NavTapMobile() {
 
   return (
     <>
-      <PopupMenu
-        isOpen={isOpen}
-        parentRef={parentRef}
-        styleRect={styleRect}
-        bridgeGap={bridgeGap}
-        setIsOpen={setIsOpen}
-        shouldCloseOnPointerLeave
-      >
-        <div className="mt-4">
-          <div
-            className="bg-black opacity-90 border-1 border-gray-800 rounded-sm min-w-[9rem]
-              animate-fade-in"
-            onClick={() => setIsOpen(false)}
-          >
-            <NavTapMobileButton to={browsePath}>Home</NavTapMobileButton>
-            {/* 
-            <NavTapButton to={browseMyListPath} >
-              My List
-            </NavTapButton> 
-            */}
-            <NavTapMobileButton to={browseAboutPath}>About</NavTapMobileButton>
-          </div>
-        </div>
-      </PopupMenu>
-
       <div
         ref={parentRef}
-        className="h-full"
+        className="relative z-31 h-full"
         onPointerEnter={(e) => {
           if (e.pointerType === 'touch') {
             return
@@ -67,6 +42,31 @@ export default function NavTapMobile() {
           />
         </div>
       </div>
+
+      <PopupMenu
+        isOpen={isOpen}
+        parentRef={parentRef}
+        styleRect={styleRect}
+        bridgeGap={bridgeGap}
+        setIsOpen={setIsOpen}
+        shouldCloseOnPointerLeave
+      >
+        <div className="mt-4">
+          <div
+            className="bg-black opacity-90 border-1 border-gray-800 rounded-sm min-w-[9rem]
+              animate-fade-in"
+            onClick={() => setIsOpen(false)}
+          >
+            <NavTapMobileButton to={browsePath}>Home</NavTapMobileButton>
+            {/* 
+            <NavTapButton to={browseMyListPath} >
+              My List
+            </NavTapButton> 
+            */}
+            <NavTapMobileButton to={browseAboutPath}>About</NavTapMobileButton>
+          </div>
+        </div>
+      </PopupMenu>
     </>
   )
 }

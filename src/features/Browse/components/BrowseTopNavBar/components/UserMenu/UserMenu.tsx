@@ -20,6 +20,24 @@ export default function UserMenu() {
 
   return (
     <>
+      <UserMenuButton
+        ref={parentRef}
+        isOpen={isOpen}
+        onPointerEnter={(e) => {
+          if (e.pointerType === 'touch') {
+            return
+          }
+          setIsOpen(true)
+        }}
+        onPointerLeave={(e) => {
+          if (e.pointerType === 'touch') {
+            return
+          }
+          setIsOpen(false)
+        }}
+        onClick={() => setIsOpen(!isOpen)}
+      />
+
       <PopupMenu
         isOpen={isOpen}
         parentRef={parentRef}
@@ -54,24 +72,6 @@ export default function UserMenu() {
           </div>
         </div>
       </PopupMenu>
-
-      <UserMenuButton
-        ref={parentRef}
-        isOpen={isOpen}
-        onPointerEnter={(e) => {
-          if (e.pointerType === 'touch') {
-            return
-          }
-          setIsOpen(true)
-        }}
-        onPointerLeave={(e) => {
-          if (e.pointerType === 'touch') {
-            return
-          }
-          setIsOpen(false)
-        }}
-        onClick={() => setIsOpen(!isOpen)}
-      />
     </>
   )
 }
