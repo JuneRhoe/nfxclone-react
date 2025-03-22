@@ -7,7 +7,7 @@ interface Props extends Omit<TabButtonProps, 'children'> {
   children: React.ReactNode
 }
 
-export default function NavTapButton(props: Props) {
+export default function NavTapRegularButton(props: Props) {
   return (
     <TabButton
       className={props.className}
