@@ -24,7 +24,10 @@ export default function UserMenuButton({
   return (
     <button
       ref={ref}
-      className={clsx(className, 'flex h-[2rem] cursor-pointer')}
+      className={clsx(
+        className,
+        'relative z-31 flex h-[1.5rem] sm:h-[2rem] cursor-pointer',
+      )}
       onPointerEnter={onPointerEnter}
       onPointerLeave={onPointerLeave}
       onClick={onClick}

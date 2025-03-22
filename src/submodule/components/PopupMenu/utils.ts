@@ -21,9 +21,9 @@ export function getPopupMenuStyleRect(
   }
   
   if (parentOrigin.axisX === 'left' && parentOrigin.axisY === 'top') {
-    //
+    //////////
   } else if (parentOrigin.axisX === 'right' && parentOrigin.axisY === 'top') {
-    //
+    //////////
   } else if (parentOrigin.axisX === 'left' && parentOrigin.axisY === 'bottom') {
     if (menuOrigin.axisX === 'left' && menuOrigin.axisY === 'top') {
       styleRect = {
@@ -31,24 +31,24 @@ export function getPopupMenuStyleRect(
         top: `calc(${parentRect.bottom}px - ${bridgeGap}rem)`,
       }
     } else if (menuOrigin.axisX === 'right' && menuOrigin.axisY === 'top') {
-      //
+      //////////
     } else if (menuOrigin.axisX === 'left' && menuOrigin.axisY === 'bottom') {
-      //
+      //////////
     } else if (menuOrigin.axisX === 'right' && menuOrigin.axisY === 'bottom') {
-      //
+      //////////
     }
   } else if (parentOrigin.axisX === 'right' && parentOrigin.axisY === 'bottom') {
     if (menuOrigin.axisX === 'left' && menuOrigin.axisY === 'top') {
-      //
+      //////////
     } else if (menuOrigin.axisX === 'right' && menuOrigin.axisY === 'top') {
       styleRect = {
         right: `calc(${offsetWidth - parentRect.right}px - ${bridgeGap}rem)`,
         top: `calc(${parentRect.bottom}px - ${bridgeGap}rem)`,
       }
     } else if (menuOrigin.axisX === 'left' && menuOrigin.axisY === 'bottom') {
-      //
+      //////////
     } else if (menuOrigin.axisX === 'right' && menuOrigin.axisY === 'bottom') {
-      //
+      //////////
     }
   }
 
