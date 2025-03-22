@@ -2,15 +2,16 @@ import clsx from 'clsx'
 import { InputHTMLAttributes, useState } from 'react'
 import {
   FieldPath,
-  FieldPathValue,
   FieldValues,
-  FormState,
   LiteralUnion,
   RegisterOptions,
   UseFormRegisterReturn,
+  UseFormReturn,
 } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleXmark } from '@fortawesome/free-regular-svg-icons'
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import IconButton from '../IconButton/IconButton'
 
 type InputControlType = 'primary' | 'secondary'
 type InputControlSize = 'md' | 'lg'
@@ -18,12 +19,8 @@ type InputControlSize = 'md' | 'lg'
 interface Props<
   TFieldValues extends FieldValues,
   TFieldName extends FieldPath<TFieldValues>,
-> {
-  formRegisterReturn: UseFormRegisterReturn
-  formState: FormState<TFieldValues>
-  getValues: (
-    name: TFieldName | string,
-  ) => FieldPathValue<TFieldValues, TFieldName>
+> extends Partial<UseFormReturn<TFieldValues>> {
+  formRegisterReturn: UseFormRegisterReturn<TFieldName>
   label?: string
   type?: InputControlType
   size?: InputControlSize
@@ -55,8 +52,6 @@ export default function InputField<
   TFieldName extends FieldPath<TFieldValues>,
 >({
   formRegisterReturn,
-  formState,
-  getValues,
   label = '',
   type = 'primary',
   size = 'md',
@@ -64,12 +59,24 @@ export default function InputField<
   autoComplete,
   className,
   inputProps,
+  formState,
+  getValues,
+  setFocus,
 }: Props<TFieldValues, TFieldName>) {
   const [isFocused, setFocused] = useState(false)
-  const inputValue: string = getValues(formRegisterReturn.name) || ''
-  const fieldError = formState.errors[formRegisterReturn.name]
+  const [inputType, setInputType] = useState(inputProps?.type || 'text')
+
+  const inputValue = getValues?.<TFieldName>(formRegisterReturn.name) || ''
+
+  const fieldError = formState?.errors[formRegisterReturn.name]
   const errorMsg = mapErrorMsg?.get(fieldError?.type as string)
   const hasError = !!fieldError
+
+  const showLabel = size === 'lg' && label
+  const showPasswordDisplayIcon =
+    (isFocused || inputValue.length > 0) &&
+    size === 'lg' &&
+    inputProps?.type === 'password'
 
   return (
     <div className={clsx(className, 'flex flex-col gap-1')}>
@@ -91,7 +98,7 @@ export default function InputField<
             borderColor: hasError ? '#eb3942' : 'var(--color-gray-500)',
           }}
         >
-          {size === 'lg' && label && (
+          {showLabel && (
             <div
               className="pointer-events-none absolute ease-[cubic-bezier(0.4, 0, 0.68, 0.06)]
                 text-gray-400 transition-all duration-200"
@@ -107,6 +114,7 @@ export default function InputField<
           <input
             {...inputProps}
             {...formRegisterReturn}
+            type={inputType}
             className={clsx(
               inputProps?.className,
               'h-full w-full rounded-md outline-0',
@@ -122,9 +130,29 @@ export default function InputField<
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
           />
+          {showPasswordDisplayIcon && (
+            <div className="absolute top-0 right-2 flex items-center h-full">
+              <IconButton
+                className={'bg-transparent border-transparent'}
+                type="simple"
+                icon={inputType === 'password' ? faEye : faEyeSlash}
+                buttonProps={{
+                  onFocus: () => setFocus?.(formRegisterReturn.name),
+                  onClick: (e) => {
+                    if (e.target instanceof HTMLButtonElement) {
+                      return
+                    }
+                    e.stopPropagation()
+                    e.preventDefault()
+                    setInputType(inputType === 'password' ? 'text' : 'password')
+                  },
+                }}
+              />
+            </div>
+          )}
         </div>
       </div>
-      {formState.errors[formRegisterReturn.name] && errorMsg && (
+      {formState?.errors[formRegisterReturn.name] && errorMsg && (
         <div className="flex gap-1 items-center text-[#eb3942] font-bold">
           <div className="text-sm">
             <FontAwesomeIcon icon={faCircleXmark} fixedWidth />

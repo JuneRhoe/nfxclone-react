@@ -3,6 +3,7 @@ import { MediaInfo } from '@/mock-data-definitions'
 import { useMediaSliderItemModal } from '../../hooks'
 import MediaSliderItemModalTop from './components/MediaSliderItemModalTop'
 import MediaSliderItemModalBottom from './components/MediaSliderItemModalBottom'
+import { useEffect, useRef } from 'react'
 
 export interface SliderItemModalProps extends Omit<ModalProps, 'children'> {
   children?: React.ReactNode
@@ -12,6 +13,25 @@ export interface SliderItemModalProps extends Omit<ModalProps, 'children'> {
 }
 
 export default function MediaSliderItemModal(props: SliderItemModalProps) {
+  const divRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    const handleClick = (e: PointerEvent | MouseEvent) => {
+      if (
+        e.target !== divRef.current &&
+        divRef.current?.contains(e.target as Node)
+      ) {
+        return
+      }
+
+      props.closeModal()
+    }
+
+    window.addEventListener('click', handleClick)
+
+    return () => window.removeEventListener('click', handleClick)
+  }, [props])
+
   const {
     fade,
     modalLeft,
@@ -45,6 +65,7 @@ export default function MediaSliderItemModal(props: SliderItemModalProps) {
       )}
     >
       <div
+        ref={divRef}
         className={`absolute overflow-hidden rounded-md shadow-2xl bg-[#212121] transition-all
           duration-200 ease-in-out`}
         style={{
