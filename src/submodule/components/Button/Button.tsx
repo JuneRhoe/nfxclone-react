@@ -2,8 +2,8 @@ import clsx, { ClassValue } from 'clsx'
 import { ButtonHTMLAttributes } from 'react'
 import Loader from '../Loader/Loader'
 
-type ButtonType = 'primary' | 'secondary' | 'solid'
-type ButtonSize = 'md' | 'lg' | 'xl'
+type ButtonType = 'primary' | 'secondary' | 'solid' | 'simple'
+type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 
 interface Props {
   children: React.ReactNode
@@ -30,6 +30,11 @@ export default function Button({
         `flex cursor-pointer items-center justify-center rounded-md px-4 shadow-md
         transition-[background-color] duration-200 outline-0 select-none min-w-fit`,
         {
+          'h-[1rem] text-xs font-normal': size === 'xs',
+          'h-[1.8rem] text-sm font-normal': size === 'sm',
+          'h-[2rem] text-sm font-semibold': size === 'md',
+          'h-[2.625rem] text-base font-bold': size === 'lg',
+          'h-[3.25rem] text-base font-extrabold': size === 'xl',
           'text-white':
             (type === 'primary' || type === 'secondary') &&
             !buttonProps?.disabled,
@@ -45,9 +50,6 @@ export default function Button({
           'hover:bg-[#C0C0C0]': type === 'solid' && !buttonProps?.disabled,
           'bg-[#808080]': type === 'solid' && buttonProps?.disabled,
           'text-gray-600': type === 'solid' && buttonProps?.disabled,
-          'h-[2rem] text-sm font-semibold': size === 'md',
-          'h-[2.625rem] text-base font-bold': size === 'lg',
-          'h-[3.25rem] text-base font-extrabold': size === 'xl',
         },
       )}
     >
