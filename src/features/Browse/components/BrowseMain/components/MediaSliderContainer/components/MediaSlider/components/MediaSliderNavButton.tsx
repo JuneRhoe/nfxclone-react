@@ -11,7 +11,7 @@ import {
   NavInfo,
   PageInfo,
 } from '@/submodule/components/Slider/hooks'
-import { useScreenSize } from '@/submodule/hooks'
+import { useMediaQueryXS } from '@/submodule/hooks'
 import clsx from 'clsx'
 
 interface Props {
@@ -31,7 +31,7 @@ export default function MediaSliderNavButton({
   setDiableTransition,
   onClick,
 }: Props) {
-  const screenSize = useScreenSize()
+  const isScreenXS = useMediaQueryXS()
 
   return (
     <SliderNavButton
@@ -66,7 +66,7 @@ export default function MediaSliderNavButton({
           <FontAwesomeIcon
             className="opacity-0 transition-opacity duration-300 text-white text-3xl sm:text-4xl"
             icon={direction === 'Prev' ? faChevronLeft : faChevronRight}
-            style={{ opacity: isHover || screenSize === 'xs' ? '100' : '0' }}
+            style={{ opacity: isHover || isScreenXS ? '100' : '0' }}
             fixedWidth
           />
         )
