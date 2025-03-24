@@ -1,22 +1,23 @@
+import { useRef } from 'react'
+import { useLocation } from 'react-router'
+import clsx from 'clsx'
 import nfxcloneLogo from '@/assets/images/logo.png'
 import { useScrollPos } from '@/submodule/hooks'
-import clsx from 'clsx'
 import Image from '@/submodule/components/Image/Image'
 import LinkButton from '@/submodule/components/LinkButton/LinkButton'
-import { browsePath } from '@/routes'
-import { useLocation } from 'react-router'
+import { PATH_BROWSE } from '@/route/routes'
 import { getSubTitle } from './utils'
 import NavTap from './components/NavTap/NavTap'
 import UserMenu from './components/UserMenu/UserMenu'
+import { SearchInput } from './components/SearchInput/SearchInput'
 
 export default function BrowseTopNavBar() {
+  const navTapRef = useRef<HTMLDivElement>(null)
   const { scrollPosY } = useScrollPos()
   const { pathname } = useLocation()
 
   const isScrollTop = scrollPosY === 0
-  const isBrowseMain = pathname === browsePath
-
-  const selectedPath = pathname.split('/').pop() || ''
+  const isBrowseMain = pathname === PATH_BROWSE
 
   return (
     <div
@@ -41,21 +42,27 @@ export default function BrowseTopNavBar() {
           )}
         />
         <div
-          className="flex justify-between items-center w-full h-full relative px-3 py-3 gap-2 md:px-8
+          className="flex justify-between items-center w-full h-full relative px-4 py-3 gap-2 md:px-8
             md:py-4"
         >
-          <div className="flex items-center gap-4 md:gap-10 h-full min-w-fit">
-            <LinkButton className="h-full" to={browsePath}>
+          <div
+            ref={navTapRef}
+            className="flex items-center gap-4 md:gap-10 h-full min-w-fit"
+          >
+            <LinkButton className="h-full" to={PATH_BROWSE}>
               <Image className="min-w-12" src={nfxcloneLogo} />
             </LinkButton>
             <NavTap />
           </div>
-          <UserMenu />
+          <div className="flex items-center gap-3 sm:gap-5">
+            <SearchInput navTapRef={navTapRef} />
+            <UserMenu />
+          </div>
         </div>
       </div>
       {!isBrowseMain && (
         <div className="relative px-3 py-1 md:px-8 md:py-1 font-extrabold text-xl md:text-4xl">
-          {getSubTitle(selectedPath)}
+          {getSubTitle(pathname)}
         </div>
       )}
     </div>

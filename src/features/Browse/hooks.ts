@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router"
 import { useUserCookie } from "../hooks"
-import { rootPath } from "@/routes"
+import { PATH_ROOT } from "@/route/routes"
 import { removeUserInfo } from "../store/userInfoSlice"
 import { useAppDispatch } from "../store/hooks"
 
@@ -15,7 +15,7 @@ export function useSignOut() {
     removeUserIdCookie()
     removeAuthTokenCookie()
 
-    navigate(rootPath)
+    navigate(PATH_ROOT)
   }
 
   return { signOut }

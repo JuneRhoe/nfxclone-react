@@ -1,5 +1,5 @@
 import { useCookies } from "react-cookie"
-import { UserCookieInfo } from "@/mock-data-definitions";
+import { UserCookieInfo } from "@/mock/mock-data-definitions";
 
 export function useUserCookie() {
   const [cookies, setCookies, removeCookies] = useCookies<'userId' | 'authToken', UserCookieInfo>(['userId', 'authToken']);
@@ -7,8 +7,8 @@ export function useUserCookie() {
   return {
     storedUserId: cookies.userId?.trim(),
     storedPassword: cookies.userPassword?.trim(),
-    setUserIdCookie: (userId: string) => setCookies('userId', userId, { maxAge: 60 * 60 * 12 }),
-    setAuthTokenCookie: (authToken: string) => setCookies('authToken', authToken, { maxAge: 60 * 60 * 12 }),
+    setUserIdCookie: (userId: string) => setCookies('userId', userId, { maxAge: 60 * 60 * 12, path: '/' }),
+    setAuthTokenCookie: (authToken: string) => setCookies('authToken', authToken, { maxAge: 60 * 60 * 12, path: '/' }),
     removeUserIdCookie: () => removeCookies('userId'),
     removeAuthTokenCookie: () => removeCookies('authToken')
   }

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useAppSelector } from "@/features/store/hooks";
 import { selectUserInfo } from "@/features/store/userInfoSlice";
-import { MOCK_MAP_MAIN_CATEGORIES } from "@/mock-data";
-import { MediaInfo } from "@/mock-data-definitions";
+import { MOCK_MAP_MAIN_CATEGORIES } from "@/mock/mock-data";
+import { MediaInfo } from "@/mock/mock-data-definitions";
 import { useTackstackQuery } from "@/submodule/tanstack/hooks";
 import { QUERY_KEY_MEDIA_INFO_MAIN_CATEGORY } from "@/submodule/tanstack/queryKeys";
 import { queryFunction } from "@/submodule/tanstack/utils";
