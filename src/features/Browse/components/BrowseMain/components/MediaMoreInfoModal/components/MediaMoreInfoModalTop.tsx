@@ -8,7 +8,7 @@ import {
 import Button from '@/submodule/components/Button/Button'
 import Image from '@/submodule/components/Image/Image'
 import IconButton from '@/submodule/components/IconButton/IconButton'
-import { MediaInfo } from '@/mock-data-definitions'
+import { MediaInfo } from '@/mock/mock-data-definitions'
 import { useMyListMedias } from '../../MediaSliderContainer/components/MediaSlider/hooks'
 
 interface Props {

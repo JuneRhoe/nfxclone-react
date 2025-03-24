@@ -5,7 +5,7 @@ import Image from '@/submodule/components/Image/Image'
 import Button from '@/submodule/components/Button/Button'
 import Loader from '@/submodule/components/Loader/Loader'
 import { useModal } from '@/features/Modal/hooks'
-import { MediaInfo } from '@/mock-data-definitions'
+import { MediaInfo } from '@/mock/mock-data-definitions'
 import MediaMoreInfoModal from '../../MediaMoreInfoModal/MediaMoreInfoModal'
 import { useRef } from 'react'
 

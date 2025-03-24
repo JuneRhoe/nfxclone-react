@@ -52,6 +52,10 @@ export function useIntersection(element: React.RefObject<HTMLElement | null>, ro
   return isVisible;
 };
 
+export function useMediaQuery2XS(): boolean {
+  return useMediaQuery({ maxWidth: 480 })
+}
+
 export function useMediaQueryXS(): boolean {
   return useMediaQuery({ maxWidth: 640 })
 }

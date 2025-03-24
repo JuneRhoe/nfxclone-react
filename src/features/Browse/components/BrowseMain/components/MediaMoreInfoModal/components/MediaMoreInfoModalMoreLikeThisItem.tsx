@@ -1,6 +1,6 @@
 import { faCheck, faPlus } from '@fortawesome/free-solid-svg-icons'
 import Image from '@/submodule/components/Image/Image'
-import { MediaInfo } from '@/mock-data-definitions'
+import { MediaInfo } from '@/mock/mock-data-definitions'
 import { getTitleImgPath } from '../../MediaPreview/utils'
 import { useMyListMedias } from '../../MediaSliderContainer/components/MediaSlider/hooks'
 import IconButton from '@/submodule/components/IconButton/IconButton'

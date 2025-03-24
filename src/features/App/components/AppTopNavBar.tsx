@@ -1,7 +1,6 @@
 import nfxcloneLogo from '@/assets/images/logo.png'
-import { rootPath, signUpPath } from '@/routes'
-import { useNavigate } from 'react-router'
-import { AppMainProps } from '../AppMain'
+import { PATH_REGISTER, PATH_ROOT, PATH_SIGN_UP } from '@/route/routes'
+import { useLocation, useNavigate } from 'react-router'
 import clsx from 'clsx'
 import Button from '@/submodule/components/Button/Button'
 import LinkButton from '@/submodule/components/LinkButton/LinkButton'
@@ -9,8 +8,9 @@ import Image from '@/submodule/components/Image/Image'
 import { useAppSelector } from '@/features/store/hooks'
 import { selectThemeMode } from '@/features/store/themeSlice'
 
-export default function AppTopNavBar({ displayType }: AppMainProps) {
+export default function AppTopNavBar() {
   const themeMode = useAppSelector(selectThemeMode)
+  const { pathname } = useLocation()
   const navigate = useNavigate()
 
   return (
@@ -24,19 +24,19 @@ export default function AppTopNavBar({ displayType }: AppMainProps) {
     >
       <LinkButton
         className="h-[50%] sm:h-[70%] md:h-[80%] lg:h-[100%]"
-        to={rootPath}
+        to={PATH_ROOT}
       >
         <Image src={nfxcloneLogo} />
       </LinkButton>
 
       <div className="text-white">
-        {displayType === 'signIn' && (
-          <Button buttonProps={{ onClick: () => navigate(signUpPath) }}>
+        {pathname === PATH_ROOT && (
+          <Button buttonProps={{ onClick: () => navigate(PATH_SIGN_UP) }}>
             Sign Up
           </Button>
         )}
-        {(displayType === 'signUp' || displayType === 'register') && (
-          <Button buttonProps={{ onClick: () => navigate(rootPath) }}>
+        {(pathname === PATH_SIGN_UP || pathname === PATH_REGISTER) && (
+          <Button buttonProps={{ onClick: () => navigate(PATH_ROOT) }}>
             Sign In
           </Button>
         )}

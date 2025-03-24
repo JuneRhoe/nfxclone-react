@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { MediaPreviewVideoProps } from './components/MediaPreviewVideo'
 import { MediaPreviewImageProps } from './components/MediaPreviewImage'
-import { MediaInfo } from '@/mock-data-definitions'
-import { MOCK_MEDIA_PREVIEWS } from '@/mock-data'
+import { MediaInfo } from '@/mock/mock-data-definitions'
+import { MOCK_MEDIA_PREVIEWS } from '@/mock/mock-data'
 import {
   getPreviewMainImg,
   getPreviewTitleImg,

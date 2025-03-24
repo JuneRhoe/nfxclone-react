@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { UserInput } from '@/mock-data-definitions'
-import { MIN_LENGTH_USER_ID, MIN_LENGTH_USER_PASSWORD } from '@/mock-data'
+import { UserInput } from '@/mock/mock-data-definitions'
+import { MIN_LENGTH_USER_ID, MIN_LENGTH_USER_PASSWORD } from '@/mock/mock-data'
 import Button from '@/submodule/components/Button/Button'
 import InputField from '@/submodule/components/Input/InputField'
 import { useSignInQuery } from '../hooks'
 import { useUserCookie } from '@/features/hooks'
 import LinkText from '@/submodule/components/LinkText/LinkText'
-import { signUpPath } from '@/routes'
+import { PATH_SIGN_UP } from '@/route/routes'
 
 export default function SignIn() {
   const { storedUserId } = useUserCookie()
@@ -95,7 +95,7 @@ export default function SignIn() {
       </Button>
       <div className="flex gap-2 text-base flex-wrap">
         <div>New to NetflixClone?</div>
-        <LinkText to={signUpPath}>
+        <LinkText to={PATH_SIGN_UP}>
           <div className="font-bold">Sign Up now.</div>
         </LinkText>
       </div>

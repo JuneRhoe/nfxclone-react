@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Slider from '@/submodule/components/Slider/Slider'
 import SliderItemContainer from '@/submodule/components/Slider/components/SliderItemContainer'
-import { MediaInfo } from '@/mock-data-definitions'
+import { MediaInfo } from '@/mock/mock-data-definitions'
 import MediaSliderNavigator from './components/MediaSliderNavigator'
 import MediaSliderNavButton from './components/MediaSliderNavButton'
 import MediaSliderItem from './components/MediaSliderItem'
@@ -16,7 +16,7 @@ interface Props {
   onUpdatePageInfo?: (pageInfo: PageInfo) => void
 }
 
-interface MoreInfoModalInfo {
+export interface MoreInfoModalInfo {
   mediaInfo: MediaInfo
   itemRect: DOMRect | null | undefined
 }

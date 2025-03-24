@@ -1,5 +1,5 @@
 import Modal, { ModalProps } from '@/features/Modal/Modal'
-import { MediaInfo } from '@/mock-data-definitions'
+import { MediaInfo } from '@/mock/mock-data-definitions'
 import { useMediaMoreInfoModal } from '../hooks'
 import MediaMoreInfoModalTop from './components/MediaMoreInfoModalTop'
 import MediaMoreInfoModalBottom from './components/MediaMoreInfoModalBottom'

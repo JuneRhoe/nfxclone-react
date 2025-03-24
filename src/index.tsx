@@ -8,8 +8,8 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import '@/styles/index.css'
 import { queryClient } from '@/submodule/tanstack/client'
 import { store } from '@/features/store/store'
-import RootRouter from '@/RootRouter'
-import RootBootstrap from '@/RootBootstrap'
+import RootRouter from '@/route/RootRouter'
+import RootBootstrap from '@/bootstraps/RootBootstrap'
 
 const rootContainer = document.getElementById('root')
 

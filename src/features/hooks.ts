@@ -1,5 +1,5 @@
 import { useCookies } from "react-cookie"
-import { UserCookieInfo } from "@/mock-data-definitions";
+import { UserCookieInfo } from "@/mock/mock-data-definitions";
 
 export function useUserCookie() {
   const [cookies, setCookies, removeCookies] = useCookies<'userId' | 'authToken', UserCookieInfo>(['userId', 'authToken']);
