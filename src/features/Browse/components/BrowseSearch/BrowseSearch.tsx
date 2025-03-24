@@ -19,7 +19,7 @@ export default function BrowseSearch() {
   const { isLoading, queryKey, medias } = useSearchQuery()
 
   return (
-    <div className="px-3 py-1 md:px-8 md:py-1 w-full">
+    <div className="px-3 py-4 md:px-8 md:py-6 w-full">
       {medias && (
         <div className={`flex flex-wrap w-full gap-x-[${gapX}%] gap-y-[4vw]`}>
           {medias.map((mediaInfo) => (
