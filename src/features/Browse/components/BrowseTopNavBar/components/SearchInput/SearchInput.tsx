@@ -1,0 +1,132 @@
+import { useEffect, useRef, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { useMediaQuery2XS } from '@/submodule/hooks'
+import { PATH_BROWSE, PATH_BROWSE_SEARCH } from '@/route/routes'
+
+interface Props {
+  navTapRef: React.RefObject<HTMLDivElement | null>
+}
+
+export function SearchInput({ navTapRef }: Props) {
+  const is2XS = useMediaQuery2XS()
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const [queryKey, setQueryKey] = useState('')
+  const [showInput, setShowInput] = useState(false)
+  const [prevPath, setPrevPath] = useState<string>(PATH_BROWSE)
+
+  const hasKeyword = queryKey.length > 0
+
+  useEffect(() => {
+    const handleClick = (e: PointerEvent | MouseEvent) => {
+      if (!hasKeyword) {
+        return
+      }
+
+      if (e.target instanceof HTMLAnchorElement) {
+        setQueryKey('')
+        setShowInput(false)
+        return
+      }
+
+      if (
+        (e.target instanceof HTMLAnchorElement ||
+          e.target instanceof HTMLImageElement) &&
+        navTapRef.current?.contains(e.target as Node)
+      ) {
+        setQueryKey('')
+        setShowInput(false)
+      }
+    }
+
+    window.addEventListener('click', handleClick)
+
+    return () => window.removeEventListener('click', handleClick)
+  }, [hasKeyword, navTapRef])
+
+  const resetInput = () => {
+    setQueryKey('')
+    setShowInput(false)
+    navigate(prevPath)
+  }
+
+  return (
+    <>
+      <div
+        className="flex justify-center items-center bg-black outline-0"
+        style={{
+          padding: showInput ? '0.25rem' : '0',
+          border: showInput ? '1px solid #6a7282' : '0',
+          backgroundColor: showInput ? 'black' : 'transparent',
+        }}
+      >
+        <FontAwesomeIcon
+          className="text-[1rem] sm:text-[1.25rem] cursor-pointer transition-all duration-300
+            hover:text-gray-400"
+          icon={faMagnifyingGlass}
+          onClick={() => {
+            setPrevPath(pathname)
+            setShowInput(true)
+            inputRef.current?.focus()
+          }}
+          fixedWidth
+        />
+
+        <input
+          ref={inputRef}
+          type="text"
+          value={queryKey}
+          className="bg-transparent outline-0 transition-all duration-300 ease-in-out text-xs
+            sm:text-sm text-gray-300 px-2"
+          style={{
+            width: showInput ? (is2XS ? '7rem' : '13rem') : '0',
+            paddingLeft: showInput ? '0.5rem' : '0',
+            paddingRight: showInput ? '0.5rem' : '0',
+          }}
+          autoComplete="new-password"
+          placeholder={showInput ? 'Title, people, genres' : ''}
+          onKeyUp={(e) => {
+            if (hasKeyword || e.key !== 'Escape') {
+              return
+            }
+
+            resetInput()
+          }}
+          onChange={(e) => {
+            const value = e.target.value
+            setQueryKey(value)
+
+            if (value) {
+              const searchParam = new URLSearchParams()
+              searchParam.append('k', value)
+              navigate(`${PATH_BROWSE_SEARCH}?${searchParam}`)
+            } else {
+              navigate(prevPath)
+            }
+          }}
+          onBlur={() => {
+            if (hasKeyword) {
+              return
+            }
+
+            resetInput()
+          }}
+        />
+
+        {showInput && (
+          <FontAwesomeIcon
+            className="text-[0.875rem] cursor-pointer transition-all duration-300 hover:text-gray-400"
+            style={{ visibility: hasKeyword ? 'visible' : 'hidden' }}
+            icon={faXmark}
+            onClick={resetInput}
+            fixedWidth
+          />
+        )}
+      </div>
+    </>
+  )
+}
