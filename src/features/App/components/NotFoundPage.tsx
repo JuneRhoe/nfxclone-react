@@ -1,4 +1,4 @@
-import { rootPath } from '@/routes'
+import { PATH_ROOT } from '@/route/routes'
 import bgNotFound from '@/assets/images/home/bg-notFound.jpg'
 import nfxcloneLogo from '@/assets/images/logo.png'
 import Image from '@/submodule/components/Image/Image'
@@ -16,7 +16,7 @@ export default function NotFoundPage() {
         style={{ backgroundImage: `url(${bgNotFound})` }}
       />
       <div className="absolute z-1 left-0 top-0 flex items-center w-full h-[4rem] px-6 bg-black">
-        <LinkButton className="h-[60%]" to={rootPath}>
+        <LinkButton className="h-[60%]" to={PATH_ROOT}>
           <Image src={nfxcloneLogo} />
         </LinkButton>
       </div>
@@ -24,7 +24,7 @@ export default function NotFoundPage() {
         <div>Lost your Way?</div>
         <Button
           type="solid"
-          buttonProps={{ onClick: () => navigate(rootPath) }}
+          buttonProps={{ onClick: () => navigate(PATH_ROOT) }}
         >
           Netflix Clone Home
         </Button>

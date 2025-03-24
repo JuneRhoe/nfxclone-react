@@ -1,4 +1,4 @@
-import { MediaInfo } from '@/mock-data-definitions'
+import { MediaInfo } from '@/mock/mock-data-definitions'
 import MediaMoreInfoModalMoreLikeThis from './MediaMoreInfoModalMoreLikeThis'
 
 interface Props {

@@ -5,7 +5,7 @@ import {
   faPlus,
 } from '@fortawesome/free-solid-svg-icons'
 import IconButton from '@/submodule/components/IconButton/IconButton'
-import { MediaInfo } from '@/mock-data-definitions'
+import { MediaInfo } from '@/mock/mock-data-definitions'
 import { useMyListMedias } from '../../../hooks'
 
 export interface Props {

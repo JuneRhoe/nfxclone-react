@@ -1,16 +1,16 @@
-import { browseAboutPath, browsePath } from '@/routes'
+import { PATH_BROWSE_ABOUT, PATH_BROWSE } from '@/route/routes'
 import NavTapRegularButton from './NavTapRegularButton'
 
 export default function NavTapRegular() {
   return (
     <>
-      <NavTapRegularButton to={browsePath}>Home</NavTapRegularButton>
+      <NavTapRegularButton to={PATH_BROWSE}>Home</NavTapRegularButton>
       {/* 
-      <NavTapButton to={browseMyListPath} >
+      <NavTapButton to={PATH_BROWSE_MYLIST} >
         My List
       </NavTapButton> 
       */}
-      <NavTapRegularButton to={browseAboutPath}>About</NavTapRegularButton>
+      <NavTapRegularButton to={PATH_BROWSE_ABOUT}>About</NavTapRegularButton>
     </>
   )
 }

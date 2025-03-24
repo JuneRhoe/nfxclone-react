@@ -1,5 +1,5 @@
 import Image from '@/submodule/components/Image/Image'
-import { MediaInfo } from '@/mock-data-definitions'
+import { MediaInfo } from '@/mock/mock-data-definitions'
 import { getTitleImgPath } from '@/features/Browse/components/BrowseMain/components/MediaPreview/utils'
 
 export interface Props {

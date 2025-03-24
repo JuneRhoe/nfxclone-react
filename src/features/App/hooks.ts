@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
 import { useCookies } from "react-cookie"
-import { To, useNavigate } from "react-router"
-import { UserCookieInfo, UserInfo, UserInput } from "@/mock-data-definitions"
-import { browsePath, registerPath } from "@/routes"
+import { useNavigate } from "react-router"
+import { UserCookieInfo, UserInfo, UserInput } from "@/mock/mock-data-definitions"
+import { PATH_BROWSE, PATH_REGISTER } from "@/route/routes"
 import { useTackstackQuery, useTanstackMutation } from "@/submodule/tanstack/hooks"
 import { mutationFunction, queryFunction } from "@/submodule/tanstack/utils"
 import { encrypt } from "@/submodule/utils"
@@ -68,7 +68,7 @@ export function useSignInQuery() {
     setUserIdCookie(signedInUser.userId)
     setAuthTokenCookie(signedInUser.userPassword)
 
-    navigate(browsePath)
+    navigate(PATH_BROWSE)
   }, [isQueryLoading, navigate, setAuthTokenCookie, setUserIdCookie, signedInUser])
 
   const onSignIn = (userInput: UserInput) => {
@@ -88,13 +88,9 @@ export function useSignInQuery() {
   return { isQueryLoading, isValidUser: !!signedInUser, onSignIn, onTestIdSignIn }
 }
 
-export function useCheckUserInfo(redirectTo?: To, checkValid?: boolean) {
+export function useIsSignedUser() {
   const userInfo = useAppSelector(selectUserInfo)
-  const navigate = useNavigate()
-  const [cookies] = useCookies<'userId' | 'authToken', UserCookieInfo>([
-    'userId',
-    'authToken'
-  ])
+  const [cookies] = useCookies<'userId' | 'authToken', UserCookieInfo>(['userId', 'authToken'])
 
   // ToDo: test logic due to the mockapi limitation
 
@@ -105,23 +101,7 @@ export function useCheckUserInfo(redirectTo?: To, checkValid?: boolean) {
 
   const isSignedIn = !!signedInUser
 
-  useEffect(() => {
-    if (isQueryLoading) {
-      return
-    }
-
-    if (!redirectTo) {
-      return
-    }
-
-    if (!(isSignedIn === checkValid)) {
-      return
-    }
-
-    navigate(redirectTo)
-  }, [isSignedIn, navigate, redirectTo, checkValid, isQueryLoading])
-
-  return { isSignedIn, isQueryLoading }
+  return { isQueryLoading, isSignedIn }
 }
 
 export function useSignUp() {
@@ -130,7 +110,7 @@ export function useSignUp() {
 
   const onSignUp = (userInput: UserInput) => {
     setUserIdCookie(userInput.userId.trim())
-    navigate(registerPath)
+    navigate(PATH_REGISTER)
   }
 
   return { onSignUp }
@@ -208,7 +188,7 @@ export function useRegister(setError: UseFormSetError<UserInput>) {
       setUserIdCookie(registeredUserInfo.userId)
       setAuthTokenCookie(registeredUserInfo.userPassword)
 
-      navigate(browsePath)
+      navigate(PATH_BROWSE)
     },
   )
 

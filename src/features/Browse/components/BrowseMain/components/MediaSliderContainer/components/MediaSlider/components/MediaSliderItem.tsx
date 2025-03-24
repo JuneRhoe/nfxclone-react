@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import SliderItem from '@/submodule/components/Slider/components/SliderItem'
 import Image from '@/submodule/components/Image/Image'
-import { MediaInfo } from '@/mock-data-definitions'
+import { MediaInfo } from '@/mock/mock-data-definitions'
 import Loader from '@/submodule/components/Loader/Loader'
 import { useModal } from '@/features/Modal/hooks'
 import MediaSliderItemModal from './MediaSliderItemModal/MediaSliderItemModal'

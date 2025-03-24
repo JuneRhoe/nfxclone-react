@@ -34,7 +34,7 @@ export default function UserMenuButton({
     >
       <div className="flex items-center h-full gap-1 transition-all duration-300">
         <Image
-          className="h-full"
+          className="h-full aspect-square"
           imgClassName="h-full rounded-sm"
           src={iconUser}
         />

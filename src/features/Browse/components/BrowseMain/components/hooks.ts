@@ -1,5 +1,5 @@
-import { MOCK_MEDIA_PREVIEWS } from '@/mock-data'
-import { MediaInfo } from '@/mock-data-definitions'
+import { MOCK_MEDIA_PREVIEWS } from '@/mock/mock-data'
+import { MediaInfo } from '@/mock/mock-data-definitions'
 import { useCallback, useEffect, useState } from 'react'
 import {
   getPreviewMainImg,

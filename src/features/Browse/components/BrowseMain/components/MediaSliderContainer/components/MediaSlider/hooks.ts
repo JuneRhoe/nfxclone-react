@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { PageInfo } from "@/submodule/components/Slider/hooks";
 import { SliderItemSizeInfo } from "@/submodule/components/Slider/Slider";
 import { useScreenSize } from "@/submodule/hooks";
-import { MediaInfo, UserInfo } from "@/mock-data-definitions";
+import { MediaInfo, UserInfo } from "@/mock/mock-data-definitions";
 import { getModalRect, TouchPos } from "./utils";
 import { useRequestMyListMedias } from "../../hooks";
 import { useTanstackMutation } from "@/submodule/tanstack/hooks";
