@@ -1,43 +1,14 @@
-import Footer from '@/features/Footer/Footer'
-import bgHome from '@/assets/images/home/bg-home.jpg'
-import AppTopNavBar from './components/AppTopNavBar'
-import SignIn from './components/SignIn'
-import SignUp from './components/SignUp'
-import Register from './components/Register'
 import clsx from 'clsx'
-import { useCheckUserInfo } from './hooks'
-import { browsePath } from '@/routes'
+import { Outlet } from 'react-router'
 import ScrollToTop from '@/submodule/components/ScrollToTop/ScrollToTop'
-import { useAppSelector } from '@/features/store/hooks'
-import { selectThemeMode } from '@/features/store/themeSlice'
+import { useAppSelector } from '../store/hooks'
+import { selectThemeMode } from '../store/themeSlice'
+import Footer from '../Footer/Footer'
+import AppTopNavBar from './components/AppTopNavBar'
+import bgHome from '@/assets/images/home/bg-home.jpg'
 
-export type DisplayType = 'signIn' | 'signUp' | 'register'
-
-export interface AppMainProps {
-  displayType: DisplayType
-}
-
-export default function AppMain({ displayType }: AppMainProps) {
-  const { isSignedIn, isQueryLoading } = useCheckUserInfo(browsePath, true)
+export default function App() {
   const themeMode = useAppSelector(selectThemeMode)
-
-  if (isSignedIn || isQueryLoading) {
-    return null
-  }
-
-  let mainContentFC: React.ReactNode = null
-
-  switch (displayType) {
-    case 'signIn':
-      mainContentFC = <SignIn />
-      break
-    case 'signUp':
-      mainContentFC = <SignUp />
-      break
-    case 'register':
-      mainContentFC = <Register />
-      break
-  }
 
   return (
     <>
@@ -60,7 +31,7 @@ export default function AppMain({ displayType }: AppMainProps) {
             style={{ backgroundImage: `url(${bgHome})` }}
           />
           <div className="absolute flex h-full w-full flex-col items-center justify-center">
-            {mainContentFC}
+            <Outlet />
           </div>
           <div
             className={clsx(
@@ -70,7 +41,7 @@ export default function AppMain({ displayType }: AppMainProps) {
               },
             )}
           >
-            <AppTopNavBar displayType={displayType} />
+            <AppTopNavBar />
           </div>
         </div>
         <Footer />

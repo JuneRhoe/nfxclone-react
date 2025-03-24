@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretUp } from '@fortawesome/free-solid-svg-icons'
-import { browseAboutPath, browsePath } from '@/routes'
+import { PATH_BROWSE_ABOUT, PATH_BROWSE } from '@/route/routes'
 import NavTapMobileButton from './NavTapMobileButton'
 import { usePopupMenu } from '@/submodule/components/PopupMenu/hooks'
 import PopupMenu from '@/submodule/components/PopupMenu/PopupMenu'
@@ -57,13 +57,15 @@ export default function NavTapMobile() {
               animate-fade-in"
             onClick={() => setIsOpen(false)}
           >
-            <NavTapMobileButton to={browsePath}>Home</NavTapMobileButton>
+            <NavTapMobileButton to={PATH_BROWSE}>Home</NavTapMobileButton>
             {/* 
-            <NavTapButton to={browseMyListPath} >
+            <NavTapButton to={PATH_BROWSE_MYLIST} >
               My List
             </NavTapButton> 
             */}
-            <NavTapMobileButton to={browseAboutPath}>About</NavTapMobileButton>
+            <NavTapMobileButton to={PATH_BROWSE_ABOUT}>
+              About
+            </NavTapMobileButton>
           </div>
         </div>
       </PopupMenu>

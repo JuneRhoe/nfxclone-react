@@ -1,6 +1,6 @@
 import Loader from '@/submodule/components/Loader/Loader'
 import { useMediaMoreInfoModalMoreLikeThis } from '../hooks'
-import { MediaInfo } from '@/mock-data-definitions'
+import { MediaInfo } from '@/mock/mock-data-definitions'
 import MediaMoreInfoModalMoreLikeThisItem from './MediaMoreInfoModalMoreLikeThisItem'
 
 interface Props {

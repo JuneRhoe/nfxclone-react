@@ -1,4 +1,4 @@
-import ModalBootstrap from './bootstraps/ModalBootstrap'
+import ModalBootstrap from '@/bootstraps/ModalBootstrap'
 
 interface Props {
   rootContainer: HTMLElement

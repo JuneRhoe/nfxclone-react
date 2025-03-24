@@ -7,7 +7,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { useIntersection } from '@/submodule/hooks'
 import IconButton from '@/submodule/components/IconButton/IconButton'
-import { MediaInfo } from '@/mock-data-definitions'
+import { MediaInfo } from '@/mock/mock-data-definitions'
 
 const INTERSECTION_MARGIN = '-200px'
 const SHOW_MUTE_CONTROL_DELAY = 800

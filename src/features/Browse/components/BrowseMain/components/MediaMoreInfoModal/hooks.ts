@@ -1,6 +1,6 @@
-import { MOCK_MAP_MAIN_CATEGORIES } from "@/mock-data"
+import { MOCK_MAP_MAIN_CATEGORIES } from "@/mock/mock-data"
 import { useRequestMainCategoryMedias } from "../MediaSliderContainer/hooks"
-import { MediaInfo } from "@/mock-data-definitions"
+import { MediaInfo } from "@/mock/mock-data-definitions"
 import { useMemo } from "react"
 
 export function useMediaMoreInfoModalMoreLikeThis(mediaInfo: MediaInfo) {

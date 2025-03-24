@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { UserInfo } from "@/mock-data-definitions"
+import { UserInfo } from "@/mock/mock-data-definitions"
 
 export interface UserInfoState {
   userInfo: UserInfo | null

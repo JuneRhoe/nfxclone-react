@@ -1,11 +1,11 @@
 import { To } from "react-router"
-import { browseAboutPath, browseMyListPath } from "@/routes"
+import { PATH_BROWSE_ABOUT, PATH_BROWSE_MYLIST } from "@/route/routes"
 
 export function getSubTitle(selectedPath: To): string {
   switch (selectedPath) {
-    case browseMyListPath:
+    case PATH_BROWSE_MYLIST:
       return 'My List'
-    case browseAboutPath:
+    case PATH_BROWSE_ABOUT:
       return 'About Netflix Clone'
   }
 
