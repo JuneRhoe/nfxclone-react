@@ -36,12 +36,11 @@ export default function MediaMoreInfoModalMoreLikeThisItem({
             {mediaInfo.impressions?.slice(0, 1)}
           </div>
         </div>
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center min-w-[2rem]">
           <IconButton
-            className="aspect-square w-[1.5rem] xs:w-[2rem]"
-            iconClassName="w-[0.5rem] h-[0.5rem] xs:w-[1rem] xs:h-[1rem]"
+            className="w-[1.75rem] h-[1.75rem] xs:w-[2rem] xs:h-[2rem]"
+            iconClassName="w-[0.75rem] h-[0.75rem] xs:w-[1rem] xs:h-[1rem]"
             icon={isInMyList ? faCheck : faPlus}
-            fullHeight
             buttonProps={{ onClick: hanldeClickMyList }}
             loading={isUpdatingMyList}
           />
