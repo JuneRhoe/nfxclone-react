@@ -18,11 +18,7 @@ export default function MyInfo() {
       <div>
         <div className="flex flex-col gap-2 text-gray-400 text-xs sm:text-sm">
           <div className="flex items-center gap-2">
-            <FontAwesomeIcon
-              className="text-white pt-0.5"
-              icon={faGithub}
-              fixedWidth
-            />
+            <FontAwesomeIcon className="pt-0.5" icon={faGithub} fixedWidth />
             <LinkText
               to="https://github.com/JuneRhoe/nfxclone-react"
               target="_blank"
@@ -32,11 +28,7 @@ export default function MyInfo() {
           </div>
 
           <div className="flex items-center gap-2">
-            <FontAwesomeIcon
-              className="text-white pt-1"
-              icon={faEnvelope}
-              fixedWidth
-            />
+            <FontAwesomeIcon className="pt-1" icon={faEnvelope} fixedWidth />
             <div>junghyun.rhoe@gmail.com</div>
             {/* <LinkText to="" target="_blank"></LinkText> */}
           </div>

@@ -49,7 +49,10 @@ export default function MediaMoreInfoModal(props: PreviewMoreInfoModalProps) {
       topMostOverlay
       hasOverlayBackground
       contentElement={(_, children) => (
-        <div className="fixed inset-0 flex justify-center items-start overflow-y-auto overflow-x-hidden">
+        <div
+          className="fixed inset-0 flex justify-center items-start overflow-y-auto overflow-x-hidden"
+          onClick={() => props.closeModal()}
+        >
           <div
             className="w-full mx-6 my-[2rem]"
             style={{
