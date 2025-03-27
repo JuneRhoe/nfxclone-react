@@ -1,19 +1,19 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { ModalInfo } from "./hooks"
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { ModalInfo } from './hooks'
 
 export interface ModalState {
   modalInfoArray: ModalInfo[]
 }
 
 const initialState: ModalState = {
-  modalInfoArray: []
+  modalInfoArray: [],
 }
 
 export const modalSlice = createSlice({
-  name: "modalState",
-  
+  name: 'modalState',
+
   initialState,
-  
+
   reducers: {
     openModal: (state, action: PayloadAction<ModalInfo>) => {
       state.modalInfoArray = [...state.modalInfoArray, action.payload]
@@ -21,19 +21,21 @@ export const modalSlice = createSlice({
     closeModal: (state, action: PayloadAction<string>) => {
       state.modalInfoArray = [
         ...state.modalInfoArray.filter(
-          ({ modalId }) => action.payload !== modalId
-        )
+          ({ modalId }) => action.payload !== modalId,
+        ),
       ]
     },
-    closeAllModal: (state, action: PayloadAction<string[] | undefined>) => {      
-      state.modalInfoArray = [...state.modalInfoArray.filter(
-          ({ modalId }) => action.payload?.some((exceptId) => exceptId === modalId)
-      )]      
-    }
+    closeAllModal: (state, action: PayloadAction<string[] | undefined>) => {
+      state.modalInfoArray = [
+        ...state.modalInfoArray.filter(({ modalId }) =>
+          action.payload?.some((exceptId) => exceptId === modalId),
+        ),
+      ]
+    },
   },
 
   selectors: {
-    selectModalInfoArray: modalState => modalState.modalInfoArray,
+    selectModalInfoArray: (modalState) => modalState.modalInfoArray,
   },
 })
 

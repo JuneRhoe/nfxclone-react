@@ -14,8 +14,8 @@ export default function Browse() {
       <ScrollToTop />
       <div
         className={clsx(
-          `flex h-full min-h-[100vh] w-full flex-col items-start justify-start relative
-          text-white text-sm md:text-base`,
+          `relative flex h-full min-h-[100vh] w-full flex-col items-start justify-start
+          text-sm text-white md:text-base`,
           {
             'bg-[#171717]': themeMode === 'darkMode',
             'bg-[#F3F3F3]': themeMode === 'lightMode',

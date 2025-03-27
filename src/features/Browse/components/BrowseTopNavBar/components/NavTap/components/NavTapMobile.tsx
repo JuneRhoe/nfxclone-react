@@ -32,7 +32,7 @@ export default function NavTapMobile() {
         }}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <div className="flex items-center gap-2 cursor-pointer">
+        <div className="flex cursor-pointer items-center gap-2">
           <div>Browse</div>
           <FontAwesomeIcon
             icon={faCaretUp}
@@ -53,8 +53,8 @@ export default function NavTapMobile() {
       >
         <div className="mt-4">
           <div
-            className="bg-black opacity-90 border-1 border-gray-800 rounded-sm min-w-[9rem]
-              animate-fade-in"
+            className="animate-fade-in min-w-[9rem] rounded-sm border-1 border-gray-800 bg-black
+              opacity-90"
             onClick={() => setIsOpen(false)}
           >
             <NavTapMobileButton to={PATH_BROWSE}>Home</NavTapMobileButton>

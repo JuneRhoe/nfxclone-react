@@ -1,8 +1,8 @@
-import { useNavigate } from "react-router"
-import { useUserCookie } from "../hooks"
-import { PATH_ROOT } from "@/route/routes"
-import { removeUserInfo } from "../store/userInfoSlice"
-import { useAppDispatch } from "../store/hooks"
+import { useNavigate } from 'react-router'
+import { useUserCookie } from '../hooks'
+import { PATH_ROOT } from '@/route/routes'
+import { removeUserInfo } from '../store/userInfoSlice'
+import { useAppDispatch } from '../store/hooks'
 
 export function useSignOut() {
   const navigate = useNavigate()

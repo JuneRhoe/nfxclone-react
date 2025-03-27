@@ -50,11 +50,11 @@ export default function MediaMoreInfoModal(props: PreviewMoreInfoModalProps) {
       hasOverlayBackground
       contentElement={(_, children) => (
         <div
-          className="fixed inset-0 flex justify-center items-start overflow-y-auto overflow-x-hidden"
+          className="fixed inset-0 flex items-start justify-center overflow-x-hidden overflow-y-auto"
           onClick={() => props.closeModal()}
         >
           <div
-            className="w-full mx-6 my-[2rem]"
+            className="mx-6 my-[2rem] w-full"
             style={{
               height: fullHeight
                 ? `${window.document.body.clientHeight}px`
@@ -69,7 +69,7 @@ export default function MediaMoreInfoModal(props: PreviewMoreInfoModalProps) {
     >
       <div className="flex h-full lg:mx-0">
         <div
-          className="relative w-full h-full bg-[#111111] text-white rounded-xl transition-all
+          className="relative h-full w-full rounded-xl bg-[#111111] text-white transition-all
             duration-300 ease-out"
           style={{
             left: fade ? '0px' : modalLeft,
@@ -80,7 +80,7 @@ export default function MediaMoreInfoModal(props: PreviewMoreInfoModalProps) {
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="flex flex-col w-full h-full shadow-md">
+          <div className="flex h-full w-full flex-col shadow-md">
             <MediaMoreInfoModalTop
               mediaInfo={mediaInfo}
               previewMainImg={previewMainImg}

@@ -53,7 +53,7 @@ export default function MediaPreviewVideo({
       <video
         ref={videoRef}
         className={clsx(
-          'w-full absolute z-1 transition-opacity duration-500 opacity-0 bg-[#171717] ',
+          'absolute z-1 w-full bg-[#171717] opacity-0 transition-opacity duration-500',
           { 'opacity-100': isVideoCanPlay && isVideoPlaying && !isVideoEnded },
         )}
         muted={isMuted}
@@ -76,8 +76,8 @@ export default function MediaPreviewVideo({
       </video>
 
       <div
-        className="flex justify-end items-center text-white absolute z-3 bottom-[20%]
-          right-[1.5rem] sm:right-[2.5rem] transition-all duration-300"
+        className="absolute right-[1.5rem] bottom-[20%] z-3 flex items-center justify-end
+          text-white transition-all duration-300 sm:right-[2.5rem]"
       >
         {isVideoPlaying && showMuteControl && (
           <IconButton

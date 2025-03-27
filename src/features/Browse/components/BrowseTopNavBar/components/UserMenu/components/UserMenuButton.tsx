@@ -26,15 +26,15 @@ export default function UserMenuButton({
       ref={ref}
       className={clsx(
         className,
-        'relative z-31 flex h-[1.5rem] sm:h-[2rem] cursor-pointer',
+        'relative z-31 flex h-[1.5rem] cursor-pointer sm:h-[2rem]',
       )}
       onPointerEnter={onPointerEnter}
       onPointerLeave={onPointerLeave}
       onClick={onClick}
     >
-      <div className="flex items-center h-full gap-1 transition-all duration-300">
+      <div className="flex h-full items-center gap-1 transition-all duration-300">
         <Image
-          className="h-full aspect-square"
+          className="aspect-square h-full"
           imgClassName="h-full rounded-sm"
           src={iconUser}
         />

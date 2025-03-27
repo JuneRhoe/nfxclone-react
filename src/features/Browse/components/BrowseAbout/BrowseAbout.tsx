@@ -7,11 +7,11 @@ export default function BrowseAbout() {
         <div className="flex flex-col gap-1">
           <MyInfo />
 
-          <div className="pt-10 text-lg md:text-2xl font-extrabold">
+          <div className="pt-10 text-lg font-extrabold md:text-2xl">
             Technologies used to build Netflix Clone
           </div>
           <div>
-            <div className="text-base md:text-xl pt-4 pb-1">Frontend</div>
+            <div className="pt-4 pb-1 text-base md:text-xl">Frontend</div>
             <div className="flex flex-col text-gray-400">
               <div>React • Typescript</div>
               <div>React Router</div>
@@ -25,13 +25,13 @@ export default function BrowseAbout() {
             </div>
           </div>
           <div>
-            <div className="text-base md:text-xl pt-4 pb-1">Backend</div>
+            <div className="pt-4 pb-1 text-base md:text-xl">Backend</div>
             <div className="flex flex-col text-gray-400">
               <div>Mockapi.io</div>
             </div>
           </div>
           <div>
-            <div className="text-base md:text-xl pt-4 pb-1">Deployment</div>
+            <div className="pt-4 pb-1 text-base md:text-xl">Deployment</div>
             <div className="flex flex-col text-gray-400">
               <div>Vercel</div>
             </div>

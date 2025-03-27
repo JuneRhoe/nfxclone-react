@@ -1,18 +1,18 @@
-import { useEffect, useState } from "react";
-import { PageInfo } from "@/submodule/components/Slider/hooks";
-import { SliderItemSizeInfo } from "@/submodule/components/Slider/Slider";
-import { useScreenSize } from "@/submodule/hooks";
-import { MediaInfo, UserInfo } from "@/mock/mock-data-definitions";
-import { getModalRect, TouchPos } from "./utils";
-import { useRequestMyListMedias } from "../../hooks";
-import { useTanstackMutation } from "@/submodule/tanstack/hooks";
-import { mutationFunction } from "@/submodule/tanstack/utils";
-import { setUserInfo } from "@/features/store/userInfoSlice";
-import { useAppDispatch } from "@/features/store/hooks";
-import { useDebouncedCallback } from "use-debounce";
-import { ModalInstanceInfo } from "@/submodule/components/Modal/hooks";
-import { queryClient } from "@/submodule/tanstack/client";
-import { QUERY_KEY_USER_INFO } from "@/submodule/tanstack/queryKeys";
+import { useEffect, useState } from 'react'
+import { PageInfo } from '@/submodule/components/Slider/hooks'
+import { SliderItemSizeInfo } from '@/submodule/components/Slider/Slider'
+import { useScreenSize } from '@/submodule/hooks'
+import { MediaInfo, UserInfo } from '@/mock/mock-data-definitions'
+import { getModalRect, TouchPos } from './utils'
+import { useRequestMyListMedias } from '../../hooks'
+import { useTanstackMutation } from '@/submodule/tanstack/hooks'
+import { mutationFunction } from '@/submodule/tanstack/utils'
+import { setUserInfo } from '@/features/store/userInfoSlice'
+import { useAppDispatch } from '@/features/store/hooks'
+import { useDebouncedCallback } from 'use-debounce'
+import { ModalInstanceInfo } from '@/submodule/components/Modal/hooks'
+import { queryClient } from '@/submodule/tanstack/client'
+import { QUERY_KEY_USER_INFO } from '@/submodule/tanstack/queryKeys'
 
 export const PADDING_CLASS = 'px-[1.5rem] sm:px-[2.5rem]'
 
@@ -26,7 +26,7 @@ export function useMediaSlider(
   pageInfo: PageInfo,
   medias: MediaInfo[] | null,
   title?: string,
-  onUpdatePageInfo?: (pageInfo: PageInfo) => void
+  onUpdatePageInfo?: (pageInfo: PageInfo) => void,
 ) {
   const [displayItems, setDisplayItems] = useState<MediaInfo[]>([])
 
@@ -52,7 +52,6 @@ export function useMediaSlider(
     onUpdatePageInfo(pageInfo)
   }, [title, pageInfo, onUpdatePageInfo])
 
-
   return {
     displayItems,
     paddingClass: PADDING_CLASS,
@@ -66,47 +65,46 @@ export function useMediaSliderItemSizeInfo(): SliderItemSizeInfo {
     case 'xs':
       return {
         itemSize: 100 / 2,
-        countPerPage: 2
+        countPerPage: 2,
       }
     case 'sm':
       return {
         itemSize: 100 / 3,
-        countPerPage: 3
+        countPerPage: 3,
       }
     case 'md':
       return {
         itemSize: 100 / 4,
-        countPerPage: 4
+        countPerPage: 4,
       }
     case 'lg':
       return {
         itemSize: 100 / 5,
-        countPerPage: 5
+        countPerPage: 5,
       }
     case '2xl':
       return {
         itemSize: 100 / 6,
-        countPerPage: 6
+        countPerPage: 6,
       }
-    
   }
 
   return {
     countPerPage: 0,
-    itemSize: 0    
+    itemSize: 0,
   }
 }
 
 export function useMediaSliderItemModal(
   itemRect: DOMRect | null | undefined,
   closeModal: () => void,
-  closeAllModal: () => void
+  closeAllModal: () => void,
 ) {
   const [fade, setFade] = useState(false)
   const [scrolledY] = useState(window.scrollY)
   const [isButtonTouch, setIsButtonTouch] = useState(false)
   const [isPointerLeave, setIsPointerLeave] = useState(false)
-  
+
   useEffect(() => {
     const timerId = setTimeout(() => setFade(true), 0)
 
@@ -139,7 +137,7 @@ export function useMediaSliderItemModal(
     if (
       e.target instanceof HTMLButtonElement ||
       e.target instanceof SVGPathElement ||
-      e.target instanceof SVGSVGElement      
+      e.target instanceof SVGSVGElement
     ) {
       setIsButtonTouch(true)
     }
@@ -165,7 +163,7 @@ export function useMediaSliderItemModal(
     modalHeight,
     onTouchStart,
     onTouchEnd,
-    onPointerLeave
+    onPointerLeave,
   }
 }
 
@@ -173,8 +171,8 @@ export function useMyListMedias(mediaInfo: MediaInfo | undefined) {
   const dispatch = useAppDispatch()
   const [isInMyList, setIsInMyList] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
-  const { myMedias, userInfo } = useRequestMyListMedias()  
-  
+  const { myMedias, userInfo } = useRequestMyListMedias()
+
   const updateMyListMutation = useTanstackMutation(
     (useInfo: UserInfo) => {
       setIsUpdating(true)
@@ -182,7 +180,7 @@ export function useMyListMedias(mediaInfo: MediaInfo | undefined) {
       if (!userInfo) {
         throw new Error('Invalid user.')
       }
-      
+
       return mutationFunction<UserInfo>(`users/${userInfo.id}`, useInfo, 'PUT')
     },
     async (resposne, error) => {
@@ -194,8 +192,8 @@ export function useMyListMedias(mediaInfo: MediaInfo | undefined) {
         return
       }
 
-      let updatedUserInfo: UserInfo | null = null;
-      
+      let updatedUserInfo: UserInfo | null = null
+
       try {
         updatedUserInfo = await resposne?.json()
       } catch (e) {
@@ -210,17 +208,17 @@ export function useMyListMedias(mediaInfo: MediaInfo | undefined) {
         queryKey: [
           QUERY_KEY_USER_INFO,
           updatedUserInfo.userId,
-          updatedUserInfo.userPassword
-        ]
+          updatedUserInfo.userPassword,
+        ],
       })
 
       dispatch(setUserInfo(updatedUserInfo))
     },
     () => setIsUpdating(false),
     () => setIsUpdating(false),
-    () => setIsUpdating(false)
+    () => setIsUpdating(false),
   )
-  
+
   useEffect(() => {
     if (!myMedias || !mediaInfo) {
       return
@@ -246,11 +244,9 @@ export function useMyListMedias(mediaInfo: MediaInfo | undefined) {
   }
 
   const hanldeClickMyListDebouncer = useDebouncedCallback(() => {
-      hanldeClickMyList()
-    }, MY_LIST_UPDATE_WAIT_TIME)
+    hanldeClickMyList()
+  }, MY_LIST_UPDATE_WAIT_TIME)
 
-  
-  
   return {
     isInMyList,
     isUpdatingMyList: isUpdating,
@@ -258,7 +254,10 @@ export function useMyListMedias(mediaInfo: MediaInfo | undefined) {
   }
 }
 
-export function useMediaSliderItem(isSliding: boolean, modalInstanceInfo: ModalInstanceInfo) {
+export function useMediaSliderItem(
+  isSliding: boolean,
+  modalInstanceInfo: ModalInstanceInfo,
+) {
   const [timerId, setTimerId] = useState<NodeJS.Timeout>()
   const [touchPos, setTouchPos] = useState<TouchPos | null>(null)
 
@@ -275,10 +274,7 @@ export function useMediaSliderItem(isSliding: boolean, modalInstanceInfo: ModalI
     const clientX = Math.floor(e.changedTouches[0].clientX)
     const clientY = Math.floor(e.changedTouches[0].clientY)
 
-    if (
-      touchPos?.clientX !== clientX ||
-      touchPos?.clientY !== clientY
-    ) {
+    if (touchPos?.clientX !== clientX || touchPos?.clientY !== clientY) {
       return
     }
 
@@ -289,9 +285,7 @@ export function useMediaSliderItem(isSliding: boolean, modalInstanceInfo: ModalI
     setTimerId(
       setTimeout(() => {
         modalInstanceInfo.openModal()
-        modalInstanceInfo.closeAllModal([
-          modalInstanceInfo.modalId || '',
-        ])
+        modalInstanceInfo.closeAllModal([modalInstanceInfo.modalId || ''])
       }, OPEN_MODAL_TOUCH_DELAY),
     )
   }
@@ -304,9 +298,7 @@ export function useMediaSliderItem(isSliding: boolean, modalInstanceInfo: ModalI
     setTimerId(
       setTimeout(() => {
         modalInstanceInfo.openModal()
-        modalInstanceInfo.closeAllModal([
-          modalInstanceInfo.modalId || '',
-        ])
+        modalInstanceInfo.closeAllModal([modalInstanceInfo.modalId || ''])
       }, OPEN_MODAL_POINTER_DELAY),
     )
   }
@@ -319,6 +311,6 @@ export function useMediaSliderItem(isSliding: boolean, modalInstanceInfo: ModalI
     onTouchStart,
     onTouchEnd,
     onPointerEnter,
-    onPointerLeave
+    onPointerLeave,
   }
 }

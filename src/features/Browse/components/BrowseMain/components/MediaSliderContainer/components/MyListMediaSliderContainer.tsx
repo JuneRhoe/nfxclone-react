@@ -16,7 +16,7 @@ export default function MyListMediaSliderContainer(props: Props) {
   return (
     <div className="flex flex-col gap-2">
       <div className={PADDING_CLASS}>
-        <div className="flex w-full justify-between items-center">
+        <div className="flex w-full items-center justify-between">
           <div className="text-base sm:text-xl">My List</div>
           {pageInfo && <MediaSliderNavigator pageInfo={pageInfo} />}
         </div>

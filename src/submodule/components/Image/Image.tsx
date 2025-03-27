@@ -33,7 +33,7 @@ export default function Image({
       })}
     >
       {!isImageLoaded && loader && (
-        <div className="absolute w-full h-full top-0 left-0">{loader}</div>
+        <div className="absolute top-0 left-0 h-full w-full">{loader}</div>
       )}
       <img
         src={src}

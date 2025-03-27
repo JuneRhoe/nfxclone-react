@@ -10,7 +10,7 @@ export function getPopupMenuStyleRect(
   parentOrigin: PopupOrigin,
   menuOrigin: PopupOrigin,
   parentRect: DOMRect | undefined,
-  bridgeGap: number
+  bridgeGap: number,
 ): React.CSSProperties {
   const offsetWidth = window.document.body.offsetWidth
 
@@ -19,7 +19,7 @@ export function getPopupMenuStyleRect(
   if (!parentRect) {
     return styleRect
   }
-  
+
   if (parentOrigin.axisX === 'left' && parentOrigin.axisY === 'top') {
     //////////
   } else if (parentOrigin.axisX === 'right' && parentOrigin.axisY === 'top') {
@@ -37,7 +37,10 @@ export function getPopupMenuStyleRect(
     } else if (menuOrigin.axisX === 'right' && menuOrigin.axisY === 'bottom') {
       //////////
     }
-  } else if (parentOrigin.axisX === 'right' && parentOrigin.axisY === 'bottom') {
+  } else if (
+    parentOrigin.axisX === 'right' &&
+    parentOrigin.axisY === 'bottom'
+  ) {
     if (menuOrigin.axisX === 'left' && menuOrigin.axisY === 'top') {
       //////////
     } else if (menuOrigin.axisX === 'right' && menuOrigin.axisY === 'top') {

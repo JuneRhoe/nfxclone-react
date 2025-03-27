@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react"
-import { useSearchParams } from "react-router"
-import { useDebouncedCallback } from "use-debounce"
-import { useScreenSize } from "@/submodule/hooks"
-import { MoreInfoModalInfo } from "../BrowseMain/components/MediaSliderContainer/components/MediaSlider/MediaSlider"
-import { useModal } from "@/features/Modal/hooks"
-import { MediaInfo } from "@/mock/mock-data-definitions"
-import { useTackstackQuery } from "@/submodule/tanstack/hooks"
-import { QUERY_KEY_MEDIA_INFO_SEARCH } from "@/submodule/tanstack/queryKeys"
-import { queryFunction } from "@/submodule/tanstack/utils"
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router'
+import { useDebouncedCallback } from 'use-debounce'
+import { useScreenSize } from '@/submodule/hooks'
+import { MoreInfoModalInfo } from '../BrowseMain/components/MediaSliderContainer/components/MediaSlider/MediaSlider'
+import { useModal } from '@/features/Modal/hooks'
+import { MediaInfo } from '@/mock/mock-data-definitions'
+import { useTackstackQuery } from '@/submodule/tanstack/hooks'
+import { QUERY_KEY_MEDIA_INFO_SEARCH } from '@/submodule/tanstack/queryKeys'
+import { queryFunction } from '@/submodule/tanstack/utils'
 
 const REQUEST_SEARCH_DELAY = 500
 
@@ -24,41 +24,40 @@ export function useSearchItemSizeInfo(): SearchItemSizeInfo {
     case 'xs':
       return {
         itemSize: (100 - gapX) / 2,
-        gapX
+        gapX,
       }
     case 'sm':
       return {
         itemSize: (100 - gapX * 2) / 3,
-        gapX
+        gapX,
       }
     case 'md':
       return {
         itemSize: (100 - gapX * 3) / 4,
-        gapX
+        gapX,
       }
     case 'lg':
       return {
         itemSize: (100 - gapX * 4) / 5,
-        gapX
+        gapX,
       }
     case '2xl':
       return {
         itemSize: (100 - gapX * 5) / 6,
-        gapX
+        gapX,
       }
-    
   }
 
   return {
     itemSize: (100 - gapX * 2) / 3,
-    gapX
+    gapX,
   }
 }
 
 export function useMoreInfoModal() {
   const [moreInfoModalInfo, setMoreInfoModalInfo] =
     useState<MoreInfoModalInfo | null>(null)
-  
+
   const {
     modalInstanceInfo: moreInfoModal,
     isVisible: isMoreInfoModalVisible,
@@ -70,7 +69,7 @@ export function useMoreInfoModal() {
     moreInfoModal,
     isMoreInfoModalVisible,
     moreInfoModalInfo,
-    setMoreInfoModalInfo
+    setMoreInfoModalInfo,
   }
 }
 
