@@ -1,5 +1,9 @@
-import { To } from "react-router"
-import { PATH_BROWSE_ABOUT, PATH_BROWSE_MYLIST, PATH_BROWSE_SEARCH } from "@/route/routes"
+import { To } from 'react-router'
+import {
+  PATH_BROWSE_ABOUT,
+  PATH_BROWSE_MYLIST,
+  PATH_BROWSE_SEARCH,
+} from '@/route/routes'
 
 export function getSubTitle(selectedPath: To): string {
   switch (selectedPath) {

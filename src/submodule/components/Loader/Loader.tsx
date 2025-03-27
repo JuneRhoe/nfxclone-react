@@ -24,8 +24,8 @@ export default function Loader({
       className={clsx(className, 'flex items-center justify-center', {
         'bg-[#171717]': type === 'primary',
         'bg-white': type === 'secondary',
-        'w-full h-full min-h-[100vh]': display === 'full',
-        'w-full h-full bg-transparent': display === 'inline',
+        'h-full min-h-[100vh] w-full': display === 'full',
+        'h-full w-full bg-transparent': display === 'inline',
       })}
       style={style}
     >
@@ -36,8 +36,8 @@ export default function Loader({
           {
             'border-gray-100': type === 'primary',
             'border-gray-500': type === 'secondary',
-            'border-10 h-20 w-20': display === 'full',
-            'border-3 h-6 w-6': display === 'inline',
+            'h-20 w-20 border-10': display === 'full',
+            'h-6 w-6 border-3': display === 'inline',
           },
         )}
       />

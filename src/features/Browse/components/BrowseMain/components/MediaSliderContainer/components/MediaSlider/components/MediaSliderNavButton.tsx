@@ -36,9 +36,9 @@ export default function MediaSliderNavButton({
   return (
     <SliderNavButton
       className={clsx(
-        `absolute z-10 flex justify-center items-center w-[1.625rem] sm:w-[2.625rem]
-        min-h-full bg-[#171717] opacity-70 hover:opacity-85 top-0 transition-opacity
-        duration-300`,
+        `absolute top-0 z-10 flex min-h-full w-[1.625rem] items-center justify-center
+        bg-[#171717] opacity-70 transition-opacity duration-300 hover:opacity-85
+        sm:w-[2.625rem]`,
         {
           'left-[-0.25rem]': direction === 'Prev',
           'right-0': direction === 'Next',
@@ -64,7 +64,7 @@ export default function MediaSliderNavButton({
       {(isHover) =>
         !disabled && (
           <FontAwesomeIcon
-            className="opacity-0 transition-opacity duration-300 text-white text-3xl sm:text-4xl"
+            className="text-3xl text-white opacity-0 transition-opacity duration-300 sm:text-4xl"
             icon={direction === 'Prev' ? faChevronLeft : faChevronRight}
             style={{ opacity: isHover || isScreenXS ? '100' : '0' }}
             fixedWidth

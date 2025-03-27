@@ -32,16 +32,16 @@ export default function IconButton({
       {...buttonProps}
       className={clsx(
         className,
-        `flex justify-center items-center cursor-pointer select-none outline-0
-        transition-all duration-300 rounded-4xl border-2 p-1 px-1.5`,
+        `flex cursor-pointer items-center justify-center rounded-4xl border-2 p-1 px-1.5
+        outline-0 transition-all duration-300 select-none`,
         {
-          'text-sm md:text-xl px-[0.3125rem] py-[0.4375rem]': !fullHeight,
+          'px-[0.3125rem] py-[0.4375rem] text-sm md:text-xl': !fullHeight,
           'max-h-12': fullHeight,
-          'text-gray-400 border-gray-400': type === 'primay' || loading,
+          'border-gray-400 text-gray-400': type === 'primay' || loading,
           'hover:border-gray-50 hover:text-white': type === 'primay',
-          'bg-gray-300 text-black border-gray-300': type === 'secondary',
+          'border-gray-300 bg-gray-300 text-black': type === 'secondary',
           'hover:bg-gray-50': type === 'secondary',
-          'text-gray-400 border-2 border-gray-900 bg-gray-900':
+          'border-2 border-gray-900 bg-gray-900 text-gray-400':
             type === 'simple',
           'hover:text-white': type === 'simple',
         },

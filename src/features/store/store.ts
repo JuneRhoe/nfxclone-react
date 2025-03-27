@@ -1,7 +1,7 @@
-import { combineSlices, configureStore } from "@reduxjs/toolkit";
-import { userInfoSlice } from "./userInfoSlice";
-import { themeSlice } from "./themeSlice";
-import { modalSlice } from "@/submodule/components/Modal/modalSlice";
+import { combineSlices, configureStore } from '@reduxjs/toolkit'
+import { userInfoSlice } from './userInfoSlice'
+import { themeSlice } from './themeSlice'
+import { modalSlice } from '@/submodule/components/Modal/modalSlice'
 
 const rootReducer = combineSlices(userInfoSlice, themeSlice, modalSlice)
 
@@ -17,4 +17,4 @@ export const makeStore = (preloadedState?: Partial<RootState>) => {
 export const store = makeStore()
 
 export type AppStore = typeof store
-export type AppDispatch = AppStore["dispatch"]
+export type AppDispatch = AppStore['dispatch']

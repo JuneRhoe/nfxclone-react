@@ -39,7 +39,7 @@ export default function MediaPreviewImage({
     <>
       <div
         className={clsx(
-          'w-full h-full transition-opacity duration-800 opacity-100',
+          'h-full w-full opacity-100 transition-opacity duration-800',
           {
             'opacity-0': !isVideoPlaying && isVideoEnded,
           },
@@ -48,7 +48,7 @@ export default function MediaPreviewImage({
         {mediaInfo.previewMainImg && (
           <Image
             imgClassName="w-full h-full"
-            className="w-full h-full"
+            className="h-full w-full"
             src={mediaInfo.previewMainImg}
             imgProps={{
               onLoad: () => onImageLoaded(true),
@@ -57,11 +57,11 @@ export default function MediaPreviewImage({
           />
         )}
         <div
-          className="absolute z-3 bottom-[10%] flex flex-col justify-end w-full h-[40%] px-[1.5rem]
-            sm:px-[2.5rem] gap-[8%]"
+          className="absolute bottom-[10%] z-3 flex h-[40%] w-full flex-col justify-end gap-[8%]
+            px-[1.5rem] sm:px-[2.5rem]"
         >
           <div
-            className="transition-all duration-600 h-[100%]"
+            className="h-[100%] transition-all duration-600"
             style={{
               height: isVideoPlaying && !isVideoEnded ? '60%' : '100%',
             }}
@@ -72,7 +72,7 @@ export default function MediaPreviewImage({
           </div>
           <div className="flex gap-[1%]">
             <Button type="solid">
-              <div className="flex justify-center items-center gap-1">
+              <div className="flex items-center justify-center gap-1">
                 <FontAwesomeIcon icon={faPlay} fixedWidth />
                 Play
               </div>
@@ -83,7 +83,7 @@ export default function MediaPreviewImage({
             >
               <div
                 ref={moreInfoButtonRef}
-                className="flex justify-center items-center gap-1"
+                className="flex items-center justify-center gap-1"
               >
                 <FontAwesomeIcon icon={faCircleInfo} fixedWidth />
                 More Info

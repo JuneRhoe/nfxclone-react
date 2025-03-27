@@ -66,7 +66,7 @@ export default function MediaSliderItemModal(props: SliderItemModalProps) {
     >
       <div
         ref={divRef}
-        className={`absolute overflow-hidden rounded-md shadow-2xl bg-[#212121] transition-all
+        className={`absolute overflow-hidden rounded-md bg-[#212121] shadow-2xl transition-all
           duration-200 ease-in-out`}
         style={{
           left: fade ? `${modalLeft}px` : `${itemRect.left}px`,
@@ -81,11 +81,11 @@ export default function MediaSliderItemModal(props: SliderItemModalProps) {
         onTouchEnd={onTouchEnd}
         onPointerLeave={onPointerLeave}
       >
-        <div className="w-full h-full">
+        <div className="h-full w-full">
           <div className="h-[55%]">
             <MediaSliderItemModalTop mediaInfo={mediaInfo} />
           </div>
-          <div className="flex justify-center items-center h-[45%]">
+          <div className="flex h-[45%] items-center justify-center">
             <MediaSliderItemModalBottom
               mediaInfo={mediaInfo}
               onShowMoreInfoModal={props.onShowMoreInfoModal}

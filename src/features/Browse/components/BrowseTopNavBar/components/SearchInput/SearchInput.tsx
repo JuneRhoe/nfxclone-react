@@ -57,7 +57,7 @@ export function SearchInput({ navTapRef }: Props) {
   return (
     <>
       <div
-        className="flex justify-center items-center bg-black outline-0"
+        className="flex items-center justify-center bg-black outline-0"
         style={{
           padding: showInput ? '0.25rem' : '0',
           border: showInput ? '1px solid #6a7282' : '0',
@@ -65,8 +65,8 @@ export function SearchInput({ navTapRef }: Props) {
         }}
       >
         <FontAwesomeIcon
-          className="text-[1rem] sm:text-[1.25rem] cursor-pointer transition-all duration-300
-            hover:text-gray-400"
+          className="cursor-pointer text-[1rem] transition-all duration-300 hover:text-gray-400
+            sm:text-[1.25rem]"
           icon={faMagnifyingGlass}
           onClick={() => {
             setPrevPath(pathname)
@@ -80,8 +80,8 @@ export function SearchInput({ navTapRef }: Props) {
           ref={inputRef}
           type="text"
           value={queryKey}
-          className="bg-transparent outline-0 transition-all duration-300 ease-in-out text-xs
-            sm:text-sm text-gray-300 px-2"
+          className="bg-transparent px-2 text-xs text-gray-300 outline-0 transition-all duration-300
+            ease-in-out sm:text-sm"
           style={{
             width: showInput ? (is2XS ? '7rem' : '13rem') : '0',
             paddingLeft: showInput ? '0.5rem' : '0',
@@ -119,7 +119,7 @@ export function SearchInput({ navTapRef }: Props) {
 
         {showInput && (
           <FontAwesomeIcon
-            className="text-[0.875rem] cursor-pointer transition-all duration-300 hover:text-gray-400"
+            className="cursor-pointer text-[0.875rem] transition-all duration-300 hover:text-gray-400"
             style={{ visibility: hasKeyword ? 'visible' : 'hidden' }}
             icon={faXmark}
             onClick={resetInput}

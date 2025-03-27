@@ -27,7 +27,7 @@ export default function NavTapRegularButton(props: Props) {
             {props.children}
             <div
               className={clsx(
-                'transition-opacity duration-300 border-b-2 border-b-white mt-0.5',
+                'mt-0.5 border-b-2 border-b-white transition-opacity duration-300',
                 {
                   'opacity-100': isActive,
                   'opacity-0': !isActive,
