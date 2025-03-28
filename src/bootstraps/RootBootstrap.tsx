@@ -1,3 +1,5 @@
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 import ModalBootstrap from '@/bootstraps/ModalBootstrap'
 
 interface Props {
@@ -7,6 +9,12 @@ interface Props {
 
 export default function RootBootstrap({ rootContainer, children }: Props) {
   return (
-    <ModalBootstrap rootContainer={rootContainer}>{children}</ModalBootstrap>
+    <ModalBootstrap rootContainer={rootContainer}>
+      <>
+        {children}
+        <Analytics />
+        <SpeedInsights />
+      </>
+    </ModalBootstrap>
   )
 }
