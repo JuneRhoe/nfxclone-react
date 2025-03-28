@@ -23,12 +23,12 @@ export interface MediaInfo {
   description?: string
   previewMainImg?: string
   previewTitleImg?: string
-  previewTrailer?: string  
+  previewTrailer?: string
 }
 
 export type UserInput = Pick<UserInfo, 'userId' | 'userPassword'>
 
-export interface UserCookieInfo extends Pick<UserInfo, 'userId' | 'userPassword'> {
+export interface UserCookieInfo
+  extends Pick<UserInfo, 'userId' | 'userPassword'> {
   authToken: string
 }
-

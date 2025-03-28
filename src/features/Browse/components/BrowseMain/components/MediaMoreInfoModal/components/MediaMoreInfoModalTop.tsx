@@ -37,7 +37,7 @@ export default function MediaMoreInfoModalTop({
         src={previewMainImg}
       />
       {previewTitleImg && (
-        <div className="absolute z-5 left-[1%] bottom-[20%] sm:bottom-[18%] w-[80%] px-[2%]">
+        <div className="absolute bottom-[20%] left-[1%] z-5 w-[80%] px-[2%] sm:bottom-[18%]">
           <Image
             imgClassName="w-full"
             className="w-full"
@@ -46,33 +46,33 @@ export default function MediaMoreInfoModalTop({
         </div>
       )}
       <div
-        className="absolute z-6 bottom-[-3px] w-full h-30 bg-linear-to-t from-[#101010]
+        className="absolute bottom-[-3px] z-6 h-30 w-full bg-linear-to-t from-[#101010]
           to-transparent"
       />
       {fade && (
         <>
           <div
-            className="absolute z-7 flex items-center gap-3 h-[6%] left-[1%] bottom-[6%] sm:bottom-[4%]
-              px-[2%] text-sm"
+            className="absolute bottom-[6%] left-[1%] z-7 flex h-[6%] items-center gap-3 px-[2%]
+              text-sm sm:bottom-[4%]"
           >
             <Button type="solid">
-              <div className="flex justify-center items-center gap-1">
+              <div className="flex items-center justify-center gap-1">
                 <FontAwesomeIcon icon={faPlay} fixedWidth />
                 Play
               </div>
             </Button>
             <IconButton
-              className="h-full aspect-square min-h-[2rem]"
+              className="aspect-square h-full min-h-[2rem]"
               icon={isInMyList ? faCheck : faPlus}
               fullHeight
               buttonProps={{ onClick: hanldeClickMyList }}
               loading={isUpdatingMyList}
             />
           </div>
-          <div className="absolute right-[1%] top-[2%]">
+          <div className="absolute top-[2%] right-[1%]">
             <IconButton
               type="simple"
-              className="h-full aspect-square"
+              className="aspect-square h-full"
               icon={faXmark}
               fullHeight
               buttonProps={{

@@ -1,7 +1,13 @@
-import { useEffect, useState } from "react"
-import { NavDirection } from "./components/SliderNavButton"
-import { getIndexItems, getInitialNavInfo, getInitialPageInfo, getSlideVector, rotateArray } from "./utils"
-import { TouchPos } from "@/features/Browse/components/BrowseMain/components/MediaSliderContainer/components/MediaSlider/utils"
+import { useEffect, useState } from 'react'
+import { NavDirection } from './components/SliderNavButton'
+import {
+  getIndexItems,
+  getInitialNavInfo,
+  getInitialPageInfo,
+  getSlideVector,
+  rotateArray,
+} from './utils'
+import { TouchPos } from '@/features/Browse/components/BrowseMain/components/MediaSliderContainer/components/MediaSlider/utils'
 
 const TOUCH_SKIP_X_DIFF = 50
 const TOUCH_SKIP_Y_DIFF = 25
@@ -25,10 +31,10 @@ export const handleNavButtonClick = (
   direction: NavDirection,
   pageInfo: PageInfo,
   setNavInfo: (navInfo: NavInfo) => void,
-  setDiableTransition: (disabled: boolean) => void,  
+  setDiableTransition: (disabled: boolean) => void,
 ) => {
   setDiableTransition(false)
-  
+
   setNavInfo({
     direction,
     vectorX: direction === 'Prev' ? pageInfo.prevVector : pageInfo.nextVector,
@@ -38,10 +44,10 @@ export const handleNavButtonClick = (
 export const handleTransitionEnd = (
   itemSize: number,
   navInfo: NavInfo,
-  pageInfo: PageInfo,  
+  pageInfo: PageInfo,
   setNavInfo: (navInfo: NavInfo) => void,
   setPageInfo: (pageInfo: PageInfo) => void,
-  setDiableTransition: (disabled: boolean) => void,  
+  setDiableTransition: (disabled: boolean) => void,
 ) => {
   let updatedCurPage = 0
 
@@ -61,7 +67,7 @@ export const handleTransitionEnd = (
 
   pageInfo.curPage = updatedCurPage
   pageInfo.direction = navInfo.direction
-  setPageInfo({ ...pageInfo })  
+  setPageInfo({ ...pageInfo })
 
   setNavInfo({
     ...navInfo,
@@ -74,7 +80,7 @@ export const handleTransitionEnd = (
 export function useSlider<TData, TDataArray extends TData[]>(
   data: TDataArray | null,
   countPerPage: number,
-  itemSize: number
+  itemSize: number,
 ) {
   const [navInfo, setNavInfo] = useState<NavInfo>(getInitialNavInfo())
   const [disableTransition, setDiableTransition] = useState(false)
@@ -82,8 +88,10 @@ export function useSlider<TData, TDataArray extends TData[]>(
   const [initialIndices, setInitialIndices] = useState<number[]>([])
 
   const [touchPos, setTouchPos] = useState<TouchPos | null>(null)
-  
-  const [pageInfo, setPageInfo] = useState<PageInfo>(getInitialPageInfo(countPerPage))
+
+  const [pageInfo, setPageInfo] = useState<PageInfo>(
+    getInitialPageInfo(countPerPage),
+  )
 
   useEffect(() => {
     if (!data || initialIndices.length > 0) {
@@ -143,11 +151,11 @@ export function useSlider<TData, TDataArray extends TData[]>(
     setPageInfo(pageInfo)
   }, [data, itemSize, pageInfo, initialIndices])
 
-   useEffect(() => {
+  useEffect(() => {
     setNavInfo(getInitialNavInfo())
     setPageInfo(getInitialPageInfo(countPerPage))
-   }, [itemSize, countPerPage])
-  
+  }, [itemSize, countPerPage])
+
   const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     setTouchPos({
       clientX: Math.floor(e.touches[0].clientX),
@@ -167,7 +175,7 @@ export function useSlider<TData, TDataArray extends TData[]>(
       pageInfo.prevIndexItems.length / pageInfo.countPerPage > 2
     const showNextButton =
       pageInfo.prevIndexItems.length / pageInfo.countPerPage > 1
-    
+
     if (yDiff > TOUCH_SKIP_Y_DIFF) {
       return
     }
@@ -177,23 +185,13 @@ export function useSlider<TData, TDataArray extends TData[]>(
         return
       }
 
-      handleNavButtonClick(
-        'Next',
-        pageInfo,
-        setNavInfo,
-        setDiableTransition,
-      )
+      handleNavButtonClick('Next', pageInfo, setNavInfo, setDiableTransition)
     } else if (xDiff > TOUCH_SKIP_X_DIFF) {
       if (!showPrevButton) {
         return
       }
 
-      handleNavButtonClick(
-        'Prev',
-        pageInfo,
-        setNavInfo,
-        setDiableTransition,
-      )
+      handleNavButtonClick('Prev', pageInfo, setNavInfo, setDiableTransition)
     }
   }
 
@@ -207,6 +205,6 @@ export function useSlider<TData, TDataArray extends TData[]>(
     handleNavButtonClick,
     handleTransitionEnd,
     onTouchStart,
-    onTouchEnd
+    onTouchEnd,
   }
 }

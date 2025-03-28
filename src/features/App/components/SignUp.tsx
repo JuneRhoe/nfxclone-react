@@ -21,23 +21,23 @@ export default function SignUp() {
   return (
     <form
       onSubmit={handleSubmit(onSignUp)}
-      className="relative flex flex-col gap-5 h-full w-full items-center justify-center
+      className="relative flex h-full w-full flex-col items-center justify-center gap-5
         text-white"
     >
       <div className="absolute z-0 h-full w-full bg-black opacity-50" />
       <div
-        className="z-1 flex flex-col justify-center text-center text-white font-extrabold text-4xl
-          max-w-90 leading-12"
+        className="z-1 flex max-w-90 flex-col justify-center text-center text-4xl leading-12
+          font-extrabold text-white"
       >
         <div>Unlimited movies, TV shows, and more</div>
-        <div className="font-normal text-base pt-1">
+        <div className="pt-1 text-base font-normal">
           Starts at $0.00. Cancel anytime.
         </div>
       </div>
-      <div className="z-1 font-normal text-base text-white pt-1">
+      <div className="z-1 pt-1 text-base font-normal text-white">
         Ready to watch? Enter your user ID to create your membership.
       </div>
-      <div className="z-1 flex items-start justify-center gap-2 h-[6rem] flex-wrap sm:p-0 px-6">
+      <div className="z-1 flex h-[6rem] flex-wrap items-start justify-center gap-2 px-6 sm:p-0">
         <InputField<UserInput, 'userId'>
           className="w-full sm:w-80"
           label="User ID"

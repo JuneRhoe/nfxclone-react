@@ -40,7 +40,7 @@ export default function MediaSliderItem({
       <SliderItem className="aspect-9/5 pr-1" style={{ width: `${itemSize}%` }}>
         <div
           ref={divRef}
-          className="w-full h-full relative"
+          className="relative h-full w-full"
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
           onPointerEnter={onPointerEnter}

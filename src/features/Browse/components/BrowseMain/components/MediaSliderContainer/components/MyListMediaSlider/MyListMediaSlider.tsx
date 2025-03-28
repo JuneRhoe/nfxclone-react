@@ -26,7 +26,7 @@ export default function MyListMediaSlider({
 
   if (!myMedias || myMedias.length < 1) {
     return (
-      <div className="flex justify-center items-center w-full h-full text-gray-500 text-base p-5">
+      <div className="flex h-full w-full items-center justify-center p-5 text-base text-gray-500">
         Please add movies and tv shows to My List
       </div>
     )

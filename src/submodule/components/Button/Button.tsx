@@ -27,8 +27,8 @@ export default function Button({
       {...buttonProps}
       className={clsx(
         className,
-        `flex cursor-pointer items-center justify-center rounded-md px-4 shadow-md
-        transition-[background-color] duration-200 outline-0 select-none min-w-fit`,
+        `flex min-w-fit cursor-pointer items-center justify-center rounded-md px-4
+        shadow-md outline-0 transition-[background-color] duration-200 select-none`,
         {
           'h-[1rem] text-xs font-normal': size === 'xs',
           'h-[1.8rem] text-sm font-normal': size === 'sm',

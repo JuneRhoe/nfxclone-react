@@ -21,14 +21,14 @@ export default function BrowseTopNavBar() {
 
   return (
     <div
-      className={clsx('w-full sticky top-0 bg-transparent z-20', {
+      className={clsx('sticky top-0 z-20 w-full bg-transparent', {
         'h-[6rem] md:h-[7.5rem]': !isBrowseMain,
       })}
     >
-      <div className="flex h-[3rem] md:h-[4.5rem] w-full items-center">
+      <div className="flex h-[3rem] w-full items-center md:h-[4.5rem]">
         <div
           className={clsx(
-            'absolute top-0 w-full h-full z-0 bg-[#171717] transition-opacity duration-400 ',
+            'absolute top-0 z-0 h-full w-full bg-[#171717] transition-opacity duration-400',
             {
               'opacity-100': !isScrollTop && isBrowseMain,
               'opacity-0': isScrollTop && isBrowseMain,
@@ -37,17 +37,17 @@ export default function BrowseTopNavBar() {
         />
         <div
           className={clsx(
-            `absolute top-0 w-full h-full z-0 transition-opacity duration-400 bg-linear-to-b
-            from-[#171717] to-transparent`,
+            `absolute top-0 z-0 h-full w-full bg-linear-to-b from-[#171717] to-transparent
+            transition-opacity duration-400`,
           )}
         />
         <div
-          className="flex justify-between items-center w-full h-full relative px-4 py-3 gap-2 md:px-8
+          className="relative flex h-full w-full items-center justify-between gap-2 px-4 py-3 md:px-8
             md:py-4"
         >
           <div
             ref={navTapRef}
-            className="flex items-center gap-4 md:gap-10 h-full min-w-fit"
+            className="flex h-full min-w-fit items-center gap-4 md:gap-10"
           >
             <LinkButton className="h-full" to={PATH_BROWSE}>
               <Image className="min-w-12" src={nfxcloneLogo} />
@@ -61,7 +61,7 @@ export default function BrowseTopNavBar() {
         </div>
       </div>
       {!isBrowseMain && (
-        <div className="relative px-3 py-1 md:px-8 md:py-1 font-extrabold text-xl md:text-4xl">
+        <div className="relative px-3 py-1 text-xl font-extrabold md:px-8 md:py-1 md:text-4xl">
           {getSubTitle(pathname)}
         </div>
       )}

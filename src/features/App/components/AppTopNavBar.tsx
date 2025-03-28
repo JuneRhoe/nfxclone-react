@@ -18,7 +18,7 @@ export default function AppTopNavBar() {
       className={clsx({
         ['absolute my-6 flex h-[4.5rem] w-full justify-between px-6 sm:my-8 sm:px-8']:
           themeMode === 'darkMode',
-        [`flex w-full items-center border-b-1 justify-between border-b-gray-200 p-1 sm:p-2
+        [`flex w-full items-center justify-between border-b-1 border-b-gray-200 p-1 sm:p-2
         md:p-3 lg:p-4 xl:p-5 2xl:p-6`]: themeMode === 'lightMode',
       })}
     >

@@ -8,12 +8,12 @@ interface Props {
 export default function MediaMoreInfoModalBottom({ mediaInfo }: Props) {
   return (
     <div className="flex flex-col gap-8 p-[3%] text-sm md:text-base">
-      <div className="flex items-start justify-between w-full gap-5">
-        <div className="flex flex-col gap-3 w-[60%]">
-          <div className="flex items-center gap-2 w-full h-full">
+      <div className="flex w-full items-start justify-between gap-5">
+        <div className="flex w-[60%] flex-col gap-3">
+          <div className="flex h-full w-full items-center gap-2">
             <div
-              className="flex justify-center items-center whitespace-nowrap rounded-sm border-1
-                border-gray-400 px-1.5"
+              className="flex items-center justify-center rounded-sm border-1 border-gray-400 px-1.5
+                whitespace-nowrap"
             >
               {mediaInfo.ratingSymbol}
             </div>
@@ -24,7 +24,7 @@ export default function MediaMoreInfoModalBottom({ mediaInfo }: Props) {
           <div className="text-base md:text-2xl">{mediaInfo.title}</div>
           <div>{mediaInfo.description}</div>
         </div>
-        <div className="flex flex-col gap-2 w-[40%]">
+        <div className="flex w-[40%] flex-col gap-2">
           <div className="flex flex-wrap gap-1">
             <div className="text-gray-500">Cast:</div>
             <div>{mediaInfo.casts?.join(', ')}</div>
@@ -34,7 +34,7 @@ export default function MediaMoreInfoModalBottom({ mediaInfo }: Props) {
             <div>{mediaInfo.genres?.join(', ')}</div>
           </div>
           <div className="flex flex-wrap gap-1">
-            <div className="text-gray-500 whitespace-nowrap">
+            <div className="whitespace-nowrap text-gray-500">
               This movie is:
             </div>
             <div>{mediaInfo.impressions?.join(', ')}</div>

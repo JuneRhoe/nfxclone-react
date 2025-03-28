@@ -15,7 +15,7 @@ export default function NavTapRegularButton(props: Props) {
     <TabButton
       {...props}
       className={clsx(
-        'flex justify-center items-center h-[2.5rem] text-xs hover:bg-gray-900',
+        'flex h-[2.5rem] items-center justify-center text-xs hover:bg-gray-900',
         {
           'font-extrabold': isActive,
           'font-normal': !isActive,

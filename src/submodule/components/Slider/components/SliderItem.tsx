@@ -12,7 +12,7 @@ export default function SliderItem({ children, className, style }: Props) {
     <div
       className={clsx(
         className,
-        'cursor-pointer inline-block whitespace-normal',
+        'inline-block cursor-pointer whitespace-normal',
       )}
       style={style}
     >
