@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { nanoid, ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
-import { closeAllModal, closeModal, openModal } from "./modalSlice";
+import { useEffect, useState } from 'react'
+import { nanoid, ThunkDispatch, UnknownAction } from '@reduxjs/toolkit'
+import { closeAllModal, closeModal, openModal } from './modalSlice'
 import './ModalBootstrap.css'
 
 export interface ModalInfo {
@@ -22,21 +22,25 @@ export interface ModalCreationInfo {
 export function useModalWrapper<T>(
   dispatch: ThunkDispatch<T, undefined, UnknownAction>,
   modalInfoArray: ModalInfo[],
-  modalInfo?: ModalInfo
+  modalInfo?: ModalInfo,
 ): ModalCreationInfo {
-  const modalId = modalInfo?.modalId || nanoid()  
+  const modalId = modalInfo?.modalId || nanoid()
   const [modalInstanceInfo] = useState<ModalInstanceInfo>({
     modalId,
     openModal: () => dispatch(openModal({ ...modalInfo, modalId })),
     closeModal: () => dispatch(closeModal(modalId)),
-    closeAllModal: (exceptIds) => dispatch(closeAllModal(exceptIds))
+    closeAllModal: (exceptIds) => dispatch(closeAllModal(exceptIds)),
   })
 
   useEffect(() => {
-    return () => { modalInstanceInfo.closeModal() }
+    return () => {
+      modalInstanceInfo.closeModal()
+    }
   }, [modalInstanceInfo])
 
-  const isVisible = modalInfoArray.some((modalInfo) => modalInstanceInfo.modalId === modalInfo.modalId)
+  const isVisible = modalInfoArray.some(
+    (modalInfo) => modalInstanceInfo.modalId === modalInfo.modalId,
+  )
 
   return { modalInstanceInfo, isVisible }
 }

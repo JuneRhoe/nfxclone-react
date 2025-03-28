@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { useThrottledCallback } from 'use-debounce';
+import { useEffect, useState } from 'react'
+import { useThrottledCallback } from 'use-debounce'
 import { useMediaQuery } from 'react-responsive'
 
 const THROTTLE_WAIT_TIME = 100
@@ -17,7 +17,7 @@ export function useScrollPos() {
   const debounceHandleScroll = useThrottledCallback(() => {
     setScrollPos({ posX: window.scrollX, posY: window.scrollY })
   }, THROTTLE_WAIT_TIME)
-  
+
   useEffect(() => {
     window.addEventListener('scroll', debounceHandleScroll)
 
@@ -27,30 +27,33 @@ export function useScrollPos() {
   return { scrollPosX: scrollPos.posX, scrollPosY: scrollPos.posY }
 }
 
-export function useIntersection(element: React.RefObject<HTMLElement | null>, rootMargin?: string): boolean {
-  const [isVisible, setState] = useState(false);
-  
+export function useIntersection(
+  element: React.RefObject<HTMLElement | null>,
+  rootMargin?: string,
+): boolean {
+  const [isVisible, setState] = useState(false)
+
   useEffect(() => {
     if (!element.current) {
       return
     }
 
-    const current = element.current;
+    const current = element.current
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setState(entry.isIntersecting);
+        setState(entry.isIntersecting)
       },
-      { rootMargin }
+      { rootMargin },
     )
 
-    observer?.observe(current);
+    observer?.observe(current)
 
-    return () => current && observer.unobserve(current);
-  }, [element, rootMargin]);
+    return () => current && observer.unobserve(current)
+  }, [element, rootMargin])
 
-  return isVisible;
-};
+  return isVisible
+}
 
 export function useMediaQuery2XS(): boolean {
   return useMediaQuery({ maxWidth: 480 })

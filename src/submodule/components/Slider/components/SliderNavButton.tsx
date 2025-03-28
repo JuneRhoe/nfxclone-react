@@ -18,7 +18,7 @@ export default function SliderNavButton({
 
   return (
     <button
-      className={clsx('select-none outline-0', className)}
+      className={clsx('outline-0 select-none', className)}
       onPointerEnter={() => setHover(true)}
       onPointerLeave={() => setHover(false)}
       onClick={onClick}

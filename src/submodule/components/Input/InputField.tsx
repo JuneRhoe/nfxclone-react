@@ -81,12 +81,12 @@ export default function InputField<
   return (
     <div className={clsx(className, 'flex flex-col gap-1')}>
       <div
-        className="rounded-md border-white border-2 m-[-4px]"
+        className="m-[-4px] rounded-md border-2 border-white"
         style={{ borderColor: getBorderColor(isFocused, type) }}
       >
         <div
           className={clsx(
-            'relative rounded-md border-1 text-base font-normal m-[2px]',
+            'relative m-[2px] rounded-md border-1 text-base font-normal',
             {
               'bg-[#191919b3]': type === 'primary',
               'bg-transparent': type === 'secondary',
@@ -100,7 +100,7 @@ export default function InputField<
         >
           {showLabel && (
             <div
-              className="pointer-events-none absolute ease-[cubic-bezier(0.4, 0, 0.68, 0.06)]
+              className="ease-[cubic-bezier(0.4, 0, 0.68, 0.06)] pointer-events-none absolute
                 text-gray-400 transition-all duration-200"
               style={
                 isFocused || inputValue.length > 0
@@ -123,7 +123,7 @@ export default function InputField<
                 'text-lg': size === 'lg',
                 'pt-4': size === 'lg' && label,
                 'pt-0': size === 'lg' && !label,
-                'text-base pt-0 px-3': size === 'md',
+                'px-3 pt-0 text-base': size === 'md',
               },
             )}
             autoComplete={autoComplete ? 'on' : 'new-password'}
@@ -131,9 +131,9 @@ export default function InputField<
             onBlur={() => setFocused(false)}
           />
           {showPasswordDisplayIcon && (
-            <div className="absolute top-0 right-2 flex items-center h-full">
+            <div className="absolute top-0 right-2 flex h-full items-center">
               <IconButton
-                className={'bg-transparent border-transparent'}
+                className={'border-transparent bg-transparent'}
                 type="simple"
                 icon={inputType === 'password' ? faEye : faEyeSlash}
                 buttonProps={{
@@ -153,7 +153,7 @@ export default function InputField<
         </div>
       </div>
       {formState?.errors[formRegisterReturn.name] && errorMsg && (
-        <div className="flex gap-1 items-center text-[#eb3942] font-bold">
+        <div className="flex items-center gap-1 font-bold text-[#eb3942]">
           <div className="text-sm">
             <FontAwesomeIcon icon={faCircleXmark} fixedWidth />
           </div>

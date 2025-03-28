@@ -16,7 +16,7 @@ export default function MyInfo() {
         </Link>
       </div>
       <div>
-        <div className="flex flex-col gap-2 text-gray-400 text-xs sm:text-sm">
+        <div className="flex flex-col gap-2 text-xs text-gray-400 sm:text-sm">
           <div className="flex items-center gap-2">
             <FontAwesomeIcon className="pt-0.5" icon={faGithub} fixedWidth />
             <LinkText

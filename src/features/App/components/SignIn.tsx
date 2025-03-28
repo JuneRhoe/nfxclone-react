@@ -25,10 +25,10 @@ export default function SignIn() {
   return (
     <form
       onSubmit={handleSubmit(onSignIn)}
-      className="mt-0 flex h-full w-full flex-col gap-6 bg-black opacity-100 px-6 pt-20
-        text-white sm:h-fit sm:pt-10 sm:pb-12 sm:w-[28.5rem] sm:px-12 sm:opacity-80"
+      className="mt-0 flex h-full w-full flex-col gap-6 bg-black px-6 pt-20 text-white
+        opacity-100 sm:h-fit sm:w-[28.5rem] sm:px-12 sm:pt-10 sm:pb-12 sm:opacity-80"
     >
-      <div className="text-3xl font-extrabold pb-3">Sign In</div>
+      <div className="pb-3 text-3xl font-extrabold">Sign In</div>
       <InputField<UserInput, 'userId'>
         label="User ID"
         size="lg"
@@ -93,7 +93,7 @@ export default function SignIn() {
       >
         Sign In with TEST ID
       </Button>
-      <div className="flex gap-2 text-base flex-wrap">
+      <div className="flex flex-wrap gap-2 text-base">
         <div>New to NetflixClone?</div>
         <LinkText to={PATH_SIGN_UP}>
           <div className="font-bold">Sign Up now.</div>
@@ -101,7 +101,7 @@ export default function SignIn() {
       </div>
 
       {!isValidUser && !isLoading && formState.isSubmitSuccessful && (
-        <div className="border-1 bg-[#d89d31] p-3 text-base text-black rounded-md">
+        <div className="rounded-md border-1 bg-[#d89d31] p-3 text-base text-black">
           <span className="font-extrabold">
             Account information is not correct.
           </span>

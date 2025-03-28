@@ -70,7 +70,7 @@ export default function MediaSlider({
       >
         {title && (
           <div className={paddingClass}>
-            <div className="flex w-full justify-between items-center">
+            <div className="flex w-full items-center justify-between">
               <div className="text-base sm:text-xl">{title}</div>
               <MediaSliderNavigator pageInfo={pageInfo} />
             </div>

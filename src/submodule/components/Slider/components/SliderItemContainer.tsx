@@ -29,7 +29,7 @@ export default function SliderItemContainer({
   return (
     <div
       className={clsx(
-        'whitespace-nowrap ease-[cubic-bezier(0.5, 0, 0.1, 1)]',
+        'ease-[cubic-bezier(0.5, 0, 0.1, 1)] whitespace-nowrap',
         className,
       )}
       style={{

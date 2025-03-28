@@ -25,17 +25,17 @@ export default function MediaSliderItemModalBottom({
   }
 
   return (
-    <div className="flex flex-col py-2 px-3 gap-2 w-full h-full text-white text-sm">
-      <div className="flex justify-between items-center w-full h-full">
+    <div className="flex h-full w-full flex-col gap-2 px-3 py-2 text-sm text-white">
+      <div className="flex h-full w-full items-center justify-between">
         <div className="flex items-center gap-2">
           <IconButton
-            className="h-[2.5rem] aspect-square"
+            className="aspect-square h-[2.5rem]"
             icon={faPlay}
             type="secondary"
             fullHeight
           />
           <IconButton
-            className="h-[2.5rem] aspect-square"
+            className="aspect-square h-[2.5rem]"
             icon={isInMyList ? faCheck : faPlus}
             buttonProps={{
               onClick: () => {
@@ -49,7 +49,7 @@ export default function MediaSliderItemModalBottom({
 
         <div className="">
           <IconButton
-            className="h-[2.5rem] aspect-square"
+            className="aspect-square h-[2.5rem]"
             icon={faAngleDown}
             buttonProps={{
               onClick: () => {
@@ -61,10 +61,10 @@ export default function MediaSliderItemModalBottom({
         </div>
       </div>
 
-      <div className="flex items-center gap-2 w-full h-full">
+      <div className="flex h-full w-full items-center gap-2">
         <div
-          className="flex justify-center items-center whitespace-nowrap rounded-sm border-1
-            border-gray-400 px-1.5"
+          className="flex items-center justify-center rounded-sm border-1 border-gray-400 px-1.5
+            whitespace-nowrap"
         >
           {mediaInfo.ratingSymbol}
         </div>
@@ -73,7 +73,7 @@ export default function MediaSliderItemModalBottom({
         </div>
       </div>
 
-      <div className="w-full h-full">
+      <div className="h-full w-full">
         {mediaInfo.genres?.slice(0, 2)?.join(' • ')}
       </div>
     </div>

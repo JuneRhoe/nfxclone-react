@@ -11,7 +11,7 @@ export default function MediaPreview({ onImageLoaded }: Props) {
     useMediaPreviewMedia()
 
   return (
-    <div className="flex w-full relative">
+    <div className="relative flex w-full">
       <MediaPreviewImage
         {...mediaPreviewImageProps}
         onImageLoaded={(loaded) => {
@@ -20,8 +20,8 @@ export default function MediaPreview({ onImageLoaded }: Props) {
         }}
       />
       <div
-        className="absolute bottom-[-3px] w-full h-20 z-2 duration-400 bg-linear-to-t
-          from-[#171717] to-transparent"
+        className="absolute bottom-[-3px] z-2 h-20 w-full bg-linear-to-t from-[#171717]
+          to-transparent duration-400"
       />
       <MediaPreviewVideo {...mediaPreviewVideoProps} />
     </div>

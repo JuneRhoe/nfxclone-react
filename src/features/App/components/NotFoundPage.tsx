@@ -10,12 +10,12 @@ export default function NotFoundPage() {
   const navigate = useNavigate()
 
   return (
-    <div className="relative flex w-full h-[100vh] items-center justify-center text-white">
+    <div className="relative flex h-[100vh] w-full items-center justify-center text-white">
       <div
-        className={'absolute z-0 w-full h-full bg-cover bg-center opacity-100'}
+        className={'absolute z-0 h-full w-full bg-cover bg-center opacity-100'}
         style={{ backgroundImage: `url(${bgNotFound})` }}
       />
-      <div className="absolute z-1 left-0 top-0 flex items-center w-full h-[4rem] px-6 bg-black">
+      <div className="absolute top-0 left-0 z-1 flex h-[4rem] w-full items-center bg-black px-6">
         <LinkButton className="h-[60%]" to={PATH_ROOT}>
           <Image src={nfxcloneLogo} />
         </LinkButton>

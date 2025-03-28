@@ -5,9 +5,12 @@ export interface SearchParamInfo {
   value: string
 }
 
-export async function queryFunction(endPoint: string, paramInfos: SearchParamInfo[] = []): Promise<Response | null> {
+export async function queryFunction(
+  endPoint: string,
+  paramInfos: SearchParamInfo[] = [],
+): Promise<Response | null> {
   const url = new URL(`${API_URL}${endPoint}`)
-  
+
   for (const paramInfo of paramInfos) {
     url.searchParams.append(paramInfo.name, paramInfo.value)
   }
@@ -23,27 +26,27 @@ export async function queryFunction(endPoint: string, paramInfos: SearchParamInf
     // Error handling
     console.error(e)
   }
-  
-  return response;
+
+  return response
 }
 
 export async function mutationFunction<TData>(
   endPoint: string,
   newData: TData,
-  method: 'POST' | 'PUT'
+  method: 'POST' | 'PUT',
 ): Promise<Response | null> {
   let response: Response | null = null
 
   try {
     response = await fetch(`${API_URL}${endPoint}`, {
-    method,
-    headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(newData)
+      method,
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(newData),
     })
   } catch (e) {
     // Error handling
     console.error(e)
-  }  
+  }
 
-  return response;
+  return response
 }

@@ -23,7 +23,7 @@ export default function MediaSliderNavigator({ pageInfo }: Props) {
       {navItems.map((index) => (
         <div
           key={index}
-          className={clsx('w-4 h-0.5 transition-colors duration-200', {
+          className={clsx('h-0.5 w-4 transition-colors duration-200', {
             'bg-gray-600': curPage !== index,
             'bg-gray-50': curPage === index,
           })}

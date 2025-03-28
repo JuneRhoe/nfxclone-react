@@ -10,9 +10,7 @@ export interface ModalRect {
   height: number
 }
 
-export function getModalRect(
-  itemRect: DOMRect | null | undefined
-): ModalRect {
+export function getModalRect(itemRect: DOMRect | null | undefined): ModalRect {
   const itemWidth = itemRect?.width || 0
   const itemHeight = itemRect?.height || 0
   const itemLeft = itemRect?.left || 0
@@ -24,7 +22,10 @@ export function getModalRect(
   let modalLeft = itemLeft - (modalWidth - itemWidth) / 2
   if (itemLeft - itemWidth <= 0) {
     modalLeft = itemLeft - 4
-  } else if (itemLeft + itemWidth + itemWidth > window.document.body.clientWidth) {
+  } else if (
+    itemLeft + itemWidth + itemWidth >
+    window.document.body.clientWidth
+  ) {
     modalLeft = itemLeft - modalWidth + itemWidth + 4
   }
 
@@ -34,6 +35,6 @@ export function getModalRect(
     left: modalLeft,
     top: modalTop,
     width: modalWidth,
-    height: modalHeight
+    height: modalHeight,
   }
 }

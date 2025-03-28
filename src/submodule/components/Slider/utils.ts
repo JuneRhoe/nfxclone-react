@@ -1,5 +1,5 @@
-import { NavDirection } from "./components/SliderNavButton"
-import { NavInfo, PageInfo } from "./hooks"
+import { NavDirection } from './components/SliderNavButton'
+import { NavInfo, PageInfo } from './hooks'
 
 export function getInitialPageInfo(countPerPage: number): PageInfo {
   return {
@@ -118,7 +118,7 @@ export function getIndexItems(
         countPerPage,
       )
       midFrame = prevIndexItems.slice(0, countPerPage * 2)
-    }    
+    }
   } else {
     if (curPage + 1 === totalPage) {
       const reversedItems = [...tempItems].reverse()
